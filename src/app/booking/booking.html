@@ -1,0 +1,45 @@
+<section id="booking" class="section booking">
+  <div>
+    <p class="eyebrow">Booking</p>
+    <h2>Your time<br />for beauty.</h2>
+    <p>Choose a convenient date and time. We'll take care of the rest.</p>
+    <ul>
+      <li>Manicure</li>
+      <li>Pedicure</li>
+      <li>Nail design</li>
+      <li>Care & extras</li>
+    </ul>
+  </div>
+  <form (submit)="submit($event)">
+    <label>Name<input required placeholder="Your name" /></label>
+    <label>Phone<input required type="tel" placeholder="+995 555 00 00 00" /></label>
+    <label
+      >Studio<select required>
+        <option value="" disabled selected>Choose a location</option>
+        <option>Vera — 2 Tarkhnishvili St.</option>
+        <option>Vake — 17 Paliashvili St.</option>
+        <option>Saburtalo — 24G Kazbegi Ave.</option>
+      </select></label
+    >
+    <label
+      >Service<select required>
+        <option value="" disabled selected>Choose a service</option>
+        <option>Manicure</option>
+        <option>Pedicure</option>
+        <option>Nail design</option>
+      </select></label
+    >
+    <div class="form-row">
+      <label>Date<input required type="date" /></label
+      ><label
+        >Time<select>
+          <option>10:00</option>
+          <option>12:00</option>
+          <option>14:00</option>
+          <option>16:00</option>
+        </select></label
+      >
+    </div>
+    <button>{{ bookingSent ? 'Request received ✓' : 'Book a visit' }} <span>→</span></button>
+  </form>
+</section>

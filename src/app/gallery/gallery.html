@@ -1,0 +1,33 @@
+<section id="gallery" class="section gallery">
+  <div class="gallery-head">
+    <div>
+      <p class="eyebrow">Selected work</p>
+      <h2>Our portfolio</h2>
+    </div>
+    <div class="filters" aria-label="Filter portfolio">
+      @for (filter of filters; track filter) {
+        <button [class.active]="activeFilter === filter" (click)="activeFilter = filter">
+          {{ filter }}
+        </button>
+      }
+    </div>
+  </div>
+  <div class="grid">
+    @for (work of filteredWorks; track work.position; let i = $index) {
+      <a
+        class="portfolio-link"
+        routerLink="/portfolio"
+        [attr.aria-label]="'View ' + work.title + ' in the portfolio'"
+      >
+        <figure>
+          <div class="crop" [style.background-position]="work.position">
+            <span class="view-portfolio">View portfolio ↗</span>
+          </div>
+          <figcaption>
+            {{ work.title }} <small>0{{ i + 1 }}</small>
+          </figcaption>
+        </figure>
+      </a>
+    }
+  </div>
+</section>

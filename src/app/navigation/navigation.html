@@ -1,0 +1,17 @@
+<header class="topbar" [class.scrolled]="scrolled || isInnerPage">
+  <a class="brand" href="/#home" (click)="navigateToSection('home', $event)"
+    >NAIL BAR <sup>01</sup></a
+  >
+  <button class="menu" (click)="menuOpen = !menuOpen" aria-label="Toggle navigation">
+    <span></span><span></span>
+  </button>
+  <nav [class.open]="menuOpen">
+    <a href="/#services" (click)="navigateToSection('services', $event)">Services</a>
+    <a href="/#gallery" (click)="navigateToSection('gallery', $event)">Portfolio</a>
+    <a href="/#about" (click)="navigateToSection('about', $event)">About</a>
+    <a href="/#contact" (click)="navigateToSection('contact', $event)">Locations</a>
+  </nav>
+  <a class="book-link" href="/#booking" (click)="navigateToSection('booking', $event)"
+    >Book a visit ↗</a
+  >
+</header>

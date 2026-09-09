@@ -1,0 +1,39 @@
+<section id="contact" class="section locations">
+  <div class="locations-head">
+    <div>
+      <p class="eyebrow">Our locations</p>
+      <h2>Three spaces.<br />One standard.</h2>
+    </div>
+    <p>
+      Find your nearest Nail Bar 01 in Tbilisi. Every studio offers the same considered care,
+      trusted artists and calm atmosphere.
+    </p>
+  </div>
+  <div class="location-grid">
+    @for (location of locations; track location.number) {
+      <article class="location-card">
+        <div class="map-frame">
+          <iframe
+            [title]="'Nail Bar 01 ' + location.area + ' map'"
+            [src]="location.map"
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+          ></iframe
+          ><span class="branch-number">{{ location.number }}</span>
+        </div>
+        <div class="location-info">
+          <p class="eyebrow">{{ location.area }}</p>
+          <h3>{{ location.address }}</h3>
+          <a [href]="'tel:' + location.phoneHref">{{ location.phone }}</a>
+          <a class="directions" [href]="location.directions" target="_blank" rel="noopener"
+            >Open in Google Maps <span>↗</span></a
+          >
+        </div>
+      </article>
+    }
+  </div>
+  <div class="location-footer">
+    <span>Open daily</span><strong>10:00 — 21:00</strong
+    ><a href="https://instagram.com/nail_bar_1" target="_blank" rel="noopener">@nail_bar_1 ↗</a>
+  </div>
+</section>
