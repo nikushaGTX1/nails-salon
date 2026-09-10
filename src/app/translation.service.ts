@@ -1,5 +1,6 @@
 import { DOCUMENT } from '@angular/common';
 import { Inject, Injectable, signal } from '@angular/core';
+import { SiteContentService } from './site-content.service';
 
 export type Language = 'en' | 'ka' | 'ru';
 type Dictionary = Record<string, string>;
@@ -46,13 +47,13 @@ const ru: Dictionary = {
   rights:'© 2026 Nail Bar 01. Все права защищены.'
 };
 
-const dictionaries = { en, ka, ru };
+export const dictionaries = { en, ka, ru };
 
 @Injectable({ providedIn: 'root' })
 export class TranslationService {
   readonly language = signal<Language>(this.initialLanguage());
-  constructor(@Inject(DOCUMENT) private readonly document: Document) { this.updateDocument(this.language()); }
-  t(key: string): string { return dictionaries[this.language()][key] ?? en[key] ?? key; }
+  constructor(@Inject(DOCUMENT) private readonly document: Document, private readonly site: SiteContentService) { this.updateDocument(this.language()); }
+  t(key: string): string { return this.site.content().translations[this.language()]?.[key] ?? dictionaries[this.language()][key] ?? en[key] ?? key; }
   setLanguage(language: Language): void { this.language.set(language); localStorage.setItem('nailbar-language', language); this.updateDocument(language); }
   private initialLanguage(): Language {
     const saved = localStorage.getItem('nailbar-language');

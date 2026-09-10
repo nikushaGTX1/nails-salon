@@ -1,5 +1,5 @@
 <section id="about" class="section about">
   <div class="about-copy"><p class="eyebrow">{{ i18n.t('aboutUs') }}</p><h2>{{ i18n.t('aboutTitle') }}</h2><p>{{ i18n.t('aboutText') }}</p><a class="under" href="#contact">{{ i18n.t('discover') }} →</a></div>
-  <div class="studio"><img src="/assets/studio-interior.png" alt="Nail Bar 01 studio" loading="lazy" /><span class="studio-label">{{ i18n.t('studio') }}</span></div>
+  <div class="studio"><img [src]="site.media('studioImage', '/assets/studio-interior.png')" alt="Nail Bar 01 studio" loading="lazy" /><span class="studio-label">{{ i18n.t('studio') }}</span></div>
   <div class="values"><span>01<br /><b>{{ i18n.t('quality') }}</b></span><span>02<br /><b>{{ i18n.t('artists') }}</b></span><span>03<br /><b>{{ i18n.t('calm') }}</b></span></div>
 </section>

@@ -1,6 +1,7 @@
 import { Component, HostListener } from '@angular/core';
 import { Router } from '@angular/router';
 import { Language, TranslationService } from '../translation.service';
+import { SiteContentService } from '../site-content.service';
 
 @Component({ selector: 'app-navigation', standalone: false, templateUrl: './navigation.html' })
 export class Navigation {
@@ -8,7 +9,7 @@ export class Navigation {
   scrolled = false;
 
   readonly languages: Language[] = ['en', 'ka', 'ru'];
-  constructor(readonly router: Router, readonly i18n: TranslationService) {}
+  constructor(readonly router: Router, readonly i18n: TranslationService, readonly site: SiteContentService) {}
 
   get isInnerPage(): boolean {
     return this.router.url.split('#')[0] !== '/';

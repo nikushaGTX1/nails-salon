@@ -1,5 +1,5 @@
 <header class="topbar" [class.scrolled]="scrolled || isInnerPage" [class.menu-open]="menuOpen">
-  <a class="brand" href="/#home" (click)="navigateToSection('home', $event)"><img src="/nailbar-transparent.png" alt="" /><span class="sr-only">NAIL BAR 01</span></a>
+  <a class="brand" href="/#home" (click)="navigateToSection('home', $event)"><img [src]="site.media('logo', '/nailbar-transparent.png')" alt="" /><span class="sr-only">NAIL BAR 01</span></a>
   <button class="menu" type="button" (click)="menuOpen = !menuOpen" [attr.aria-expanded]="menuOpen" aria-controls="primary-navigation" [attr.aria-label]="i18n.t(menuOpen ? 'closeNav' : 'openNav')"><span></span><span></span></button>
   <nav id="primary-navigation" [class.open]="menuOpen">
     <a href="/#services" (click)="navigateToSection('services', $event)"><span>01</span>{{ i18n.t('services') }}</a>
