@@ -1,4 +1,5 @@
 import { Component, ViewEncapsulation } from '@angular/core';
+import { TranslationService } from './translation.service';
 
 @Component({
   selector: 'app-root',
@@ -7,4 +8,4 @@ import { Component, ViewEncapsulation } from '@angular/core';
   styleUrl: './app.css',
   encapsulation: ViewEncapsulation.None,
 })
-export class App {}
+export class App { constructor(readonly i18n: TranslationService) {} }

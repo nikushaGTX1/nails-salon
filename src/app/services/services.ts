@@ -1,33 +1,16 @@
 import { Component } from '@angular/core';
+import { TranslationService } from '../translation.service';
 
 interface Service {
-  name: string;
-  description: string;
+  key: string;
   price: number;
 }
 
 @Component({ selector: 'app-services', standalone: false, templateUrl: './services.html' })
 export class Services {
+  constructor(readonly i18n: TranslationService) {}
   readonly services: Service[] = [
-    {
-      name: 'Signature manicure',
-      description: 'Detailed cuticle care and your choice of finish.',
-      price: 55,
-    },
-    {
-      name: 'Soft gel manicure',
-      description: 'Long-lasting color with a smooth, natural result.',
-      price: 75,
-    },
-    {
-      name: 'Essential pedicure',
-      description: 'Restorative care for soft skin and polished toes.',
-      price: 70,
-    },
-    {
-      name: 'Bespoke nail art',
-      description: 'Fine lines, tonal details and unique designs.',
-      price: 15,
-    },
+    { key: '1', price: 55 }, { key: '2', price: 75 },
+    { key: '3', price: 70 }, { key: '4', price: 15 },
   ];
 }

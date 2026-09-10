@@ -1,25 +1,27 @@
 import { Component } from '@angular/core';
+import { TranslationService } from '../translation.service';
 
 interface Work {
-  title: string;
+  key: string;
   category: string;
   position: string;
 }
 
 @Component({ selector: 'app-gallery', standalone: false, templateUrl: './gallery.html' })
 export class Gallery {
-  readonly filters = ['All', 'Manicure', 'Pedicure', 'Nail art'];
-  activeFilter = 'All';
+  constructor(readonly i18n: TranslationService) {}
+  readonly filters = ['all', 'manicure', 'pedicure', 'nailArt'];
+  activeFilter = 'all';
   readonly works: Work[] = [
-    { title: 'Velvet wine', category: 'Manicure', position: '0% 0%' },
-    { title: 'Olive study', category: 'Manicure', position: '50% 0%' },
-    { title: 'Blush steps', category: 'Pedicure', position: '100% 0%' },
-    { title: 'Quiet pink', category: 'Manicure', position: '0% 100%' },
-    { title: 'Golden lines', category: 'Nail art', position: '50% 100%' },
-    { title: 'Red hour', category: 'Pedicure', position: '100% 100%' },
+    { key: '1', category: 'manicure', position: '0% 0%' },
+    { key: '2', category: 'manicure', position: '50% 0%' },
+    { key: '3', category: 'pedicure', position: '100% 0%' },
+    { key: '4', category: 'manicure', position: '0% 100%' },
+    { key: '5', category: 'nailArt', position: '50% 100%' },
+    { key: '6', category: 'pedicure', position: '100% 100%' },
   ];
   get filteredWorks(): Work[] {
-    return this.activeFilter === 'All'
+    return this.activeFilter === 'all'
       ? this.works
       : this.works.filter((work) => work.category === this.activeFilter);
   }

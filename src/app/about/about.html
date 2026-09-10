@@ -1,24 +1,5 @@
 <section id="about" class="section about">
-  <div class="about-copy">
-    <p class="eyebrow">About us</p>
-    <h2>A quiet space<br />for beautiful<br />rituals.</h2>
-    <p>
-      NAIL BAR 01 is a modern nail studio in Tbilisi, created for those who value quality,
-      aesthetics and self-care. We pair precise technique with an unhurried, personal approach.
-    </p>
-    <a class="under" href="#contact">Discover our studios →</a>
-  </div>
-  <div class="studio">
-    <img
-      src="/assets/studio-interior.png"
-      alt="Warm, modern Nail Bar 01 manicure studio interior"
-      loading="lazy"
-    />
-    <span class="studio-label">Our studio · Tbilisi</span>
-  </div>
-  <div class="values">
-    <span>01<br /><b>Quality materials</b></span>
-    <span>02<br /><b>Professional artists</b></span>
-    <span>03<br /><b>A calm atmosphere</b></span>
-  </div>
+  <div class="about-copy"><p class="eyebrow">{{ i18n.t('aboutUs') }}</p><h2>{{ i18n.t('aboutTitle') }}</h2><p>{{ i18n.t('aboutText') }}</p><a class="under" href="#contact">{{ i18n.t('discover') }} →</a></div>
+  <div class="studio"><img src="/assets/studio-interior.png" alt="Nail Bar 01 studio" loading="lazy" /><span class="studio-label">{{ i18n.t('studio') }}</span></div>
+  <div class="values"><span>01<br /><b>{{ i18n.t('quality') }}</b></span><span>02<br /><b>{{ i18n.t('artists') }}</b></span><span>03<br /><b>{{ i18n.t('calm') }}</b></span></div>
 </section>

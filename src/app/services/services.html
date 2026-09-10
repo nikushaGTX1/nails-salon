@@ -1,18 +1,6 @@
 <section id="services" class="section">
-  <div class="intro">
-    <p class="eyebrow">Services</p>
-    <h2>Care, shaped<br />around you.</h2>
-    <p>Thoughtful treatments, refined techniques and a slower kind of beauty ritual.</p>
-  </div>
-  @for (service of services; track service.name; let i = $index) {
-    <article class="service">
-      <span>0{{ i + 1 }}</span>
-      <div>
-        <h3>{{ service.name }}</h3>
-        <p>{{ service.description }}</p>
-      </div>
-      <strong>From {{ service.price }} GEL</strong>
-      <a href="#booking" [attr.aria-label]="'Book ' + service.name">↗</a>
-    </article>
+  <div class="intro"><p class="eyebrow">{{ i18n.t('services') }}</p><h2>{{ i18n.t('servicesTitle') }}</h2><p>{{ i18n.t('servicesIntro') }}</p></div>
+  @for (service of services; track service.key; let i = $index) {
+    <article class="service"><span>0{{ i + 1 }}</span><div><h3>{{ i18n.t('s' + service.key) }}</h3><p>{{ i18n.t('sd' + service.key) }}</p></div><strong>{{ i18n.t('from') }} {{ service.price }} GEL</strong><a href="#booking" [attr.aria-label]="i18n.t('book') + ' ' + i18n.t('s' + service.key)">↗</a></article>
   }
 </section>

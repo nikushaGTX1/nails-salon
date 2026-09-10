@@ -111,6 +111,11 @@ router-outlet + * {
   overflow: clip;
   color: #fff;
 }
+.topbar-actions { justify-self: end; display: flex; align-items: center; gap: 24px; }
+.language-switcher { display: flex; gap: 10px; }
+.language-switcher button { border: 0; border-bottom: 1px solid transparent; padding: 5px 2px; background: transparent; color: inherit; font-size: 10px; font-weight: 500; letter-spacing: .1em; cursor: pointer; opacity: .6; }
+.language-switcher button.active { border-color: currentColor; opacity: 1; }
+.hero h1, .hero-meta span, .hero-booking span, .portfolio-book, .section h2 { white-space: pre-line; }
 .hero-video {
   position: absolute;
   inset: 0 0 0 auto;
@@ -852,6 +857,9 @@ footer div {
   .hero {
     min-height: 620px;
   }
+  .topbar-actions { position: relative; z-index: 2; gap: 10px; }
+  .topbar-actions .book-link { display: none; }
+  .language-switcher { gap: 7px; }
   .hero-video {
     width: 100%;
     opacity: 0.72;
@@ -998,6 +1006,29 @@ footer div {
   .location-footer {
     grid-template-columns: 1fr;
   }
+}
+
+/* Georgian glyphs are not included in Cormorant Garamond or DM Sans. */
+html[lang='ka'] .brand,
+html[lang='ka'] .hero h1,
+html[lang='ka'] .section h2,
+html[lang='ka'] .service > span,
+html[lang='ka'] .service h3,
+html[lang='ka'] figcaption,
+html[lang='ka'] .branch-number,
+html[lang='ka'] .location-info h3,
+html[lang='ka'] .topbar nav a {
+  font-family: 'Noto Serif Georgian', Georgia, serif;
+}
+html[lang='ka'] .eyebrow,
+html[lang='ka'] .topbar nav a,
+html[lang='ka'] .book-link,
+html[lang='ka'] .values b,
+html[lang='ka'] .directions,
+html[lang='ka'] .location-footer,
+html[lang='ka'] .booking label,
+html[lang='ka'] .booking button {
+  letter-spacing: 0.04em;
 }
 @media (prefers-reduced-motion: reduce) {
   html {

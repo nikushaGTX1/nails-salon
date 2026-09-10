@@ -1,12 +1,14 @@
 import { Component, HostListener } from '@angular/core';
 import { Router } from '@angular/router';
+import { Language, TranslationService } from '../translation.service';
 
 @Component({ selector: 'app-navigation', standalone: false, templateUrl: './navigation.html' })
 export class Navigation {
   menuOpen = false;
   scrolled = false;
 
-  constructor(readonly router: Router) {}
+  readonly languages: Language[] = ['en', 'ka', 'ru'];
+  constructor(readonly router: Router, readonly i18n: TranslationService) {}
 
   get isInnerPage(): boolean {
     return this.router.url.split('#')[0] !== '/';

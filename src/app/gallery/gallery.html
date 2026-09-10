@@ -1,36 +1,6 @@
 <section id="gallery" class="section gallery">
-  <div class="gallery-head">
-    <div>
-      <p class="eyebrow">Selected work</p>
-      <h2>Our portfolio</h2>
-    </div>
-    <div class="filters" aria-label="Filter portfolio">
-      @for (filter of filters; track filter) {
-        <button [class.active]="activeFilter === filter" (click)="activeFilter = filter">
-          {{ filter }}
-        </button>
-      }
-    </div>
-  </div>
-  <div class="grid">
-    @for (work of filteredWorks; track work.position; let i = $index) {
-      <figure class="portfolio-card">
-        <div class="crop" [style.background-position]="work.position">
-          <a
-            class="portfolio-link"
-            routerLink="/portfolio"
-            [attr.aria-label]="'View ' + work.title + ' in the portfolio'"
-          >
-            <span class="view-portfolio">View portfolio ↗</span>
-          </a>
-          <a class="portfolio-book" href="#booking" [attr.aria-label]="'Book an appointment for ' + work.title">
-            Book<br />online
-          </a>
-        </div>
-        <figcaption>
-          {{ work.title }} <small>0{{ i + 1 }}</small>
-        </figcaption>
-      </figure>
-    }
-  </div>
+  <div class="gallery-head"><div><p class="eyebrow">{{ i18n.t('selectedWork') }}</p><h2>{{ i18n.t('ourPortfolio') }}</h2></div><div class="filters" [attr.aria-label]="i18n.t('filterPortfolio')">@for (filter of filters; track filter) { <button [class.active]="activeFilter === filter" (click)="activeFilter = filter">{{ i18n.t(filter) }}</button> }</div></div>
+  <div class="grid">@for (work of filteredWorks; track work.position; let i = $index) {
+    <figure class="portfolio-card"><div class="crop" [style.background-position]="work.position"><a class="portfolio-link" routerLink="/portfolio" [attr.aria-label]="i18n.t('viewPortfolio') + ': ' + i18n.t('w' + work.key)"><span class="view-portfolio">{{ i18n.t('viewPortfolio') }} ↗</span></a><a class="portfolio-book" href="#booking" [attr.aria-label]="i18n.t('book')">{{ i18n.t('online') }}</a></div><figcaption>{{ i18n.t('w' + work.key) }} <small>0{{ i + 1 }}</small></figcaption></figure>
+  }</div>
 </section>

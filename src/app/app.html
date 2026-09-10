@@ -1,6 +1,4 @@
 <app-navigation />
 <router-outlet />
-<a class="hero-booking" href="/#booking" aria-label="Book an appointment online">
-  <span>BOOK<br />ONLINE</span>
-</a>
+<a class="hero-booking" href="/#booking" [attr.aria-label]="i18n.t('book')"><span>{{ i18n.t('online') }}</span></a>
 <app-site-footer />
