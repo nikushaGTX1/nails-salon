@@ -27,4 +27,9 @@ export class Navigation {
   onScroll(): void {
     this.scrolled = window.scrollY > 30;
   }
+
+  @HostListener('document:keydown.escape')
+  closeMenu(): void {
+    this.menuOpen = false;
+  }
 }
