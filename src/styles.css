@@ -4,9 +4,11 @@
 }
 html {
   scroll-behavior: smooth;
+  overflow-x: hidden;
 }
 body {
   margin: 0;
+  overflow-x: hidden;
   background: #f2f0eb;
   color: #171715;
   font-family: 'DM Sans', Arial, sans-serif;

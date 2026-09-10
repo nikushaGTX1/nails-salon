@@ -3,9 +3,10 @@
   [class.scrolled]="scrolled || isInnerPage"
   [class.menu-open]="menuOpen"
 >
-  <a class="brand" href="/#home" (click)="navigateToSection('home', $event)"
-    >NAIL BAR <sup>01</sup></a
-  >
+  <a class="brand" href="/#home" (click)="navigateToSection('home', $event)">
+    <img src="/nailbar-transparent.png" alt="" />
+    <span class="sr-only">NAIL BAR 01</span>
+  </a>
   <button
     class="menu"
     type="button"

@@ -56,6 +56,25 @@ router-outlet + * {
     serif;
   letter-spacing: 0.06em;
 }
+.brand img {
+  display: block;
+  width: 142px;
+  height: auto;
+}
+.topbar.scrolled:not(.menu-open) .brand img {
+  filter: invert(1);
+}
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
 .brand sup {
   font: 9px 'DM Sans';
 }
@@ -87,14 +106,28 @@ router-outlet + * {
 .hero {
   height: 100svh;
   min-height: 690px;
-  background: url('/assets/hero.png') center/cover;
+  background: #050505;
   position: relative;
+  overflow: hidden;
   color: #fff;
+}
+.hero-video {
+  position: absolute;
+  inset: 0 0 0 auto;
+  width: 68%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  background: #050505;
+  pointer-events: none;
 }
 .shade {
   position: absolute;
   inset: 0;
-  background: linear-gradient(90deg, #080807c9, #08080711 70%);
+  background:
+    linear-gradient(90deg, #050505 0%, #050505 27%, rgba(5, 5, 5, 0.88) 38%, rgba(5, 5, 5, 0.18) 59%, transparent 78%),
+    linear-gradient(180deg, rgba(4, 3, 2, 0.25) 0%, transparent 22%, transparent 76%, rgba(4, 3, 2, 0.35) 100%);
+  pointer-events: none;
 }
 .hero-copy {
   position: absolute;
@@ -128,6 +161,64 @@ router-outlet + * {
   display: grid;
   place-items: center;
   margin-top: 40px;
+}
+.hero-actions {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  margin-top: 40px;
+}
+.hero-actions .circle {
+  flex: 0 0 auto;
+  margin-top: 0;
+}
+.film-trigger {
+  border: 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.65);
+  padding: 8px 0 6px;
+  background: transparent;
+  color: #fff;
+  font-size: 9px;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+.film-trigger span {
+  margin-right: 8px;
+  font-size: 8px;
+}
+.film-modal {
+  position: fixed;
+  z-index: 100;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 7vh 7vw;
+  background: rgba(5, 4, 3, 0.94);
+  backdrop-filter: blur(12px);
+}
+.film-modal video {
+  display: block;
+  width: auto;
+  max-width: min(90vw, 720px);
+  height: auto;
+  max-height: 84vh;
+  background: #000;
+}
+.film-close {
+  position: absolute;
+  top: 28px;
+  right: 32px;
+  width: 44px;
+  height: 44px;
+  border: 1px solid rgba(255, 255, 255, 0.55);
+  border-radius: 50%;
+  background: transparent;
+  color: #fff;
+  font-size: 24px;
+  line-height: 1;
+  cursor: pointer;
 }
 .hero-meta {
   position: absolute;
@@ -250,7 +341,13 @@ router-outlet + * {
   margin: 0;
   min-width: 0;
 }
+.portfolio-card {
+  position: relative;
+}
 .portfolio-link {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
   cursor: pointer;
 }
 .crop {
@@ -263,15 +360,50 @@ router-outlet + * {
   transition: 0.4s;
   position: relative;
   overflow: hidden;
+  border-radius: 22px;
 }
-.portfolio-link:hover .crop,
-.portfolio-link:focus-visible .crop {
+.portfolio-book {
+  position: absolute;
+  z-index: 3;
+  right: 18px;
+  bottom: 18px;
+  width: 72px;
+  height: 72px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: #171715;
+  color: #fff;
+  text-align: center;
+  font-size: 9px;
+  font-weight: 500;
+  line-height: 1.35;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  box-shadow: 0 8px 24px rgba(12, 11, 10, 0.25);
+  transition: transform 0.25s ease, background-color 0.25s ease;
+}
+.portfolio-book::before {
+  content: '';
+  position: absolute;
+  inset: -7px;
+  border: 1px solid rgba(255, 255, 255, 0.62);
+  border-radius: 50%;
+}
+.portfolio-book:hover,
+.portfolio-book:focus-visible {
+  background: #8b2734;
+  transform: translateY(-4px);
+}
+.portfolio-card:hover .crop,
+.portfolio-card:focus-within .crop {
   filter: saturate(1);
   transform: scale(0.985);
 }
 .view-portfolio {
   position: absolute;
-  right: 16px;
+  right: auto;
+  left: 16px;
   bottom: 16px;
   padding: 10px 13px;
   background: rgba(242, 240, 235, 0.94);
@@ -612,7 +744,9 @@ footer div {
   .topbar .brand {
     position: relative;
     z-index: 2;
-    font-size: 18px;
+  }
+  .topbar .brand img {
+    width: 116px;
   }
   .menu {
     display: grid;
@@ -694,14 +828,24 @@ footer div {
   }
   .hero {
     min-height: 620px;
-    background-position: 61%;
+  }
+  .hero-video {
+    width: 100%;
+    opacity: 0.72;
+  }
+  .shade {
+    background:
+      linear-gradient(90deg, rgba(5, 5, 5, 0.94) 0%, rgba(5, 5, 5, 0.62) 55%, rgba(5, 5, 5, 0.2) 100%),
+      linear-gradient(180deg, rgba(4, 3, 2, 0.2), transparent 55%, rgba(4, 3, 2, 0.5));
   }
   .hero-copy {
     left: 7vw;
     top: 28%;
   }
   .hero-meta {
-    left: 7vw;
+    right: 7vw;
+    left: auto;
+    text-align: right;
   }
   .section {
     padding: 90px 6vw;
@@ -787,8 +931,28 @@ footer div {
   .hero-meta span:last-child {
     display: none;
   }
+  .hero-meta {
+    bottom: 5.5%;
+    max-width: 90px;
+    line-height: 1.65;
+  }
+  .scroll {
+    bottom: 5.5%;
+    max-width: calc(100vw - 150px);
+    overflow: hidden;
+    white-space: nowrap;
+  }
   .grid {
     grid-template-columns: 1fr;
+  }
+  .crop {
+    border-radius: 16px;
+  }
+  .portfolio-book {
+    right: 16px;
+    bottom: 16px;
+    width: 68px;
+    height: 68px;
   }
   .service p {
     display: none;

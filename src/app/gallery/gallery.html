@@ -14,20 +14,23 @@
   </div>
   <div class="grid">
     @for (work of filteredWorks; track work.position; let i = $index) {
-      <a
-        class="portfolio-link"
-        routerLink="/portfolio"
-        [attr.aria-label]="'View ' + work.title + ' in the portfolio'"
-      >
-        <figure>
-          <div class="crop" [style.background-position]="work.position">
+      <figure class="portfolio-card">
+        <div class="crop" [style.background-position]="work.position">
+          <a
+            class="portfolio-link"
+            routerLink="/portfolio"
+            [attr.aria-label]="'View ' + work.title + ' in the portfolio'"
+          >
             <span class="view-portfolio">View portfolio ↗</span>
-          </div>
-          <figcaption>
-            {{ work.title }} <small>0{{ i + 1 }}</small>
-          </figcaption>
-        </figure>
-      </a>
+          </a>
+          <a class="portfolio-book" href="#booking" [attr.aria-label]="'Book an appointment for ' + work.title">
+            Book<br />online
+          </a>
+        </div>
+        <figcaption>
+          {{ work.title }} <small>0{{ i + 1 }}</small>
+        </figcaption>
+      </figure>
     }
   </div>
 </section>

@@ -1,16 +1,38 @@
 <main>
   <section id="home" class="hero">
+    <video
+      class="hero-video"
+      autoplay
+      [muted]="true"
+      loop
+      playsinline
+      preload="metadata"
+      poster="/assets/hero-editorial.png"
+      aria-hidden="true"
+    >
+      <source src="/video1.mp4" type="video/mp4" />
+    </video>
     <div class="shade"></div>
     <div class="hero-copy">
       <p class="eyebrow">Tbilisi · Georgia</p>
       <h1>Beauty<br />in every<br />detail</h1>
-      <a href="#services" class="circle" aria-label="Explore services">↓</a>
+      <div class="hero-actions">
+        <a href="#services" class="circle" aria-label="Explore services">↓</a>
+      </div>
     </div>
     <div class="hero-meta">
       <span>NAILS<br />SELF CARE<br />CONFIDENCE</span><span>01 / 04</span>
     </div>
     <div class="scroll">SCROLL ─────</div>
   </section>
+  @if (showFilm) {
+    <div class="film-modal" role="dialog" aria-modal="true" aria-label="Nail Bar film">
+      <button class="film-close" type="button" (click)="showFilm = false" aria-label="Close film">×</button>
+      <video autoplay [muted]="true" loop playsinline>
+        <source src="/video1.mp4" type="video/mp4" />
+      </video>
+    </div>
+  }
   <app-services />
   <app-gallery />
   <app-about />
