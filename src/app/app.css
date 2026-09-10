@@ -6,7 +6,7 @@
 }
 router-outlet + * {
   display: block;
-  animation: route-enter 0.22s ease-out both;
+  animation: route-enter 0.22s ease-out;
 }
 @keyframes route-enter {
   from {
@@ -15,7 +15,7 @@ router-outlet + * {
   }
   to {
     opacity: 1;
-    transform: translateY(0);
+    transform: none;
   }
 }
 .hero-copy {
@@ -108,7 +108,7 @@ router-outlet + * {
   min-height: 690px;
   background: #050505;
   position: relative;
-  overflow: hidden;
+  overflow: clip;
   color: #fff;
 }
 .hero-video {
@@ -128,6 +128,29 @@ router-outlet + * {
     linear-gradient(90deg, #050505 0%, #050505 27%, rgba(5, 5, 5, 0.88) 38%, rgba(5, 5, 5, 0.18) 59%, transparent 78%),
     linear-gradient(180deg, rgba(4, 3, 2, 0.25) 0%, transparent 22%, transparent 76%, rgba(4, 3, 2, 0.35) 100%);
   pointer-events: none;
+}
+.hero-booking {
+  position: fixed;
+  z-index: 45;
+  right: clamp(24px, 4vw, 64px);
+  bottom: clamp(24px, 5vh, 52px);
+  width: 72px;
+  aspect-ratio: 1;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: #171715;
+  color: #fff;
+  font-size: 9px;
+  line-height: 1.25;
+  letter-spacing: 0.08em;
+}
+.hero-booking::before {
+  content: '';
+  position: absolute;
+  inset: -9px;
+  border: 1px solid currentColor;
+  border-radius: 50%;
 }
 .hero-copy {
   position: absolute;
@@ -832,6 +855,12 @@ footer div {
   .hero-video {
     width: 100%;
     opacity: 0.72;
+  }
+  .hero-booking {
+    right: 22px;
+    bottom: 26px;
+    width: 64px;
+    font-size: 8px;
   }
   .shade {
     background:
