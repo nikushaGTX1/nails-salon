@@ -1,0 +1,89 @@
+<main class="loyalty-page">
+  <section class="section loyalty loyalty--page">
+    <p class="eyebrow">{{ i18n.t('loyaltyLabel') }}</p>
+    <h2>{{ i18n.t('loyaltyPageTitle') }}</h2>
+    <p class="loyalty-lead">{{ i18n.t('loyaltyPageText') }}</p>
+
+    <div class="loyalty-steps">
+      <div class="loyalty-step">
+        <span>01</span>
+        <div>
+          <b>{{ i18n.t('loyaltyStep1t') }}</b>
+          <p>{{ i18n.t('loyaltyStep1d') }}</p>
+        </div>
+      </div>
+      <div class="loyalty-step">
+        <span>02</span>
+        <div>
+          <b>{{ i18n.t('loyaltyStep2t') }}</b>
+          <p>{{ i18n.t('loyaltyStep2d') }}</p>
+        </div>
+      </div>
+      <div class="loyalty-step">
+        <span>03</span>
+        <div>
+          <b>{{ i18n.t('loyaltyStep3t') }}</b>
+          <p>{{ i18n.t('loyaltyStep3d') }}</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="loyalty-wallet">
+      <div>
+        <p class="loyalty-wallet-label">{{ i18n.t('loyaltyBalanceLabel') }}</p>
+        <p class="loyalty-wallet-amount">
+          {{ currency }}{{ exampleBalanceAmount.toFixed(2) }}
+        </p>
+        <small class="loyalty-example-badge">{{ i18n.t('loyaltyExample') }}</small>
+      </div>
+      <span class="loyalty-wallet-coin" aria-hidden="true">₾</span>
+    </div>
+
+    <h3 class="loyalty-history-title">
+      {{ i18n.t('loyaltyHistory') }}
+      <small class="loyalty-example-badge">{{ i18n.t('loyaltyExample') }}</small>
+    </h3>
+    <div class="loyalty-table-wrap">
+      <table class="loyalty-table">
+        <thead>
+          <tr>
+            <th>{{ i18n.t('loyaltyDate') }}</th>
+            <th>{{ i18n.t('loyaltyService') }}</th>
+            <th>{{ i18n.t('loyaltyPaid') }}</th>
+            <th>{{ i18n.t('loyaltyEarned') }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (tx of exampleTransactions; track tx.id) {
+            <tr [class.is-birthday]="tx.isBirthdayReward">
+              <td>{{ tx.date }}</td>
+              <td>
+                {{ i18n.t(tx.serviceKey) }}
+                @if (tx.isBirthdayReward) {
+                  <span class="loyalty-birthday-badge">{{ i18n.t('loyaltyBirthdayBadge') }} · 40%</span>
+                }
+              </td>
+              <td>{{ tx.currency }}{{ tx.amountPaid.toFixed(2) }}</td>
+              <td>+{{ tx.currency }}{{ tx.cashbackEarned.toFixed(2) }}</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+    <p class="loyalty-note">{{ i18n.t('loyaltyBackendNote') }}</p>
+
+    <div class="loyalty-cta">
+      <a
+        class="loyalty-btn loyalty-btn--primary"
+        href="https://taplink.cc/nail_bar_1"
+        target="_blank"
+        rel="noopener"
+      >
+        {{ i18n.t('loyaltyBookEarn') }} <span aria-hidden="true">→</span>
+      </a>
+      <a class="loyalty-btn loyalty-btn--ghost" routerLink="/">
+        {{ i18n.t('loyaltyJoin') }}
+      </a>
+    </div>
+  </section>
+</main>

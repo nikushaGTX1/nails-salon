@@ -1104,6 +1104,381 @@ footer div {
   }
 }
 
+/* ---- Loyalty / Cashback (premium dark section, matches site tokens) ---- */
+.section.loyalty {
+  background: #191917;
+  color: #f2f0eb;
+  border-bottom: 1px solid #2b2a28;
+  scroll-margin-top: 72px;
+  position: relative;
+  overflow: hidden;
+}
+.section.loyalty::before {
+  content: '';
+  position: absolute;
+  inset: auto -20% -35% -20%;
+  height: 70%;
+  background: radial-gradient(60% 100% at 50% 100%, rgba(200, 168, 143, 0.22), transparent 70%);
+  pointer-events: none;
+}
+.loyalty-intro {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr 1.7fr 1fr;
+  align-items: end;
+  gap: 24px;
+  margin-bottom: 54px;
+}
+.loyalty-intro h2 {
+  grid-column: 2;
+  grid-row: 1;
+}
+.loyalty-intro .eyebrow {
+  grid-column: 1;
+  grid-row: 1;
+  margin: 0 0 12px;
+  color: #d8bfae;
+}
+.loyalty-lead {
+  grid-column: 2;
+  grid-row: 2;
+  max-width: 460px;
+  margin: 18px 0 0;
+  color: #b9b3aa;
+  font-size: 15px;
+  line-height: 1.75;
+}
+.loyalty-grid {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+.loyalty-card {
+  position: relative;
+  background: rgba(242, 240, 235, 0.05);
+  border: 1px solid rgba(242, 240, 235, 0.16);
+  border-radius: 22px;
+  padding: 30px 28px 26px;
+  overflow: hidden;
+  transition:
+    transform 0.25s ease,
+    border-color 0.25s ease,
+    background 0.25s ease;
+  animation: loyalty-enter 0.5s ease both;
+}
+.loyalty-card:nth-child(2) {
+  animation-delay: 0.08s;
+}
+.loyalty-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(216, 191, 174, 0.65);
+  background: rgba(242, 240, 235, 0.08);
+}
+.loyalty-card h3 {
+  margin: 18px 0 8px;
+  font:
+    500 26px 'Cormorant Garamond',
+    Georgia,
+    serif;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  font-variant-numeric: lining-nums tabular-nums;
+  font-feature-settings:
+    'lnum' 1,
+    'tnum' 1;
+}
+.loyalty-card p {
+  margin: 0;
+  color: #b9b3aa;
+  font-size: 14px;
+  line-height: 1.7;
+  max-width: 340px;
+}
+.loyalty-icon {
+  display: grid;
+  place-items: center;
+  width: 52px;
+  height: 52px;
+  border: 1px solid rgba(216, 191, 174, 0.5);
+  border-radius: 50%;
+  color: #e9cdb8;
+}
+.loyalty-icon svg {
+  width: 26px;
+  height: 26px;
+}
+.loyalty-rate {
+  position: absolute;
+  top: 22px;
+  right: 24px;
+  font:
+    600 15px 'Cormorant Garamond',
+    Georgia,
+    serif;
+  letter-spacing: 0.08em;
+  color: #e9cdb8;
+  border: 1px solid rgba(216, 191, 174, 0.4);
+  border-radius: 999px;
+  padding: 6px 12px;
+}
+.loyalty-card--birthday {
+  background: linear-gradient(135deg, rgba(216, 191, 174, 0.16), rgba(242, 240, 235, 0.04));
+}
+.loyalty-wallet {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  background: linear-gradient(135deg, #faf7f2 0%, #e9dccf 100%);
+  color: #171715;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-radius: 18px;
+  padding: 24px 26px;
+  margin-bottom: 22px;
+  animation: loyalty-enter 0.5s 0.14s ease both;
+}
+.loyalty-wallet-label {
+  margin: 0 0 6px;
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  color: #6f6961;
+}
+.loyalty-wallet-amount {
+  margin: 0;
+  color: #171715;
+  font:
+    600 42px/1 'DM Sans',
+    'Noto Sans Georgian',
+    Arial,
+    sans-serif;
+  letter-spacing: -0.01em;
+  font-variant-numeric: tabular-nums;
+}
+.loyalty-example-badge {
+  display: inline-block;
+  margin-top: 8px;
+  font-size: 9px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #6b655e;
+  border: 1px solid #c9c5bd;
+  border-radius: 999px;
+  padding: 4px 10px;
+}
+.section.loyalty .loyalty-example-badge {
+  color: #cfc6bb;
+  border-color: rgba(242, 240, 235, 0.3);
+}
+/* Badge inside the light wallet must stay dark — more specific than the rule above */
+.section.loyalty .loyalty-wallet .loyalty-example-badge {
+  color: #6f6961;
+  border-color: rgba(23, 23, 21, 0.25);
+}
+.loyalty-wallet-coin {
+  display: grid;
+  place-items: center;
+  width: 64px;
+  height: 64px;
+  flex: 0 0 auto;
+  border-radius: 50%;
+  background: #171715;
+  color: #f2f0eb;
+  font:
+    600 28px 'DM Sans',
+    'Noto Sans Georgian',
+    Arial,
+    sans-serif;
+}
+.loyalty-cta {
+  position: relative;
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+.loyalty-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 60px;
+  padding: 0 26px;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+.loyalty-btn--primary {
+  background: #f2f0eb;
+  color: #171715;
+  border: 1px solid #f2f0eb;
+  transition:
+    transform 0.2s ease,
+    background 0.2s ease;
+}
+.loyalty-btn--primary:hover {
+  transform: translateY(-2px);
+  background: #fff;
+}
+.loyalty-btn--ghost {
+  border: 1px solid rgba(242, 240, 235, 0.35);
+  color: #f2f0eb;
+  transition:
+    border-color 0.2s ease,
+    background 0.2s ease;
+}
+.loyalty-btn--ghost:hover {
+  border-color: #f2f0eb;
+  background: rgba(242, 240, 235, 0.08);
+}
+@keyframes loyalty-enter {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+/* Loyalty dedicated page */
+.loyalty-page {
+  background: #f2f0eb;
+}
+.section.loyalty--page {
+  padding-top: 150px;
+}
+.loyalty-steps {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin: 34px 0;
+}
+.loyalty-step {
+  display: flex;
+  gap: 16px;
+  border-top: 1px solid rgba(242, 240, 235, 0.2);
+  padding-top: 20px;
+}
+.loyalty-step span {
+  font:
+    500 13px 'Cormorant Garamond',
+    Georgia,
+    serif;
+  color: #d8bfae;
+}
+.loyalty-step b {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 500;
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+.loyalty-step p {
+  margin: 0;
+  color: #b9b3aa;
+  font-size: 13px;
+  line-height: 1.7;
+}
+.loyalty-history-title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 34px 0 14px;
+  font:
+    500 22px 'Cormorant Garamond',
+    Georgia,
+    serif;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+.loyalty-table-wrap {
+  overflow-x: auto;
+  border: 1px solid rgba(242, 240, 235, 0.16);
+  border-radius: 16px;
+}
+.loyalty-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+  min-width: 560px;
+}
+.loyalty-table th,
+.loyalty-table td {
+  text-align: left;
+  padding: 14px 16px;
+  border-bottom: 1px solid rgba(242, 240, 235, 0.12);
+}
+.loyalty-table th {
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #b9b3aa;
+}
+.loyalty-table tbody tr:last-child td {
+  border-bottom: 0;
+}
+.loyalty-table tr.is-birthday td {
+  background: rgba(216, 191, 174, 0.1);
+}
+.loyalty-birthday-badge {
+  display: inline-block;
+  margin-left: 8px;
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #171715;
+  background: #e9cdb8;
+  border-radius: 999px;
+  padding: 3px 9px;
+  white-space: nowrap;
+}
+.loyalty-note {
+  margin: 16px 0 26px;
+  color: #8d877f;
+  font-size: 12px;
+  letter-spacing: 0.04em;
+}
+@media (max-width: 800px) {
+  .loyalty-intro {
+    grid-template-columns: 1fr;
+    margin-bottom: 36px;
+  }
+  .loyalty-intro h2,
+  .loyalty-intro .eyebrow,
+  .loyalty-lead {
+    grid-column: 1;
+    grid-row: auto;
+  }
+  .loyalty-grid {
+    grid-template-columns: 1fr;
+  }
+  .loyalty-card h3 {
+    font-size: 22px;
+  }
+  .loyalty-wallet-amount {
+    font-size: 32px;
+  }
+  .loyalty-steps {
+    grid-template-columns: 1fr;
+  }
+  .section.loyalty--page {
+    padding-top: 120px;
+  }
+  .loyalty-btn {
+    width: 100%;
+    justify-content: space-between;
+  }
+}
+
 /* Georgian glyphs are not included in Cormorant Garamond or DM Sans. */
 html[lang='ka'] .brand,
 html[lang='ka'] .hero h1,
@@ -1113,7 +1488,13 @@ html[lang='ka'] .service h3,
 html[lang='ka'] figcaption,
 html[lang='ka'] .branch-number,
 html[lang='ka'] .location-info h3,
-html[lang='ka'] .topbar nav a {
+html[lang='ka'] .topbar nav a,
+html[lang='ka'] .loyalty-card h3,
+html[lang='ka'] .loyalty-rate,
+html[lang='ka'] .loyalty-wallet-amount,
+html[lang='ka'] .loyalty-wallet-coin,
+html[lang='ka'] .loyalty-step span,
+html[lang='ka'] .loyalty-history-title {
   font-family: 'Noto Serif Georgian', Georgia, serif;
 }
 html[lang='ka'] .eyebrow,
@@ -1131,7 +1512,9 @@ html[lang='ka'] .booking button {
     scroll-behavior: auto;
   }
   router-outlet + *,
-  .hero-copy {
+  .hero-copy,
+  .loyalty-card,
+  .loyalty-wallet {
     animation: none;
     opacity: 1;
     transform: none;

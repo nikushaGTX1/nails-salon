@@ -179,6 +179,19 @@ export class SiteContentService {
   setting(key: string, fallback: string): string {
     return this.content().settings[key] || fallback;
   }
+  /** Loyalty / cashback settings (editable in /admin → Business details). */
+  loyaltyStandardRate(): number {
+    const raw = Number(this.content().settings['loyaltyStandardRate']);
+    return Number.isFinite(raw) && raw > 0 && raw < 100 ? raw : 3;
+  }
+  loyaltyBirthdayRate(): number {
+    const raw = Number(this.content().settings['loyaltyBirthdayRate']);
+    return Number.isFinite(raw) && raw > 0 && raw < 100 ? raw : 40;
+  }
+  loyaltyExampleBalance(): number {
+    const raw = Number(this.content().settings['loyaltyExampleBalance']);
+    return Number.isFinite(raw) && raw >= 0 ? raw : 24.5;
+  }
   localized(value: LocalizedText | undefined, language: string, fallback = ''): string {
     return value?.[language] || fallback || value?.['en'] || '';
   }

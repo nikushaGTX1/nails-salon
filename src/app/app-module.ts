@@ -9,6 +9,8 @@ import { App } from './app';
 import { Booking } from './booking/booking';
 import { Gallery } from './gallery/gallery';
 import { Locations } from './locations/locations';
+import { Loyalty } from './loyalty/loyalty';
+import { LoyaltyPage } from './loyalty-page/loyalty-page';
 import { Main } from './main/main';
 import { Navigation } from './navigation/navigation';
 import { Services } from './services/services';
@@ -24,6 +26,8 @@ import { Admin } from './admin/admin';
     Gallery,
     About,
     Locations,
+    Loyalty,
+    LoyaltyPage,
     Booking,
     SiteFooter,
     Admin,
