@@ -7,7 +7,7 @@
   <button
     class="menu"
     type="button"
-    (click)="menuOpen = !menuOpen"
+    (click)="toggleMenu()"
     [attr.aria-expanded]="menuOpen"
     aria-controls="primary-navigation"
     [attr.aria-label]="i18n.t(menuOpen ? 'closeNav' : 'openNav')"
@@ -26,6 +26,14 @@
     >
     <a href="/#contact" (click)="navigateToSection('contact', $event)"
       ><span>04</span>{{ i18n.t('locations') }}</a
+    >
+    <a
+      class="mobile-booking"
+      href="https://taplink.cc/nail_bar_1"
+      target="_blank"
+      rel="noopener"
+      (click)="closeMenu()"
+      ><span>05</span>{{ i18n.t('book') }} ↗</a
     >
   </nav>
   <div class="topbar-actions">

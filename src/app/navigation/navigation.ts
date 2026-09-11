@@ -19,9 +19,23 @@ export class Navigation {
     return this.router.url.split('#')[0] !== '/';
   }
 
+  toggleMenu(): void {
+    this.menuOpen = !this.menuOpen;
+    this.setScrollLock(this.menuOpen);
+  }
+
+  private setScrollLock(locked: boolean): void {
+    const value = locked ? 'hidden' : '';
+    document.body.style.overflow = value;
+    document.documentElement.style.overflow = value;
+    // iOS Safari: prevent rubber-band / touch scroll behind the overlay
+    document.body.style.touchAction = locked ? 'none' : '';
+    document.body.style.overscrollBehavior = locked ? 'none' : '';
+  }
+
   navigateToSection(sectionId: string, event: Event): void {
     event.preventDefault();
-    this.menuOpen = false;
+    this.closeMenu();
 
     this.router.navigate(['/'], { fragment: sectionId }).then(() => {
       requestAnimationFrame(() => {
@@ -38,5 +52,6 @@ export class Navigation {
   @HostListener('document:keydown.escape')
   closeMenu(): void {
     this.menuOpen = false;
+    this.setScrollLock(false);
   }
 }
