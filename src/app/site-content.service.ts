@@ -43,6 +43,7 @@ export interface BookingSubmission {
 }
 export interface BookingRecord extends BookingSubmission {
   id: number;
+  status: 'new' | 'confirmed' | 'completed' | 'cancelled';
   createdAt: string;
 }
 
@@ -205,6 +206,13 @@ export class SiteContentService {
     return this.http.delete<void>(`${this.apiUrl}/api/admin/bookings/${id}`, {
       headers: new HttpHeaders({ Authorization: `Bearer ${token}` }),
     });
+  }
+  updateBookingStatus(id: number, status: BookingRecord['status'], token: string) {
+    return this.http.put<void>(
+      `${this.apiUrl}/api/admin/bookings/${id}/status`,
+      { status },
+      { headers: new HttpHeaders({ Authorization: `Bearer ${token}` }) },
+    );
   }
   validateSession(token: string) {
     return this.http.get<{ valid: boolean }>(`${this.apiUrl}/api/admin/session`, {

@@ -88,6 +88,20 @@
             <div>
               <small>Service</small><span>{{ bookingService(booking) }}</span>
             </div>
+            <label class="booking-status"
+              ><small>Status</small
+              ><select
+                #bookingStatus
+                [value]="booking.status"
+                (change)="updateBookingStatus(booking, $any(bookingStatus.value))"
+                [disabled]="updatingBooking === booking.id"
+              >
+                <option value="new">New</option>
+                <option value="confirmed">Confirmed</option>
+                <option value="completed">Completed</option>
+                <option value="cancelled">Cancelled</option>
+              </select></label
+            >
             <button
               class="remove-button"
               (click)="deleteBooking(booking)"

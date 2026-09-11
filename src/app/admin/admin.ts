@@ -52,6 +52,7 @@ export class Admin {
   bookings: BookingRecord[] = [];
   bookingsLoading = false;
   deletingBooking = 0;
+  updatingBooking = 0;
   readonly openPreviews = new Set<string>();
   readonly languages: { code: Language; name: string }[] = [
     { code: 'en', name: 'English' },
@@ -395,6 +396,24 @@ export class Admin {
       error: () => {
         this.deletingBooking = 0;
         this.error = 'The booking could not be deleted.';
+        this.refresh();
+      },
+    });
+  }
+  updateBookingStatus(booking: BookingRecord, status: BookingRecord['status']): void {
+    const previous = booking.status;
+    booking.status = status;
+    this.updatingBooking = booking.id;
+    this.site.updateBookingStatus(booking.id, status, this.token).subscribe({
+      next: () => {
+        this.updatingBooking = 0;
+        this.status = 'Booking status updated.';
+        this.refresh();
+      },
+      error: () => {
+        booking.status = previous;
+        this.updatingBooking = 0;
+        this.error = 'The booking status could not be updated.';
         this.refresh();
       },
     });

@@ -114,7 +114,7 @@
 }
 .booking-card {
   display: grid;
-  grid-template-columns: 150px repeat(4, minmax(0, 1fr)) auto;
+  grid-template-columns: 135px repeat(4, minmax(0, 1fr)) 130px auto;
   gap: 18px;
   align-items: center;
   border: 1px solid #ddd;
@@ -137,6 +137,14 @@
 }
 .booking-date {
   border-right: 1px solid #ddd;
+}
+.booking-status {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.booking-status select {
+  padding: 9px;
 }
 .section-nav a {
   color: white;
