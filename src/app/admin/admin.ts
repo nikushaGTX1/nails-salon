@@ -339,7 +339,7 @@ export class Admin {
           this.error =
             e.name === 'TimeoutError'
               ? 'The API did not respond. Check that the API service is online.'
-              : 'Incorrect password. The current default is ChangeMe-NailBar-2026! unless you changed it.';
+              : 'Incorrect password.';
           this.refresh();
         },
       });
