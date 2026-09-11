@@ -10,66 +10,10 @@
       <li>{{ i18n.t('extras') }}</li>
     </ul>
   </div>
-  <form (submit)="submit($event)">
-    <label
-      >{{ i18n.t('name')
-      }}<input
-        name="bookingName"
-        [(ngModel)]="form.name"
-        required
-        [placeholder]="i18n.t('yourName')"
-    /></label>
-    <label
-      >{{ i18n.t('phone')
-      }}<input
-        name="bookingPhone"
-        [(ngModel)]="form.phone"
-        required
-        type="tel"
-        placeholder="+995 555 00 00 00"
-    /></label>
-    <label
-      >{{ i18n.t('studioField') }}
-      <select name="bookingStudio" [(ngModel)]="form.studioId" required>
-        <option value="" disabled>{{ i18n.t('chooseLocation') }}</option>
-        @for (location of site.locations(); track location.id) {
-          <option [value]="location.id">
-            {{ location.area }} — {{ site.localized(location.address, i18n.language()) }}
-          </option>
-        }
-      </select></label
-    >
-    <label
-      >{{ i18n.t('service') }}
-      <select name="bookingService" [(ngModel)]="form.serviceId" required>
-        <option value="" disabled>{{ i18n.t('chooseService') }}</option>
-        @for (service of site.services(); track service.id) {
-          <option [value]="service.id">
-            {{ site.localized(service.name, i18n.language()) }}
-          </option>
-        }
-      </select></label
-    >
-    <div class="form-row">
-      <label
-        >{{ i18n.t('date')
-        }}<input name="bookingDate" [(ngModel)]="form.date" [min]="minDate" required type="date"
-      /></label>
-      <label
-        >{{ i18n.t('time') }}
-        <select name="bookingTime" [(ngModel)]="form.time">
-          <option>10:00</option>
-          <option>12:00</option>
-          <option>14:00</option>
-          <option>16:00</option>
-        </select></label
-      >
-    </div>
-    @if (bookingError) {
-      <p class="error-message">{{ bookingError }}</p>
-    }
-    <button [disabled]="bookingSending">
-      {{ bookingSending ? 'Sending…' : i18n.t(bookingSent ? 'sent' : 'book') }} <span>→</span>
-    </button>
-  </form>
+  <div class="booking-external">
+    <p>{{ i18n.t('bookingText') }}</p>
+    <a href="https://taplink.cc/nail_bar_1" target="_blank" rel="noopener">
+      {{ i18n.t('book') }} <span>→</span>
+    </a>
+  </div>
 </section>

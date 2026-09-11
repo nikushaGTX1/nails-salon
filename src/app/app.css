@@ -747,6 +747,28 @@ figcaption small {
   padding: 0 22px;
   cursor: pointer;
 }
+.booking-external {
+  align-self: center;
+  border: 1px solid #c9c5bd;
+  padding: clamp(30px, 5vw, 64px);
+}
+.booking-external p {
+  color: #68645e;
+  line-height: 1.7;
+  margin: 0 0 28px;
+}
+.booking-external a {
+  min-height: 62px;
+  padding: 0 22px;
+  background: #191918;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  text-transform: uppercase;
+  font-size: 10px;
+  letter-spacing: 0.16em;
+}
 footer {
   padding: 45px max(7.5vw, calc((100vw - 1600px) / 2));
   display: flex;
