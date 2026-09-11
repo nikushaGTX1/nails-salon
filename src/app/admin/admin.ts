@@ -3,6 +3,7 @@ import { HttpEventType } from '@angular/common/http';
 import { timeout } from 'rxjs';
 import { dictionaries, Language } from '../translation.service';
 import {
+  BookingRecord,
   CmsGalleryItem,
   CmsLocation,
   CmsService,
@@ -48,6 +49,8 @@ export class Admin {
   newPassword = '';
   confirmPassword = '';
   changingPassword = false;
+  bookings: BookingRecord[] = [];
+  bookingsLoading = false;
   readonly openPreviews = new Set<string>();
   readonly languages: { code: Language; name: string }[] = [
     { code: 'en', name: 'English' },
@@ -276,6 +279,7 @@ export class Admin {
         next: () => {
           this.sessionChecking = false;
           this.error = '';
+          this.loadBookings();
           this.refresh();
         },
         error: () => {
@@ -332,6 +336,7 @@ export class Admin {
           sessionStorage.setItem('nailbar-admin-token', r.token);
           this.password = '';
           this.error = '';
+          this.loadBookings();
           this.refresh();
         },
         error: (e) => {
@@ -349,6 +354,22 @@ export class Admin {
     this.error = '';
     this.status = '';
     sessionStorage.removeItem('nailbar-admin-token');
+  }
+  loadBookings(): void {
+    if (!this.token || this.bookingsLoading) return;
+    this.bookingsLoading = true;
+    this.site.bookings(this.token).subscribe({
+      next: (bookings) => {
+        this.bookings = bookings;
+        this.bookingsLoading = false;
+        this.refresh();
+      },
+      error: () => {
+        this.bookingsLoading = false;
+        this.error = 'Bookings could not be loaded.';
+        this.refresh();
+      },
+    });
   }
   save(): void {
     if (this.saving) return;

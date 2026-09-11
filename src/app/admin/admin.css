@@ -104,9 +104,39 @@
 }
 .section-nav {
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
+  grid-template-columns: repeat(6, 1fr);
   background: #28231f;
   margin-bottom: 18px;
+}
+.bookings-list {
+  display: grid;
+  gap: 10px;
+}
+.booking-card {
+  display: grid;
+  grid-template-columns: 150px repeat(4, minmax(0, 1fr));
+  gap: 18px;
+  align-items: center;
+  border: 1px solid #ddd;
+  padding: 16px 18px;
+}
+.booking-card > div {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+.booking-card small {
+  color: #7a7169;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+.booking-card a {
+  color: #211d19;
+}
+.booking-date {
+  border-right: 1px solid #ddd;
 }
 .section-nav a {
   color: white;
@@ -469,6 +499,13 @@
   }
   .section-nav {
     grid-template-columns: 1fr;
+  }
+  .booking-card {
+    grid-template-columns: 1fr 1fr;
+  }
+  .booking-date {
+    border-right: 0;
+    grid-column: 1 / -1;
   }
   .content-group {
     grid-template-columns: 1fr;

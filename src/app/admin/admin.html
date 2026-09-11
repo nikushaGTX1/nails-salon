@@ -50,12 +50,41 @@
     }
 
     <nav class="section-nav" aria-label="Editor sections">
-      <a routerLink="/admin" fragment="text-content"><span>01</span> Website text</a
-      ><a routerLink="/admin" fragment="collections"><span>02</span> Services & lists</a
-      ><a routerLink="/admin" fragment="media"><span>03</span> Images & video</a
-      ><a routerLink="/admin" fragment="details"><span>04</span> Links</a
-      ><a routerLink="/admin" fragment="security"><span>05</span> Security</a>
+      <a routerLink="/admin" fragment="bookings"><span>01</span> Bookings</a
+      ><a routerLink="/admin" fragment="text-content"><span>02</span> Website text</a
+      ><a routerLink="/admin" fragment="collections"><span>03</span> Services & lists</a
+      ><a routerLink="/admin" fragment="media"><span>04</span> Images & video</a
+      ><a routerLink="/admin" fragment="details"><span>05</span> Links</a
+      ><a routerLink="/admin" fragment="security"><span>06</span> Security</a>
     </nav>
+
+    <section class="panel" id="bookings">
+      <div class="panel-title">
+        <div>
+          <p class="kicker">01 — BOOKINGS</p>
+          <h2>Customer appointments</h2>
+          <p class="helper">New requests from the website booking form appear here.</p>
+        </div>
+        <button class="secondary" (click)="loadBookings()" [disabled]="bookingsLoading">
+          {{ bookingsLoading ? 'Refreshing…' : 'Refresh' }}
+        </button>
+      </div>
+      <div class="bookings-list">
+        @for (booking of bookings; track booking.id) {
+          <article class="booking-card">
+            <div class="booking-date">
+              <strong>{{ booking.date }}</strong><span>{{ booking.time }}</span>
+            </div>
+            <div><small>Customer</small><strong>{{ booking.name }}</strong></div>
+            <div><small>Phone</small><a [href]="'tel:' + booking.phone">{{ booking.phone }}</a></div>
+            <div><small>Studio</small><span>{{ booking.studio }}</span></div>
+            <div><small>Service</small><span>{{ booking.service }}</span></div>
+          </article>
+        } @empty {
+          <div class="empty">{{ bookingsLoading ? 'Loading bookings…' : 'No booking requests yet.' }}</div>
+        }
+      </div>
+    </section>
 
     <section class="panel" id="text-content">
       <div class="panel-title">

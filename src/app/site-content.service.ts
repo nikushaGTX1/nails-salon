@@ -31,6 +31,18 @@ export interface CmsLocation {
   phone: string;
   coordinates: string;
 }
+export interface BookingSubmission {
+  name: string;
+  phone: string;
+  studio: string;
+  service: string;
+  date: string;
+  time: string;
+}
+export interface BookingRecord extends BookingSubmission {
+  id: number;
+  createdAt: string;
+}
 
 export const DEFAULT_SERVICES: CmsService[] = [
   {
@@ -178,6 +190,14 @@ export class SiteContentService {
   }
   login(password: string) {
     return this.http.post<{ token: string }>(`${this.apiUrl}/api/admin/login`, { password });
+  }
+  createBooking(booking: BookingSubmission) {
+    return this.http.post<BookingRecord>(`${this.apiUrl}/api/bookings`, booking);
+  }
+  bookings(token: string) {
+    return this.http.get<BookingRecord[]>(`${this.apiUrl}/api/admin/bookings`, {
+      headers: new HttpHeaders({ Authorization: `Bearer ${token}` }),
+    });
   }
   validateSession(token: string) {
     return this.http.get<{ valid: boolean }>(`${this.apiUrl}/api/admin/session`, {
