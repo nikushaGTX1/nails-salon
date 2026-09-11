@@ -16,7 +16,18 @@ import { SiteFooter } from './site-footer/site-footer';
 import { Admin } from './admin/admin';
 
 @NgModule({
-  declarations: [App, Navigation, Main, Services, Gallery, About, Locations, Booking, SiteFooter, Admin],
+  declarations: [
+    App,
+    Navigation,
+    Main,
+    Services,
+    Gallery,
+    About,
+    Locations,
+    Booking,
+    SiteFooter,
+    Admin,
+  ],
   imports: [BrowserModule, FormsModule, AppRoutingModule],
   providers: [provideBrowserGlobalErrorListeners(), provideHttpClient()],
   bootstrap: [App],

@@ -4,7 +4,10 @@ import { SiteContentService } from '../site-content.service';
 
 @Component({ selector: 'app-gallery', standalone: false, templateUrl: './gallery.html' })
 export class Gallery {
-  constructor(readonly i18n: TranslationService, readonly site: SiteContentService) {}
+  constructor(
+    readonly i18n: TranslationService,
+    readonly site: SiteContentService,
+  ) {}
   readonly filters = ['all', 'manicure', 'pedicure', 'nailArt'];
   activeFilter = 'all';
   get filteredWorks() {

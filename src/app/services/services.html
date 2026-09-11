@@ -1,6 +1,26 @@
 <section id="services" class="section">
-  <div class="intro"><p class="eyebrow">{{ i18n.t('services') }}</p><h2>{{ i18n.t('servicesTitle') }}</h2><p>{{ i18n.t('servicesIntro') }}</p></div>
+  <div class="intro">
+    <p class="eyebrow">{{ i18n.t('services') }}</p>
+    <h2>{{ i18n.t('servicesTitle') }}</h2>
+    <p>{{ i18n.t('servicesIntro') }}</p>
+  </div>
   @for (service of site.services(); track service.id; let i = $index) {
-    <article class="service"><span>{{ (i + 1).toString().padStart(2, '0') }}</span><div><h3>{{ site.localized(service.name, i18n.language(), i18n.t('s' + (i + 1))) }}</h3><p>{{ site.localized(service.description, i18n.language(), i18n.t('sd' + (i + 1))) }}</p></div><strong>{{ i18n.t('from') }} {{ service.price }} GEL</strong><a href="#booking" [attr.aria-label]="i18n.t('book') + ' ' + site.localized(service.name, i18n.language(), i18n.t('s' + (i + 1)))">↗</a></article>
+    <article class="service">
+      <span>{{ (i + 1).toString().padStart(2, '0') }}</span>
+      <div>
+        <h3>{{ site.localized(service.name, i18n.language(), i18n.t('s' + (i + 1))) }}</h3>
+        <p>{{ site.localized(service.description, i18n.language(), i18n.t('sd' + (i + 1))) }}</p>
+      </div>
+      <strong>{{ i18n.t('from') }} {{ service.price }} GEL</strong
+      ><a
+        href="#booking"
+        [attr.aria-label]="
+          i18n.t('book') +
+          ' ' +
+          site.localized(service.name, i18n.language(), i18n.t('s' + (i + 1)))
+        "
+        >↗</a
+      >
+    </article>
   }
 </section>

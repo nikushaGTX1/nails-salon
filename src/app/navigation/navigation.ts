@@ -9,7 +9,11 @@ export class Navigation {
   scrolled = false;
 
   readonly languages: Language[] = ['en', 'ka', 'ru'];
-  constructor(readonly router: Router, readonly i18n: TranslationService, readonly site: SiteContentService) {}
+  constructor(
+    readonly router: Router,
+    readonly i18n: TranslationService,
+    readonly site: SiteContentService,
+  ) {}
 
   get isInnerPage(): boolean {
     return this.router.url.split('#')[0] !== '/';

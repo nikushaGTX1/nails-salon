@@ -1,6 +1,45 @@
 <section id="gallery" class="section gallery">
-  <div class="gallery-head"><div><p class="eyebrow">{{ i18n.t('selectedWork') }}</p><h2>{{ i18n.t('ourPortfolio') }}</h2></div><div class="filters" [attr.aria-label]="i18n.t('filterPortfolio')">@for (filter of filters; track filter) { <button [class.active]="activeFilter === filter" (click)="activeFilter = filter">{{ i18n.t(filter) }}</button> }</div></div>
-  <div class="grid">@for (work of filteredWorks; track work.position; let i = $index) {
-    <figure class="portfolio-card"><div class="crop" [style.background-position]="work.position" [style.background-image]="'url(' + site.asset(work.imageUrl, site.media('galleryImage', '/assets/portfolio.png')) + ')'" ><a class="portfolio-link" routerLink="/portfolio" [attr.aria-label]="i18n.t('viewPortfolio') + ': ' + site.localized(work.title, i18n.language(), i18n.t('w' + (i + 1)))"><span class="view-portfolio">{{ i18n.t('viewPortfolio') }} ↗</span></a><a class="portfolio-book" href="#booking" [attr.aria-label]="i18n.t('book')">{{ i18n.t('online') }}</a></div><figcaption>{{ site.localized(work.title, i18n.language(), i18n.t('w' + (i + 1))) }} <small>{{ (i + 1).toString().padStart(2, '0') }}</small></figcaption></figure>
-  }</div>
+  <div class="gallery-head">
+    <div>
+      <p class="eyebrow">{{ i18n.t('selectedWork') }}</p>
+      <h2>{{ i18n.t('ourPortfolio') }}</h2>
+    </div>
+    <div class="filters" [attr.aria-label]="i18n.t('filterPortfolio')">
+      @for (filter of filters; track filter) {
+        <button [class.active]="activeFilter === filter" (click)="activeFilter = filter">
+          {{ i18n.t(filter) }}
+        </button>
+      }
+    </div>
+  </div>
+  <div class="grid">
+    @for (work of filteredWorks; track work.position; let i = $index) {
+      <figure class="portfolio-card">
+        <div
+          class="crop"
+          [style.background-position]="work.position"
+          [style.background-image]="
+            'url(' +
+            site.asset(work.imageUrl, site.media('galleryImage', '/assets/portfolio.png')) +
+            ')'
+          "
+        >
+          <a
+            class="portfolio-link"
+            routerLink="/portfolio"
+            [attr.aria-label]="
+              i18n.t('viewPortfolio') +
+              ': ' +
+              site.localized(work.title, i18n.language(), i18n.t('w' + (i + 1)))
+            "
+            ><span class="view-portfolio">{{ i18n.t('viewPortfolio') }} ↗</span></a
+          >
+        </div>
+        <figcaption>
+          {{ site.localized(work.title, i18n.language(), i18n.t('w' + (i + 1))) }}
+          <small>{{ (i + 1).toString().padStart(2, '0') }}</small>
+        </figcaption>
+      </figure>
+    }
+  </div>
 </section>

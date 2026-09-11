@@ -1,3 +1,12 @@
-@if (!router.url.startsWith('/admin')) { <app-navigation /> }
+@if (!router.url.startsWith('/admin')) {
+  <app-navigation />
+}
+
 <router-outlet />
-@if (!router.url.startsWith('/admin')) { <a class="hero-booking" href="/#booking" [attr.aria-label]="i18n.t('book')"><span>{{ i18n.t('online') }}</span></a><app-site-footer /> }
+
+@if (!router.url.startsWith('/admin')) {
+  <a class="hero-booking" href="/#booking" [attr.aria-label]="i18n.t('book')">
+    <span>{{ i18n.t('online') }}</span>
+  </a>
+  <app-site-footer />
+}

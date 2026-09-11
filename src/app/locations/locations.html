@@ -1,7 +1,60 @@
 <section id="contact" class="section locations">
-  <div class="locations-head"><div><p class="eyebrow">{{ i18n.t('ourLocations') }}</p><h2>{{ i18n.t('locationsTitle') }}</h2></div><p>{{ i18n.t('locationsText') }}</p></div>
-  <div class="location-grid">@for (location of site.locations(); track location.id; let i = $index) {
-    <article class="location-card"><div class="map-frame"><iframe [title]="'Nail Bar 01 ' + location.area + ' map'" [src]="map(location.coordinates)" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe><span class="branch-number">{{ (i + 1).toString().padStart(2, '0') }}</span></div><div class="location-info"><p class="eyebrow">{{ location.area }}</p><h3>{{ site.localized(location.address, i18n.language(), i18n.t(location.id === 'vera' ? 'veraAddress' : location.id === 'vake' ? 'vakeAddress' : 'saburtaloAddress')) }}</h3><a [href]="'tel:' + phoneHref(location.phone)">{{ location.phone }}</a><a class="directions" [href]="directions(location.coordinates)" target="_blank" rel="noopener">{{ i18n.t('maps') }} <span>↗</span></a></div></article>
-  }</div>
-  <div class="location-footer"><span>{{ i18n.t('daily') }}</span><strong>{{ site.setting('openingHours', '10:00 — 21:00') }}</strong><a [href]="site.setting('instagramUrl', 'https://instagram.com/nail_bar_1')" target="_blank" rel="noopener">Instagram ↗</a></div>
+  <div class="locations-head">
+    <div>
+      <p class="eyebrow">{{ i18n.t('ourLocations') }}</p>
+      <h2>{{ i18n.t('locationsTitle') }}</h2>
+    </div>
+    <p>{{ i18n.t('locationsText') }}</p>
+  </div>
+  <div class="location-grid">
+    @for (location of site.locations(); track location.id; let i = $index) {
+      <article class="location-card">
+        <div class="map-frame">
+          <iframe
+            [title]="'Nail Bar 01 ' + location.area + ' map'"
+            [src]="map(location.coordinates)"
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+          ></iframe
+          ><span class="branch-number">{{ (i + 1).toString().padStart(2, '0') }}</span>
+        </div>
+        <div class="location-info">
+          <p class="eyebrow">{{ location.area }}</p>
+          <h3>
+            {{
+              site.localized(
+                location.address,
+                i18n.language(),
+                i18n.t(
+                  location.id === 'vera'
+                    ? 'veraAddress'
+                    : location.id === 'vake'
+                      ? 'vakeAddress'
+                      : 'saburtaloAddress'
+                )
+              )
+            }}
+          </h3>
+          <a [href]="'tel:' + phoneHref(location.phone)">{{ location.phone }}</a
+          ><a
+            class="directions"
+            [href]="directions(location.coordinates)"
+            target="_blank"
+            rel="noopener"
+            >{{ i18n.t('maps') }} <span>↗</span></a
+          >
+        </div>
+      </article>
+    }
+  </div>
+  <div class="location-footer">
+    <span>{{ i18n.t('daily') }}</span
+    ><strong>{{ site.setting('openingHours', '10:00 — 21:00') }}</strong
+    ><a
+      [href]="site.setting('instagramUrl', 'https://instagram.com/nail_bar_1')"
+      target="_blank"
+      rel="noopener"
+      >Instagram ↗</a
+    >
+  </div>
 </section>

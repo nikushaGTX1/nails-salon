@@ -1,16 +1,47 @@
 <header class="topbar" [class.scrolled]="scrolled || isInnerPage" [class.menu-open]="menuOpen">
-  <a class="brand" href="/#home" (click)="navigateToSection('home', $event)"><img [src]="site.media('logo', '/nailbar-transparent.png')" alt="" /><span class="sr-only">NAIL BAR 01</span></a>
-  <button class="menu" type="button" (click)="menuOpen = !menuOpen" [attr.aria-expanded]="menuOpen" aria-controls="primary-navigation" [attr.aria-label]="i18n.t(menuOpen ? 'closeNav' : 'openNav')"><span></span><span></span></button>
+  <a class="brand" href="/#home" (click)="navigateToSection('home', $event)"
+    ><img [src]="site.media('logo', '/nailbar-transparent.png')" alt="" /><span class="sr-only"
+      >NAIL BAR 01</span
+    ></a
+  >
+  <button
+    class="menu"
+    type="button"
+    (click)="menuOpen = !menuOpen"
+    [attr.aria-expanded]="menuOpen"
+    aria-controls="primary-navigation"
+    [attr.aria-label]="i18n.t(menuOpen ? 'closeNav' : 'openNav')"
+  >
+    <span></span><span></span>
+  </button>
   <nav id="primary-navigation" [class.open]="menuOpen">
-    <a href="/#services" (click)="navigateToSection('services', $event)"><span>01</span>{{ i18n.t('services') }}</a>
-    <a href="/#gallery" (click)="navigateToSection('gallery', $event)"><span>02</span>{{ i18n.t('portfolio') }}</a>
-    <a href="/#about" (click)="navigateToSection('about', $event)"><span>03</span>{{ i18n.t('about') }}</a>
-    <a href="/#contact" (click)="navigateToSection('contact', $event)"><span>04</span>{{ i18n.t('locations') }}</a>
+    <a href="/#services" (click)="navigateToSection('services', $event)"
+      ><span>01</span>{{ i18n.t('services') }}</a
+    >
+    <a href="/#gallery" (click)="navigateToSection('gallery', $event)"
+      ><span>02</span>{{ i18n.t('portfolio') }}</a
+    >
+    <a href="/#about" (click)="navigateToSection('about', $event)"
+      ><span>03</span>{{ i18n.t('about') }}</a
+    >
+    <a href="/#contact" (click)="navigateToSection('contact', $event)"
+      ><span>04</span>{{ i18n.t('locations') }}</a
+    >
   </nav>
   <div class="topbar-actions">
     <div class="language-switcher" aria-label="Language">
-      @for (language of languages; track language) { <button type="button" [class.active]="i18n.language() === language" (click)="i18n.setLanguage(language)">{{ language === 'ka' ? 'GE' : language.toUpperCase() }}</button> }
+      @for (language of languages; track language) {
+        <button
+          type="button"
+          [class.active]="i18n.language() === language"
+          (click)="i18n.setLanguage(language)"
+        >
+          {{ language === 'ka' ? 'GE' : language.toUpperCase() }}
+        </button>
+      }
     </div>
-    <a class="book-link" href="/#booking" (click)="navigateToSection('booking', $event)">{{ i18n.t('book') }} ↗</a>
+    <a class="book-link" href="/#booking" (click)="navigateToSection('booking', $event)"
+      >{{ i18n.t('book') }} ↗</a
+    >
   </div>
 </header>

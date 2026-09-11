@@ -111,11 +111,38 @@ router-outlet + * {
   overflow: clip;
   color: #fff;
 }
-.topbar-actions { justify-self: end; display: flex; align-items: center; gap: 24px; }
-.language-switcher { display: flex; gap: 10px; }
-.language-switcher button { border: 0; border-bottom: 1px solid transparent; padding: 5px 2px; background: transparent; color: inherit; font-size: 10px; font-weight: 500; letter-spacing: .1em; cursor: pointer; opacity: .6; }
-.language-switcher button.active { border-color: currentColor; opacity: 1; }
-.hero h1, .hero-meta span, .hero-booking span, .portfolio-book, .section h2 { white-space: pre-line; }
+.topbar-actions {
+  justify-self: end;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+.language-switcher {
+  display: flex;
+  gap: 10px;
+}
+.language-switcher button {
+  border: 0;
+  border-bottom: 1px solid transparent;
+  padding: 5px 2px;
+  background: transparent;
+  color: inherit;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  cursor: pointer;
+  opacity: 0.6;
+}
+.language-switcher button.active {
+  border-color: currentColor;
+  opacity: 1;
+}
+.hero h1,
+.hero-meta span,
+.hero-booking span,
+.section h2 {
+  white-space: pre-line;
+}
 .hero-video {
   position: absolute;
   inset: 0 0 0 auto;
@@ -130,8 +157,21 @@ router-outlet + * {
   position: absolute;
   inset: 0;
   background:
-    linear-gradient(90deg, #050505 0%, #050505 27%, rgba(5, 5, 5, 0.88) 38%, rgba(5, 5, 5, 0.18) 59%, transparent 78%),
-    linear-gradient(180deg, rgba(4, 3, 2, 0.25) 0%, transparent 22%, transparent 76%, rgba(4, 3, 2, 0.35) 100%);
+    linear-gradient(
+      90deg,
+      #050505 0%,
+      #050505 27%,
+      rgba(5, 5, 5, 0.88) 38%,
+      rgba(5, 5, 5, 0.18) 59%,
+      transparent 78%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(4, 3, 2, 0.25) 0%,
+      transparent 22%,
+      transparent 76%,
+      rgba(4, 3, 2, 0.35) 100%
+    );
   pointer-events: none;
 }
 .hero-booking {
@@ -389,39 +429,6 @@ router-outlet + * {
   position: relative;
   overflow: hidden;
   border-radius: 22px;
-}
-.portfolio-book {
-  position: absolute;
-  z-index: 3;
-  right: 18px;
-  bottom: 18px;
-  width: 72px;
-  height: 72px;
-  display: grid;
-  place-items: center;
-  border-radius: 50%;
-  background: #171715;
-  color: #fff;
-  text-align: center;
-  font-size: 9px;
-  font-weight: 500;
-  line-height: 1.35;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  box-shadow: 0 8px 24px rgba(12, 11, 10, 0.25);
-  transition: transform 0.25s ease, background-color 0.25s ease;
-}
-.portfolio-book::before {
-  content: '';
-  position: absolute;
-  inset: -7px;
-  border: 1px solid rgba(255, 255, 255, 0.62);
-  border-radius: 50%;
-}
-.portfolio-book:hover,
-.portfolio-book:focus-visible {
-  background: #8b2734;
-  transform: translateY(-4px);
 }
 .portfolio-card:hover .crop,
 .portfolio-card:focus-within .crop {
@@ -744,7 +751,7 @@ footer {
   padding: 45px max(7.5vw, calc((100vw - 1600px) / 2));
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-end;
   font-size: 10px;
   font-weight: 500;
   text-transform: uppercase;
@@ -837,7 +844,10 @@ footer div {
     gap: 18px;
     padding: 14px 0 17px;
     border-bottom: 1px solid #ffffff2b;
-    font: 500 clamp(30px, 9vw, 46px) / 1 'Cormorant Garamond', Georgia, serif;
+    font:
+      500 clamp(30px, 9vw, 46px) / 1 'Cormorant Garamond',
+      Georgia,
+      serif;
     letter-spacing: 0.025em;
     text-transform: none;
   }
@@ -845,7 +855,9 @@ footer div {
     display: inline-block;
     width: 20px;
     color: #c8a88f;
-    font: 500 9px/1 'DM Sans', sans-serif;
+    font:
+      500 9px/1 'DM Sans',
+      sans-serif;
     letter-spacing: 0.16em;
   }
   .book-link {
@@ -857,9 +869,17 @@ footer div {
   .hero {
     min-height: 620px;
   }
-  .topbar-actions { position: relative; z-index: 2; gap: 10px; }
-  .topbar-actions .book-link { display: none; }
-  .language-switcher { gap: 7px; }
+  .topbar-actions {
+    position: relative;
+    z-index: 2;
+    gap: 10px;
+  }
+  .topbar-actions .book-link {
+    display: none;
+  }
+  .language-switcher {
+    gap: 7px;
+  }
   .hero-video {
     width: 100%;
     opacity: 0.72;
@@ -872,7 +892,12 @@ footer div {
   }
   .shade {
     background:
-      linear-gradient(90deg, rgba(5, 5, 5, 0.94) 0%, rgba(5, 5, 5, 0.62) 55%, rgba(5, 5, 5, 0.2) 100%),
+      linear-gradient(
+        90deg,
+        rgba(5, 5, 5, 0.94) 0%,
+        rgba(5, 5, 5, 0.62) 55%,
+        rgba(5, 5, 5, 0.2) 100%
+      ),
       linear-gradient(180deg, rgba(4, 3, 2, 0.2), transparent 55%, rgba(4, 3, 2, 0.5));
   }
   .hero-copy {
@@ -953,10 +978,6 @@ footer div {
     gap: 25px;
     flex-wrap: wrap;
   }
-  footer p {
-    order: 3;
-    width: 100%;
-  }
 }
 @media (max-width: 480px) {
   .brand {
@@ -984,12 +1005,6 @@ footer div {
   }
   .crop {
     border-radius: 16px;
-  }
-  .portfolio-book {
-    right: 16px;
-    bottom: 16px;
-    width: 68px;
-    height: 68px;
   }
   .service p {
     display: none;

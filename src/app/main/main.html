@@ -1,10 +1,39 @@
 <main>
   <section id="home" class="hero">
-    <video class="hero-video" autoplay [muted]="true" loop playsinline preload="metadata" [poster]="site.media('heroPoster', '/assets/hero-editorial.png')" aria-hidden="true"><source [src]="site.media('heroVideo', '/video1.mp4')" type="video/mp4" /></video>
+    <video
+      class="hero-video"
+      autoplay
+      [muted]="true"
+      loop
+      playsinline
+      preload="metadata"
+      [poster]="site.media('heroPoster', '/assets/hero-editorial.png')"
+      aria-hidden="true"
+    >
+      <source [src]="site.media('heroVideo', '/video1.mp4')" type="video/mp4" />
+    </video>
     <div class="shade"></div>
-    <div class="hero-copy"><p class="eyebrow">{{ i18n.t('heroLocation') }}</p><h1>{{ i18n.t('heroTitle') }}</h1><div class="hero-actions"><a href="#services" class="circle" [attr.aria-label]="i18n.t('explore')">↓</a></div></div>
-    <div class="hero-meta"><span>{{ i18n.t('heroMeta') }}</span><span>01 / 04</span></div><div class="scroll">{{ i18n.t('scroll') }}</div>
+    <div class="hero-copy">
+      <p class="eyebrow">{{ i18n.t('heroLocation') }}</p>
+      <h1>{{ i18n.t('heroTitle') }}</h1>
+      <div class="hero-actions">
+        <a href="#services" class="circle" [attr.aria-label]="i18n.t('explore')">↓</a>
+      </div>
+    </div>
+    <div class="hero-meta">
+      <span>{{ i18n.t('heroMeta') }}</span
+      ><span>01 / 04</span>
+    </div>
+    <div class="scroll">{{ i18n.t('scroll') }}</div>
   </section>
-  @if (showFilm) { <div class="film-modal" role="dialog" aria-modal="true" aria-label="Nail Bar film"><button class="film-close" type="button" (click)="showFilm = false" aria-label="Close film">×</button><video autoplay [muted]="true" loop playsinline><source src="/video1.mp4" type="video/mp4" /></video></div> }
+  @if (showFilm) {
+    <div class="film-modal" role="dialog" aria-modal="true" aria-label="Nail Bar film">
+      <button class="film-close" type="button" (click)="showFilm = false" aria-label="Close film">
+        ×</button
+      ><video autoplay [muted]="true" loop playsinline>
+        <source src="/video1.mp4" type="video/mp4" />
+      </video>
+    </div>
+  }
   <app-services /><app-gallery /><app-about /><app-locations /><app-booking />
 </main>

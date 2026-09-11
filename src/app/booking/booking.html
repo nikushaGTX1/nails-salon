@@ -1,11 +1,52 @@
 <section id="booking" class="section booking">
-  <div><p class="eyebrow">{{ i18n.t('booking') }}</p><h2>{{ i18n.t('bookingTitle') }}</h2><p>{{ i18n.t('bookingText') }}</p><ul><li>{{ i18n.t('manicure') }}</li><li>{{ i18n.t('pedicure') }}</li><li>{{ i18n.t('design') }}</li><li>{{ i18n.t('extras') }}</li></ul></div>
+  <div>
+    <p class="eyebrow">{{ i18n.t('booking') }}</p>
+    <h2>{{ i18n.t('bookingTitle') }}</h2>
+    <p>{{ i18n.t('bookingText') }}</p>
+    <ul>
+      <li>{{ i18n.t('manicure') }}</li>
+      <li>{{ i18n.t('pedicure') }}</li>
+      <li>{{ i18n.t('design') }}</li>
+      <li>{{ i18n.t('extras') }}</li>
+    </ul>
+  </div>
   <form (submit)="submit($event)">
     <label>{{ i18n.t('name') }}<input required [placeholder]="i18n.t('yourName')" /></label>
-    <label>{{ i18n.t('phone') }}<input required type="tel" placeholder="+995 555 00 00 00" /></label>
-    <label>{{ i18n.t('studioField') }}<select required><option value="" disabled selected>{{ i18n.t('chooseLocation') }}</option>@for (location of site.locations(); track location.id) { <option>{{ location.area }} — {{ site.localized(location.address, i18n.language()) }}</option> }</select></label>
-    <label>{{ i18n.t('service') }}<select required><option value="" disabled selected>{{ i18n.t('chooseService') }}</option>@for (service of site.services(); track service.id) { <option>{{ site.localized(service.name, i18n.language()) }}</option> }</select></label>
-    <div class="form-row"><label>{{ i18n.t('date') }}<input required type="date" /></label><label>{{ i18n.t('time') }}<select><option>10:00</option><option>12:00</option><option>14:00</option><option>16:00</option></select></label></div>
+    <label
+      >{{ i18n.t('phone') }}<input required type="tel" placeholder="+995 555 00 00 00"
+    /></label>
+    <label
+      >{{ i18n.t('studioField')
+      }}<select required>
+        <option value="" disabled selected>{{ i18n.t('chooseLocation') }}</option>
+        @for (location of site.locations(); track location.id) {
+          <option>
+            {{ location.area }} — {{ site.localized(location.address, i18n.language()) }}
+          </option>
+        }
+      </select></label
+    >
+    <label
+      >{{ i18n.t('service')
+      }}<select required>
+        <option value="" disabled selected>{{ i18n.t('chooseService') }}</option>
+        @for (service of site.services(); track service.id) {
+          <option>{{ site.localized(service.name, i18n.language()) }}</option>
+        }
+      </select></label
+    >
+    <div class="form-row">
+      <label>{{ i18n.t('date') }}<input required type="date" /></label
+      ><label
+        >{{ i18n.t('time')
+        }}<select>
+          <option>10:00</option>
+          <option>12:00</option>
+          <option>14:00</option>
+          <option>16:00</option>
+        </select></label
+      >
+    </div>
     <button>{{ i18n.t(bookingSent ? 'sent' : 'book') }} <span>→</span></button>
   </form>
 </section>
