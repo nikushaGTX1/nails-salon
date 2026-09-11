@@ -34,7 +34,9 @@ export interface CmsLocation {
 export interface BookingSubmission {
   name: string;
   phone: string;
+  studioId: string;
   studio: string;
+  serviceId: string;
   service: string;
   date: string;
   time: string;
@@ -196,6 +198,11 @@ export class SiteContentService {
   }
   bookings(token: string) {
     return this.http.get<BookingRecord[]>(`${this.apiUrl}/api/admin/bookings`, {
+      headers: new HttpHeaders({ Authorization: `Bearer ${token}` }),
+    });
+  }
+  deleteBooking(id: number, token: string) {
+    return this.http.delete<void>(`${this.apiUrl}/api/admin/bookings/${id}`, {
       headers: new HttpHeaders({ Authorization: `Bearer ${token}` }),
     });
   }

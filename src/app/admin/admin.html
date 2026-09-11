@@ -73,15 +73,33 @@
         @for (booking of bookings; track booking.id) {
           <article class="booking-card">
             <div class="booking-date">
-              <strong>{{ booking.date }}</strong><span>{{ booking.time }}</span>
+              <strong>{{ booking.date }}</strong
+              ><span>{{ booking.time }}</span>
             </div>
-            <div><small>Customer</small><strong>{{ booking.name }}</strong></div>
-            <div><small>Phone</small><a [href]="'tel:' + booking.phone">{{ booking.phone }}</a></div>
-            <div><small>Studio</small><span>{{ booking.studio }}</span></div>
-            <div><small>Service</small><span>{{ booking.service }}</span></div>
+            <div>
+              <small>Customer</small><strong>{{ booking.name }}</strong>
+            </div>
+            <div>
+              <small>Phone</small><a [href]="'tel:' + booking.phone">{{ booking.phone }}</a>
+            </div>
+            <div>
+              <small>Studio</small><span>{{ bookingStudio(booking) }}</span>
+            </div>
+            <div>
+              <small>Service</small><span>{{ bookingService(booking) }}</span>
+            </div>
+            <button
+              class="remove-button"
+              (click)="deleteBooking(booking)"
+              [disabled]="deletingBooking === booking.id"
+            >
+              {{ deletingBooking === booking.id ? 'Deleting…' : 'Delete' }}
+            </button>
           </article>
         } @empty {
-          <div class="empty">{{ bookingsLoading ? 'Loading bookings…' : 'No booking requests yet.' }}</div>
+          <div class="empty">
+            {{ bookingsLoading ? 'Loading bookings…' : 'No booking requests yet.' }}
+          </div>
         }
       </div>
     </section>

@@ -51,6 +51,7 @@ export class Admin {
   changingPassword = false;
   bookings: BookingRecord[] = [];
   bookingsLoading = false;
+  deletingBooking = 0;
   readonly openPreviews = new Set<string>();
   readonly languages: { code: Language; name: string }[] = [
     { code: 'en', name: 'English' },
@@ -367,6 +368,33 @@ export class Admin {
       error: () => {
         this.bookingsLoading = false;
         this.error = 'Bookings could not be loaded.';
+        this.refresh();
+      },
+    });
+  }
+  bookingStudio(booking: BookingRecord): string {
+    const location = this.model.locations.find((x) => x.id === booking.studioId);
+    return location?.area || booking.studio;
+  }
+  bookingService(booking: BookingRecord): string {
+    const service = this.model.services.find((x) => x.id === booking.serviceId);
+    return service
+      ? this.site.localized(service.name, this.activeLanguage, booking.service)
+      : booking.service;
+  }
+  deleteBooking(booking: BookingRecord): void {
+    if (!confirm(`Delete the booking for ${booking.name}?`)) return;
+    this.deletingBooking = booking.id;
+    this.site.deleteBooking(booking.id, this.token).subscribe({
+      next: () => {
+        this.bookings = this.bookings.filter((x) => x.id !== booking.id);
+        this.deletingBooking = 0;
+        this.status = 'Booking deleted.';
+        this.refresh();
+      },
+      error: () => {
+        this.deletingBooking = 0;
+        this.error = 'The booking could not be deleted.';
         this.refresh();
       },
     });

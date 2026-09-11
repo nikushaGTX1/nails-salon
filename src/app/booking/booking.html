@@ -12,14 +12,16 @@
   </div>
   <form (submit)="submit($event)">
     <label
-      >{{ i18n.t('name') }}<input
+      >{{ i18n.t('name')
+      }}<input
         name="bookingName"
         [(ngModel)]="form.name"
         required
         [placeholder]="i18n.t('yourName')"
     /></label>
     <label
-      >{{ i18n.t('phone') }}<input
+      >{{ i18n.t('phone')
+      }}<input
         name="bookingPhone"
         [(ngModel)]="form.phone"
         required
@@ -28,10 +30,10 @@
     /></label>
     <label
       >{{ i18n.t('studioField') }}
-      <select name="bookingStudio" [(ngModel)]="form.studio" required>
+      <select name="bookingStudio" [(ngModel)]="form.studioId" required>
         <option value="" disabled>{{ i18n.t('chooseLocation') }}</option>
         @for (location of site.locations(); track location.id) {
-          <option [value]="location.area">
+          <option [value]="location.id">
             {{ location.area }} — {{ site.localized(location.address, i18n.language()) }}
           </option>
         }
@@ -39,10 +41,10 @@
     >
     <label
       >{{ i18n.t('service') }}
-      <select name="bookingService" [(ngModel)]="form.service" required>
+      <select name="bookingService" [(ngModel)]="form.serviceId" required>
         <option value="" disabled>{{ i18n.t('chooseService') }}</option>
         @for (service of site.services(); track service.id) {
-          <option [value]="site.localized(service.name, i18n.language())">
+          <option [value]="service.id">
             {{ site.localized(service.name, i18n.language()) }}
           </option>
         }
@@ -50,12 +52,8 @@
     >
     <div class="form-row">
       <label
-        >{{ i18n.t('date') }}<input
-          name="bookingDate"
-          [(ngModel)]="form.date"
-          [min]="minDate"
-          required
-          type="date"
+        >{{ i18n.t('date')
+        }}<input name="bookingDate" [(ngModel)]="form.date" [min]="minDate" required type="date"
       /></label>
       <label
         >{{ i18n.t('time') }}

@@ -114,7 +114,7 @@
 }
 .booking-card {
   display: grid;
-  grid-template-columns: 150px repeat(4, minmax(0, 1fr));
+  grid-template-columns: 150px repeat(4, minmax(0, 1fr)) auto;
   gap: 18px;
   align-items: center;
   border: 1px solid #ddd;
