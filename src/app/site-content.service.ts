@@ -128,7 +128,10 @@ export const DEFAULT_LOCATIONS: CmsLocation[] = [
 
 @Injectable({ providedIn: 'root' })
 export class SiteContentService {
-  readonly apiUrl = 'http://localhost:5206';
+  readonly apiUrl =
+    window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+      ? 'http://localhost:5206'
+      : 'https://nails-api-production.up.railway.app';
   readonly content = signal<SiteContent>({
     translations: {},
     media: {},

@@ -338,7 +338,7 @@ export class Admin {
           this.loggingIn = false;
           this.error =
             e.name === 'TimeoutError'
-              ? 'The API did not respond. Make sure it is running on port 5206.'
+              ? 'The API did not respond. Check that the API service is online.'
               : 'Incorrect password. The current default is ChangeMe-NailBar-2026! unless you changed it.';
           this.refresh();
         },
