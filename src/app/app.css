@@ -1830,6 +1830,23 @@ footer div {
   z-index: 149;
   touch-action: none;
 }
+.snap-guide {
+  position: fixed;
+  z-index: 160;
+  background: #ff5a5f;
+  display: none;
+  pointer-events: none;
+}
+.snap-guide-v {
+  top: 0;
+  bottom: 0;
+  width: 1px;
+}
+.snap-guide-h {
+  left: 0;
+  right: 0;
+  height: 1px;
+}
 
 /* Georgian glyphs are not included in Cormorant Garamond or DM Sans. */
 html[lang='ka'] .brand,
