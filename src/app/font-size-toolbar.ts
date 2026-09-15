@@ -2,6 +2,7 @@
  *  Adjusts font-size directly and hands the new px value back to the caller to persist. */
 export function attachFontSizeToolbar(
   hostEl: HTMLElement,
+  isActive: () => boolean,
   getSizePx: () => number,
   setSizePx: (px: number) => void,
 ): { destroy: () => void } {
@@ -21,7 +22,7 @@ export function attachFontSizeToolbar(
   }
 
   function show(): void {
-    if (bar) return;
+    if (bar || !isActive()) return;
     bar = document.createElement('div');
     bar.className = 'font-size-toolbar';
     const minus = document.createElement('button');

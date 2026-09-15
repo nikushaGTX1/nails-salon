@@ -1,6 +1,8 @@
-@if (editMode.active()) {
+@if (editMode.isEditing()) {
   <div class="edit-toolbar">
-    <span class="edit-toolbar-label">Editing live site — click any highlighted text or photo</span>
+    <span class="edit-toolbar-label"
+      >Editing live site — click text to edit, drag/scroll a photo to reframe/zoom</span
+    >
     @if (status) {
       <span class="edit-toolbar-status">{{ status }}</span>
     }

@@ -27,7 +27,7 @@ export class EditableField implements OnInit, OnDestroy {
 
   constructor() {
     effect(() => {
-      const active = this.editMode.active();
+      const active = this.editMode.isEditing();
       this.el.nativeElement.contentEditable = active ? 'true' : 'false';
       this.el.nativeElement.classList.toggle('is-editable', active);
       this.el.nativeElement.tabIndex = active ? 0 : -1;
@@ -43,6 +43,7 @@ export class EditableField implements OnInit, OnDestroy {
     if (!this.editStyleKey) return;
     this.toolbar = attachFontSizeToolbar(
       this.el.nativeElement,
+      () => this.editMode.isEditing(),
       () => parseFloat(getComputedStyle(this.el.nativeElement).fontSize) || 16,
       (px) => {
         this.el.nativeElement.style.fontSize = px + 'px';
@@ -58,7 +59,7 @@ export class EditableField implements OnInit, OnDestroy {
 
   @HostListener('click', ['$event'])
   onClick(event: Event): void {
-    if (this.editMode.active()) {
+    if (this.editMode.isEditing()) {
       event.stopPropagation();
       event.preventDefault();
     }
@@ -66,7 +67,7 @@ export class EditableField implements OnInit, OnDestroy {
 
   @HostListener('blur')
   onBlur(): void {
-    if (!this.editMode.active()) return;
+    if (!this.editMode.isEditing()) return;
     this.handler(this.el.nativeElement.innerText.trim());
     this.editMode.dirty.set(true);
   }
