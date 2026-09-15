@@ -7,6 +7,8 @@ type Dictionary = Record<string, string>;
 
 const en: Dictionary = {
   home: 'Home',
+  footerInstagram: 'Instagram',
+  footerWhatsapp: 'WhatsApp',
   services: 'Services',
   portfolio: 'Portfolio',
   about: 'About',
@@ -113,6 +115,8 @@ const en: Dictionary = {
 
 const ka: Dictionary = {
   home: 'მთავარი',
+  footerInstagram: 'Instagram',
+  footerWhatsapp: 'WhatsApp',
   services: 'სერვისები',
   portfolio: 'პორტფოლიო',
   about: 'ჩვენ შესახებ',
@@ -219,6 +223,8 @@ const ka: Dictionary = {
 
 const ru: Dictionary = {
   home: 'Главная',
+  footerInstagram: 'Instagram',
+  footerWhatsapp: 'WhatsApp',
   services: 'Услуги',
   portfolio: 'Портфолио',
   about: 'О нас',

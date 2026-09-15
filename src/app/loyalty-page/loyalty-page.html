@@ -1,29 +1,29 @@
 <main class="loyalty-page">
   <section class="section loyalty loyalty--page">
-    <p class="eyebrow">{{ i18n.t('loyaltyLabel') }}</p>
-    <h2>{{ i18n.t('loyaltyPageTitle') }}</h2>
-    <p class="loyalty-lead">{{ i18n.t('loyaltyPageText') }}</p>
+    <p class="eyebrow" [appEditable]="'loyaltyLabel'">{{ i18n.t('loyaltyLabel') }}</p>
+    <h2 [appEditable]="'loyaltyPageTitle'">{{ i18n.t('loyaltyPageTitle') }}</h2>
+    <p class="loyalty-lead" [appEditable]="'loyaltyPageText'">{{ i18n.t('loyaltyPageText') }}</p>
 
     <div class="loyalty-steps">
       <div class="loyalty-step">
         <span>01</span>
         <div>
-          <b>{{ i18n.t('loyaltyStep1t') }}</b>
-          <p>{{ i18n.t('loyaltyStep1d') }}</p>
+          <b [appEditable]="'loyaltyStep1t'">{{ i18n.t('loyaltyStep1t') }}</b>
+          <p [appEditable]="'loyaltyStep1d'">{{ i18n.t('loyaltyStep1d') }}</p>
         </div>
       </div>
       <div class="loyalty-step">
         <span>02</span>
         <div>
-          <b>{{ i18n.t('loyaltyStep2t') }}</b>
-          <p>{{ i18n.t('loyaltyStep2d') }}</p>
+          <b [appEditable]="'loyaltyStep2t'">{{ i18n.t('loyaltyStep2t') }}</b>
+          <p [appEditable]="'loyaltyStep2d'">{{ i18n.t('loyaltyStep2d') }}</p>
         </div>
       </div>
       <div class="loyalty-step">
         <span>03</span>
         <div>
-          <b>{{ i18n.t('loyaltyStep3t') }}</b>
-          <p>{{ i18n.t('loyaltyStep3d') }}</p>
+          <b [appEditable]="'loyaltyStep3t'">{{ i18n.t('loyaltyStep3t') }}</b>
+          <p [appEditable]="'loyaltyStep3d'">{{ i18n.t('loyaltyStep3d') }}</p>
         </div>
       </div>
     </div>

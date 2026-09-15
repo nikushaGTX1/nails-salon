@@ -1744,6 +1744,52 @@ footer div {
 .is-editable-image:hover::after {
   opacity: 1;
 }
+.font-size-toolbar {
+  position: absolute;
+  z-index: 220;
+  display: flex;
+  gap: 4px;
+  padding: 4px;
+  background: #171715;
+  border-radius: 8px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.3);
+}
+.font-size-toolbar button {
+  width: 26px;
+  height: 26px;
+  border: 0;
+  border-radius: 5px;
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.font-size-toolbar button:hover {
+  background: rgba(255, 255, 255, 0.18);
+}
+.is-editable-crop {
+  cursor: crosshair;
+}
+.is-editable-crop .portfolio-link {
+  pointer-events: none;
+}
+.replace-photo-btn {
+  position: absolute;
+  z-index: 2;
+  top: 12px;
+  right: 12px;
+  border: 0;
+  border-radius: 999px;
+  padding: 8px 12px;
+  background: rgba(23, 23, 21, 0.85);
+  color: #fff;
+  font-size: 9px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
 
 /* Georgian glyphs are not included in Cormorant Garamond or DM Sans. */
 html[lang='ka'] .brand,

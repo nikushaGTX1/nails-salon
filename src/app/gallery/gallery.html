@@ -23,6 +23,7 @@
             site.asset(work.imageUrl, site.media('galleryImage', '/assets/portfolio.png')) +
             ')'
           "
+          [appEditableCrop]="cropSetter(work)"
         >
           <a
             class="portfolio-link"
@@ -34,9 +35,22 @@
             "
             ><span class="view-portfolio">{{ i18n.t('viewPortfolio') }} ↗</span></a
           >
+          @if (editMode.active()) {
+            <button
+              type="button"
+              class="replace-photo-btn"
+              [appEditableItemImage]="imageSetter(work)"
+            >
+              Replace photo
+            </button>
+          }
         </div>
         <figcaption>
-          {{ site.localized(work.title, i18n.language(), i18n.t('w' + (i + 1))) }}
+          <span
+            [appEditableField]="fieldSetter(work.title, i18n.language())"
+            [editStyleKey]="'gallery:' + work.id + ':title'"
+            >{{ site.localized(work.title, i18n.language(), i18n.t('w' + (i + 1))) }}</span
+          >
           <small>{{ (i + 1).toString().padStart(2, '0') }}</small>
         </figcaption>
       </figure>

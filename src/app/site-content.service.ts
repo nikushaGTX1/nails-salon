@@ -232,6 +232,10 @@ export class SiteContentService {
   setMedia(key: string, url: string): void {
     this.content.update((c) => ({ ...c, media: { ...c.media, [key]: url } }));
   }
+  /** Live-edit mode: generic key/value patch, used for per-element style overrides (e.g. font size). */
+  setSetting(key: string, value: string): void {
+    this.content.update((c) => ({ ...c, settings: { ...c.settings, [key]: value } }));
+  }
   localized(value: LocalizedText | undefined, language: string, fallback = ''): string {
     return value?.[language] || fallback || value?.['en'] || '';
   }

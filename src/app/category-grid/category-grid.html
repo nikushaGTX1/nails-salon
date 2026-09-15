@@ -3,9 +3,16 @@
     <div class="category-tiles">
       @for (category of site.categories(); track category.id) {
         <a class="category-tile" [routerLink]="['/category', category.id]">
-          <img [src]="site.asset(category.imageUrl, '/assets/portfolio.png')" alt="" />
+          <img
+            [src]="site.asset(category.imageUrl, '/assets/portfolio.png')"
+            alt=""
+            [appEditableItemImage]="imageSetter(category)"
+          />
           <span class="category-tile-shade"></span>
-          <span class="category-tile-label"
+          <span
+            class="category-tile-label"
+            [appEditableField]="fieldSetter(category.name, i18n.language())"
+            [editStyleKey]="'category:' + category.id + ':name'"
             >{{ site.localized(category.name, i18n.language(), category.id) }}
             <svg width="10" height="10" viewBox="0 0 10 10" fill="none" aria-hidden="true">
               <path

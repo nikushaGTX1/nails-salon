@@ -11,19 +11,18 @@ import {
 import { attachFontSizeToolbar } from './font-size-toolbar';
 import { EditModeService } from './edit-mode.service';
 import { SiteContentService } from './site-content.service';
-import { TranslationService } from './translation.service';
 
-/** Applied to an element already showing `{{ i18n.t('someKey') }}`. In edit mode it becomes
- *  directly editable in place; on blur the new text is written back to the CMS translations.
- *  Also carries a persisted font-size override (A-/A+ shown while focused). */
-@Directive({ selector: '[appEditable]', standalone: false })
-export class EditableText implements OnInit, OnDestroy {
-  @Input('appEditable') key = '';
+/** Generic per-item editable field: the caller supplies a setter closure (works for any array
+ *  item — a service's name, a category's label, a location's phone number, etc.) plus a stable
+ *  `editStyleKey` (e.g. "service:<id>:name") so its font-size override persists across reloads. */
+@Directive({ selector: '[appEditableField]', standalone: false })
+export class EditableField implements OnInit, OnDestroy {
+  @Input('appEditableField') handler: (value: string) => void = () => {};
+  @Input() editStyleKey = '';
 
   private readonly el = inject(ElementRef<HTMLElement>);
   private readonly editMode = inject(EditModeService);
   private readonly site = inject(SiteContentService);
-  private readonly i18n = inject(TranslationService);
   private toolbar?: { destroy: () => void };
 
   constructor() {
@@ -34,23 +33,20 @@ export class EditableText implements OnInit, OnDestroy {
       this.el.nativeElement.tabIndex = active ? 0 : -1;
     });
     effect(() => {
-      if (!this.key) return;
-      const storedPx = this.site.setting(this.styleKey, '');
+      if (!this.editStyleKey) return;
+      const storedPx = this.site.setting('style:' + this.editStyleKey, '');
       if (storedPx) this.el.nativeElement.style.fontSize = storedPx + 'px';
     });
   }
 
-  private get styleKey(): string {
-    return 'style:text:' + this.key;
-  }
-
   ngOnInit(): void {
+    if (!this.editStyleKey) return;
     this.toolbar = attachFontSizeToolbar(
       this.el.nativeElement,
       () => parseFloat(getComputedStyle(this.el.nativeElement).fontSize) || 16,
       (px) => {
         this.el.nativeElement.style.fontSize = px + 'px';
-        this.site.setSetting(this.styleKey, String(px));
+        this.site.setSetting('style:' + this.editStyleKey, String(px));
         this.editMode.dirty.set(true);
       },
     );
@@ -70,9 +66,8 @@ export class EditableText implements OnInit, OnDestroy {
 
   @HostListener('blur')
   onBlur(): void {
-    if (!this.editMode.active() || !this.key) return;
-    const value = this.el.nativeElement.innerText.trim();
-    this.site.setTranslation(this.i18n.language(), this.key, value);
+    if (!this.editMode.active()) return;
+    this.handler(this.el.nativeElement.innerText.trim());
     this.editMode.dirty.set(true);
   }
 }

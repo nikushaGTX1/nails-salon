@@ -20,7 +20,10 @@
         </div>
         <div class="location-info">
           <p class="eyebrow">{{ location.area }}</p>
-          <h3>
+          <h3
+            [appEditableField]="fieldSetter(location.address, i18n.language())"
+            [editStyleKey]="'location:' + location.id + ':address'"
+          >
             {{
               site.localized(
                 location.address,
@@ -35,7 +38,10 @@
               )
             }}
           </h3>
-          <a [href]="'tel:' + phoneHref(location.phone)">{{ location.phone }}</a
+          <a
+            [href]="'tel:' + phoneHref(location.phone)"
+            [appEditableField]="phoneSetter(location)"
+            >{{ location.phone }}</a
           ><a
             class="directions"
             [href]="directions(location.coordinates)"

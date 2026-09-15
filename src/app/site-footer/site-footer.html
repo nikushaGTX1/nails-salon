@@ -4,12 +4,12 @@
       [href]="site.setting('instagramUrl', 'https://instagram.com/nail_bar_1')"
       target="_blank"
       rel="noopener"
-      >Instagram</a
+      ><span [appEditable]="'footerInstagram'">{{ i18n.t('footerInstagram') }}</span></a
     ><a
       [href]="site.setting('whatsappUrl', 'https://wa.me/995551960099')"
       target="_blank"
       rel="noopener"
-      >WhatsApp</a
+      ><span [appEditable]="'footerWhatsapp'">{{ i18n.t('footerWhatsapp') }}</span></a
     >
   </div>
 </footer>

@@ -3,11 +3,12 @@ import { HttpEventType } from '@angular/common/http';
 import { EditModeService } from './edit-mode.service';
 import { SiteContentService } from './site-content.service';
 
-/** Applied to an element whose image/background comes from `site.media(key, fallback)`.
- *  In edit mode, clicking it opens a file picker and uploads the replacement straight to the CMS. */
-@Directive({ selector: '[appEditableImage]', standalone: false })
-export class EditableImage {
-  @Input('appEditableImage') key = '';
+/** Per-item counterpart to EditableImage: the caller supplies a setter closure instead of a
+ *  fixed CMS media key, so this works for any array item's image (a category tile, a gallery
+ *  photo, ...). Clicking it in edit mode opens a file picker and uploads straight to the CMS. */
+@Directive({ selector: '[appEditableItemImage]', standalone: false })
+export class EditableItemImage {
+  @Input('appEditableItemImage') onUpload!: (url: string) => void;
 
   private readonly el = inject(ElementRef<HTMLElement>);
   private readonly editMode = inject(EditModeService);
@@ -27,7 +28,6 @@ export class EditableImage {
     event.stopPropagation();
     this.pickFile();
   }
-  // (preventDefault above also blocks any ancestor <a> from navigating while editing)
 
   private pickFile(): void {
     if (!this.fileInput) {
@@ -44,11 +44,11 @@ export class EditableImage {
 
   private upload(): void {
     const file = this.fileInput?.files?.[0];
-    if (!file || !this.key) return;
+    if (!file) return;
     this.site.upload(file, this.editMode.token).subscribe({
       next: (event) => {
         if (event.type === HttpEventType.Response && event.body) {
-          this.site.setMedia(this.key, event.body.url);
+          this.onUpload(event.body.url);
           this.editMode.dirty.set(true);
         }
       },

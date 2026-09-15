@@ -8,10 +8,22 @@
     <article class="service">
       <span>{{ (i + 1).toString().padStart(2, '0') }}</span>
       <div>
-        <h3>{{ site.localized(service.name, i18n.language(), i18n.t('s' + (i + 1))) }}</h3>
-        <p>{{ site.localized(service.description, i18n.language(), i18n.t('sd' + (i + 1))) }}</p>
+        <h3
+          [appEditableField]="fieldSetter(service.name, i18n.language())"
+          [editStyleKey]="'service:' + service.id + ':name'"
+        >
+          {{ site.localized(service.name, i18n.language(), i18n.t('s' + (i + 1))) }}
+        </h3>
+        <p
+          [appEditableField]="fieldSetter(service.description, i18n.language())"
+          [editStyleKey]="'service:' + service.id + ':description'"
+        >
+          {{ site.localized(service.description, i18n.language(), i18n.t('sd' + (i + 1))) }}
+        </p>
       </div>
-      <strong>{{ i18n.t('from') }} {{ service.price }} GEL</strong
+      <strong
+        >{{ i18n.t('from') }}
+        <span [appEditableField]="priceSetter(service)">{{ service.price }}</span> GEL</strong
       ><a
         href="https://taplink.cc/nail_bar_1"
         target="_blank"
