@@ -14,13 +14,13 @@ export class EditableCrop {
 
   constructor() {
     effect(() => {
-      this.el.nativeElement.classList.toggle('is-editable-crop', this.editMode.active());
+      this.el.nativeElement.classList.toggle('is-editable-crop', this.editMode.isEditing());
     });
   }
 
   @HostListener('pointerdown', ['$event'])
   onPointerDown(event: PointerEvent): void {
-    if (!this.editMode.active()) return;
+    if (!this.editMode.isEditing()) return;
     event.preventDefault();
     event.stopPropagation();
     this.dragging = true;

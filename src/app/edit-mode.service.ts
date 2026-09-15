@@ -9,6 +9,13 @@ export class EditModeService {
     return sessionStorage.getItem('nailbar-admin-token') || '';
   }
 
+  /** The one check every editing directive must use — true only while edit mode was explicitly
+   *  entered AND a valid admin token is still present in this browser tab right now. Re-checks
+   *  the token live (not cached) so a cleared/expired session can never leave editing UI showing. */
+  isEditing(): boolean {
+    return this.active() && !!this.token;
+  }
+
   enter(): boolean {
     if (!this.token) return false;
     this.active.set(true);

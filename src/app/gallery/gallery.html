@@ -35,7 +35,7 @@
             "
             ><span class="view-portfolio">{{ i18n.t('viewPortfolio') }} ↗</span></a
           >
-          @if (editMode.active()) {
+          @if (editMode.isEditing()) {
             <button
               type="button"
               class="replace-photo-btn"
