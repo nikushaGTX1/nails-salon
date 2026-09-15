@@ -9,6 +9,9 @@ import { App } from './app';
 import { Booking } from './booking/booking';
 import { CategoryGrid } from './category-grid/category-grid';
 import { CategoryPage } from './category-page/category-page';
+import { EditableImage } from './editable-image';
+import { EditableText } from './editable-text';
+import { EditToolbar } from './edit-toolbar/edit-toolbar';
 import { Gallery } from './gallery/gallery';
 import { Locations } from './locations/locations';
 import { Loyalty } from './loyalty/loyalty';
@@ -35,6 +38,9 @@ import { Admin } from './admin/admin';
     Booking,
     SiteFooter,
     Admin,
+    EditableText,
+    EditableImage,
+    EditToolbar,
   ],
   imports: [BrowserModule, FormsModule, AppRoutingModule],
   providers: [provideBrowserGlobalErrorListeners(), provideHttpClient()],

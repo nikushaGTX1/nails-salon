@@ -1,11 +1,11 @@
 <section id="about" class="section about">
   <div class="about-copy">
-    <p class="eyebrow">{{ i18n.t('aboutUs') }}</p>
-    <h2>{{ i18n.t('aboutTitle') }}</h2>
-    <p>{{ i18n.t('aboutText') }}</p>
+    <p class="eyebrow" [appEditable]="'aboutUs'">{{ i18n.t('aboutUs') }}</p>
+    <h2 [appEditable]="'aboutTitle'">{{ i18n.t('aboutTitle') }}</h2>
+    <p [appEditable]="'aboutText'">{{ i18n.t('aboutText') }}</p>
     <a class="under" href="#contact">{{ i18n.t('discover') }} →</a>
   </div>
-  <div class="studio">
+  <div class="studio" [appEditableImage]="'studioImage'">
     <img
       [src]="site.media('studioImage', '/assets/studio-interior.png')"
       alt="Nail Bar 01 studio"

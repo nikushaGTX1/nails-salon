@@ -8,6 +8,7 @@
     @if (token) {
       <div class="admin-actions">
         <a class="button secondary" routerLink="/" target="_blank">Preview website ↗</a
+        ><button class="secondary" (click)="editLive()">Edit site directly</button
         ><button class="secondary" (click)="logout()">Sign out</button
         ><button (click)="save()" [disabled]="saving">
           {{ saving ? 'Saving…' : 'Save & publish' }}

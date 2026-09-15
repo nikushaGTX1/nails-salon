@@ -1,6 +1,8 @@
 import { ChangeDetectorRef, Component } from '@angular/core';
 import { HttpEventType } from '@angular/common/http';
+import { Router } from '@angular/router';
 import { timeout } from 'rxjs';
+import { EditModeService } from '../edit-mode.service';
 import { dictionaries, Language } from '../translation.service';
 import {
   BookingRecord,
@@ -359,6 +361,8 @@ export class Admin {
   constructor(
     readonly site: SiteContentService,
     private readonly cdr: ChangeDetectorRef,
+    private readonly editMode: EditModeService,
+    private readonly router: Router,
   ) {
     if (this.token)
       this.site.validateSession(this.token).subscribe({
@@ -440,6 +444,9 @@ export class Admin {
     this.error = '';
     this.status = '';
     sessionStorage.removeItem('nailbar-admin-token');
+  }
+  editLive(): void {
+    if (this.editMode.enter()) this.router.navigateByUrl('/');
   }
   loadBookings(): void {
     if (!this.token || this.bookingsLoading) return;

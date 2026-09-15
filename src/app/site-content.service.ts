@@ -218,6 +218,20 @@ export class SiteContentService {
     const raw = Number(this.content().settings['loyaltyExampleBalance']);
     return Number.isFinite(raw) && raw >= 0 ? raw : 24.5;
   }
+  /** Live-edit mode: patches one UI dictionary string in place (see TranslationService.t()'s CMS-override lookup). */
+  setTranslation(language: string, key: string, value: string): void {
+    this.content.update((c) => ({
+      ...c,
+      translations: {
+        ...c.translations,
+        [language]: { ...c.translations[language], [key]: value },
+      },
+    }));
+  }
+  /** Live-edit mode: patches one CMS media slot (e.g. hero poster) in place. */
+  setMedia(key: string, url: string): void {
+    this.content.update((c) => ({ ...c, media: { ...c.media, [key]: url } }));
+  }
   localized(value: LocalizedText | undefined, language: string, fallback = ''): string {
     return value?.[language] || fallback || value?.['en'] || '';
   }

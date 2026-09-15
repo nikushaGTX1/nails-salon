@@ -1,10 +1,10 @@
 <section id="contact" class="section locations">
   <div class="locations-head">
     <div>
-      <p class="eyebrow">{{ i18n.t('ourLocations') }}</p>
-      <h2>{{ i18n.t('locationsTitle') }}</h2>
+      <p class="eyebrow" [appEditable]="'ourLocations'">{{ i18n.t('ourLocations') }}</p>
+      <h2 [appEditable]="'locationsTitle'">{{ i18n.t('locationsTitle') }}</h2>
     </div>
-    <p>{{ i18n.t('locationsText') }}</p>
+    <p [appEditable]="'locationsText'">{{ i18n.t('locationsText') }}</p>
   </div>
   <div class="location-grid">
     @for (location of site.locations(); track location.id; let i = $index) {

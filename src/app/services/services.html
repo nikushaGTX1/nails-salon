@@ -1,8 +1,8 @@
 <section id="services" class="section">
   <div class="intro">
-    <p class="eyebrow">{{ i18n.t('services') }}</p>
-    <h2>{{ i18n.t('servicesTitle') }}</h2>
-    <p>{{ i18n.t('servicesIntro') }}</p>
+    <p class="eyebrow" [appEditable]="'services'">{{ i18n.t('services') }}</p>
+    <h2 [appEditable]="'servicesTitle'">{{ i18n.t('servicesTitle') }}</h2>
+    <p [appEditable]="'servicesIntro'">{{ i18n.t('servicesIntro') }}</p>
   </div>
   @for (service of site.services(); track service.id; let i = $index) {
     <article class="service">

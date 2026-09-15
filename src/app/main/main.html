@@ -14,8 +14,8 @@
     </video>
     <div class="shade"></div>
     <div class="hero-copy">
-      <p class="eyebrow">{{ i18n.t('heroLocation') }}</p>
-      <h1>{{ i18n.t('heroTitle') }}</h1>
+      <p class="eyebrow" [appEditable]="'heroLocation'">{{ i18n.t('heroLocation') }}</p>
+      <h1 [appEditable]="'heroTitle'">{{ i18n.t('heroTitle') }}</h1>
       <div class="hero-actions">
         <a href="#services" class="circle" [attr.aria-label]="i18n.t('explore')">↓</a>
       </div>

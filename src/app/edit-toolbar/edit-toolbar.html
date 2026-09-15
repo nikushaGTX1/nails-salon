@@ -1,0 +1,12 @@
+@if (editMode.active()) {
+  <div class="edit-toolbar">
+    <span class="edit-toolbar-label">Editing live site — click any highlighted text or photo</span>
+    @if (status) {
+      <span class="edit-toolbar-status">{{ status }}</span>
+    }
+    <button type="button" (click)="save()" [disabled]="saving">
+      {{ saving ? 'Saving…' : 'Save changes' }}
+    </button>
+    <button type="button" class="edit-toolbar-exit" (click)="exit()">Exit</button>
+  </div>
+}
