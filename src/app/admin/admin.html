@@ -192,6 +192,55 @@
       <div class="collection-block">
         <div class="collection-heading">
           <div>
+            <h3>Categories</h3>
+            <p>
+              Tiles shown on the homepage (e.g. Manicure, Pedicure). Each opens a page listing the
+              services below that share its category.
+            </p>
+          </div>
+          <button (click)="addCategory()">+ Add category</button>
+        </div>
+        @for (category of model.categories; track category.id; let i = $index) {
+          <article class="item-editor">
+            <div class="item-number">{{ i + 1 }}</div>
+            <div class="item-fields">
+              <label
+                ><span>Category name</span
+                ><input [(ngModel)]="category.name[activeLanguage]" /></label
+              ><label class="wide"
+                ><span>Image URL</span
+                ><input
+                  [(ngModel)]="category.imageUrl"
+                  placeholder="Upload an image or paste its URL" /></label
+              ><label class="upload compact"
+                >{{
+                  uploading === category.id ? 'Uploading ' + uploadProgress + '%' : 'Upload photo'
+                }}<input type="file" accept="image/*" (change)="uploadCategoryImage(category, $event)"
+              /></label>
+            </div>
+            <div class="item-actions">
+              <button
+                class="icon-button"
+                (click)="move(model.categories, i, -1)"
+                [disabled]="i === 0"
+                title="Move up"
+              >
+                ↑</button
+              ><button
+                class="icon-button"
+                (click)="move(model.categories, i, 1)"
+                [disabled]="i === model.categories.length - 1"
+                title="Move down"
+              >
+                ↓</button
+              ><button class="remove-button" (click)="removeCategory(i)">Remove</button>
+            </div>
+          </article>
+        }
+      </div>
+      <div class="collection-block">
+        <div class="collection-heading">
+          <div>
             <h3>Services</h3>
             <p>Add services shown on the homepage and inside the booking form.</p>
           </div>
@@ -213,6 +262,26 @@
               ><label
                 ><span>Price in GEL</span><input [(ngModel)]="service.price" type="number" min="0"
               /></label>
+              <label
+                ><span>Category</span
+                ><select [(ngModel)]="service.categoryId">
+                  <option value="">— Homepage list only —</option>
+                  @for (category of model.categories; track category.id) {
+                    <option [value]="category.id">
+                      {{ category.name[activeLanguage] || category.name['en'] }}
+                    </option>
+                  }
+                </select></label
+              >
+              @if (service.categoryId) {
+                <label
+                  ><span>Group (e.g. "Manicure" / "Filing")</span
+                  ><input [(ngModel)]="service.groupLabel[activeLanguage]" /></label
+                ><label
+                  ><span>Row label (e.g. "With coating")</span
+                  ><input [(ngModel)]="service.subgroupLabel[activeLanguage]" /></label
+                >
+              }
             </div>
             <div class="item-actions">
               <button

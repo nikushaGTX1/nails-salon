@@ -1,0 +1,71 @@
+<main class="category-page">
+  <section class="section category-hero-section">
+    <div class="category-crumbs">
+      <a routerLink="/">{{ i18n.t('home') }}</a>
+      <span aria-hidden="true">/</span>
+      <span>{{ site.localized(category()?.name, i18n.language(), category()?.id) }}</span>
+    </div>
+
+    <div class="category-hero">
+      <img
+        [src]="site.asset(category()?.imageUrl ?? '', '/assets/portfolio.png')"
+        alt=""
+        class="category-hero-img"
+      />
+      <div class="category-hero-shade"></div>
+      <div class="category-hero-copy">
+        <p class="eyebrow">{{ i18n.t('services') }}</p>
+        <h1>{{ site.localized(category()?.name, i18n.language(), category()?.id) }}</h1>
+      </div>
+    </div>
+
+    <div class="category-groups">
+      @for (group of groups(); track group.title; let gi = $index) {
+        <section class="category-group">
+          @if (group.title) {
+            <h2>{{ group.title }}</h2>
+          }
+          <div>
+            @for (row of group.rows; track row.label; let ri = $index) {
+              @let key = gi + '-' + ri;
+              <div class="category-row">
+                <button
+                  type="button"
+                  class="category-row-head"
+                  (click)="toggleRow(key)"
+                  [attr.aria-expanded]="!!rowOpen[key]"
+                >
+                  <span>{{ row.label || site.localized(row.items[0]?.name, i18n.language()) }}</span>
+                  <span class="category-chevron" [class.open]="rowOpen[key]">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                      <path
+                        d="M2 4.5L6 8.5L10 4.5"
+                        stroke="currentColor"
+                        stroke-width="1.4"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
+                    </svg>
+                  </span>
+                </button>
+                @if (rowOpen[key]) {
+                  <div class="category-row-items">
+                    @for (item of row.items; track item.id) {
+                      <div class="category-item">
+                        <span>{{ site.localized(item.name, i18n.language()) }}</span>
+                        <span class="category-item-dots"></span>
+                        <span class="category-item-price"
+                          >{{ i18n.t('from') }} {{ item.price }} GEL</span
+                        >
+                      </div>
+                    }
+                  </div>
+                }
+              </div>
+            }
+          </div>
+        </section>
+      }
+    </div>
+  </section>
+</main>

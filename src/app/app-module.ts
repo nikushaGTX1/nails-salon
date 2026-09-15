@@ -7,6 +7,8 @@ import { AppRoutingModule } from './app-routing-module';
 import { About } from './about/about';
 import { App } from './app';
 import { Booking } from './booking/booking';
+import { CategoryGrid } from './category-grid/category-grid';
+import { CategoryPage } from './category-page/category-page';
 import { Gallery } from './gallery/gallery';
 import { Locations } from './locations/locations';
 import { Loyalty } from './loyalty/loyalty';
@@ -23,6 +25,8 @@ import { Admin } from './admin/admin';
     Navigation,
     Main,
     Services,
+    CategoryGrid,
+    CategoryPage,
     Gallery,
     About,
     Locations,

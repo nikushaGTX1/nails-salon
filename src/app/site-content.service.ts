@@ -8,6 +8,7 @@ export interface SiteContent {
   services: CmsService[];
   gallery: CmsGalleryItem[];
   locations: CmsLocation[];
+  categories: CmsCategory[];
   updatedAt?: string;
 }
 export type LocalizedText = Record<string, string>;
@@ -16,6 +17,17 @@ export interface CmsService {
   name: LocalizedText;
   description: LocalizedText;
   price: number;
+  /** Empty = shown in the flat homepage service list. Set = grouped under a category's accordion page. */
+  categoryId: string;
+  /** Top-level accordion group within a category, e.g. "Маникюр" / "Пилочный". */
+  groupLabel: LocalizedText;
+  /** Expandable row label within a group, e.g. "С покрытием". */
+  subgroupLabel: LocalizedText;
+}
+export interface CmsCategory {
+  id: string;
+  name: LocalizedText;
+  imageUrl: string;
 }
 export interface CmsGalleryItem {
   id: string;
@@ -53,26 +65,39 @@ export const DEFAULT_SERVICES: CmsService[] = [
     name: { en: 'Signature manicure', ka: '', ru: '' },
     description: { en: 'Detailed cuticle care and your choice of finish.', ka: '', ru: '' },
     price: 55,
+    categoryId: '',
+    groupLabel: {},
+    subgroupLabel: {},
   },
   {
     id: 'service-2',
     name: { en: 'Soft gel manicure', ka: '', ru: '' },
     description: { en: 'Long-lasting color with a smooth, natural result.', ka: '', ru: '' },
     price: 75,
+    categoryId: '',
+    groupLabel: {},
+    subgroupLabel: {},
   },
   {
     id: 'service-3',
     name: { en: 'Essential pedicure', ka: '', ru: '' },
     description: { en: 'Restorative care for soft skin and polished toes.', ka: '', ru: '' },
     price: 70,
+    categoryId: '',
+    groupLabel: {},
+    subgroupLabel: {},
   },
   {
     id: 'service-4',
     name: { en: 'Bespoke nail art', ka: '', ru: '' },
     description: { en: 'Fine lines, tonal details and unique designs.', ka: '', ru: '' },
     price: 15,
+    categoryId: '',
+    groupLabel: {},
+    subgroupLabel: {},
   },
 ];
+export const DEFAULT_CATEGORIES: CmsCategory[] = [];
 export const DEFAULT_GALLERY: CmsGalleryItem[] = [
   {
     id: 'work-1',
@@ -154,6 +179,7 @@ export class SiteContentService {
     services: [],
     gallery: [],
     locations: [],
+    categories: [],
   });
   readonly loaded = signal(false);
   constructor(private readonly http: HttpClient) {
@@ -203,6 +229,36 @@ export class SiteContentService {
   }
   locations(): CmsLocation[] {
     return this.content().locations?.length ? this.content().locations : DEFAULT_LOCATIONS;
+  }
+  categories(): CmsCategory[] {
+    return this.content().categories?.length ? this.content().categories : DEFAULT_CATEGORIES;
+  }
+  /** Services attached to a category, grouped by groupLabel then subgroupLabel, for the category accordion page. */
+  categoryGroups(
+    categoryId: string,
+    language: string,
+  ): { title: string; rows: { label: string; items: CmsService[] }[] }[] {
+    const items = this.services().filter((s) => s.categoryId === categoryId);
+    const groupOrder: string[] = [];
+    const groups = new Map<string, Map<string, CmsService[]>>();
+    for (const item of items) {
+      const groupKey = this.localized(item.groupLabel, language, '');
+      const rowKey = this.localized(item.subgroupLabel, language, '');
+      if (!groups.has(groupKey)) {
+        groups.set(groupKey, new Map());
+        groupOrder.push(groupKey);
+      }
+      const rows = groups.get(groupKey)!;
+      if (!rows.has(rowKey)) rows.set(rowKey, []);
+      rows.get(rowKey)!.push(item);
+    }
+    return groupOrder.map((title) => ({
+      title,
+      rows: Array.from(groups.get(title)!.entries()).map(([label, rowItems]) => ({
+        label,
+        items: rowItems,
+      })),
+    }));
   }
   login(password: string) {
     return this.http.post<{ token: string }>(`${this.apiUrl}/api/admin/login`, { password });

@@ -1479,6 +1479,191 @@ footer div {
   }
 }
 
+/* ---- Category tiles (homepage) ---- */
+.category-grid-section {
+  background: #e9e6e0;
+}
+.category-tiles {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+.category-tile {
+  position: relative;
+  display: block;
+  aspect-ratio: 4 / 3;
+  border-radius: 22px;
+  overflow: hidden;
+  background: #b9aea1;
+}
+.category-tile img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: saturate(0.9);
+  transition: transform 0.4s ease;
+}
+.category-tile:hover img {
+  transform: scale(1.04);
+}
+.category-tile-shade {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(5, 5, 5, 0.02) 55%, rgba(5, 5, 5, 0.45) 100%);
+}
+.category-tile-label {
+  position: absolute;
+  left: 16px;
+  bottom: 16px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px;
+  background: rgba(242, 240, 235, 0.94);
+  color: var(--ink);
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 500;
+}
+@media (max-width: 800px) {
+  .category-tiles {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* ---- Category detail page (accordion price list) ---- */
+.category-page {
+  background: var(--paper);
+}
+.category-hero-section {
+  padding-top: 150px;
+}
+.category-crumbs {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #68645e;
+  margin-bottom: 28px;
+}
+.category-hero {
+  position: relative;
+  height: 340px;
+  border-radius: 28px;
+  overflow: hidden;
+  background: #b9aea1;
+  margin-bottom: 54px;
+}
+.category-hero-img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: saturate(0.9);
+}
+.category-hero-shade {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(5, 5, 5, 0.1) 0%, rgba(5, 5, 5, 0.5) 100%);
+}
+.category-hero-copy {
+  position: absolute;
+  left: 6%;
+  bottom: 38px;
+  color: #fff;
+}
+.category-hero-copy h1 {
+  margin: 0;
+  font: 500 clamp(40px, 6vw, 68px) / 0.95 'Cormorant Garamond', Georgia, serif;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+.category-groups {
+  display: grid;
+  gap: 22px;
+}
+.category-group {
+  background: #e9e6e0;
+  border-radius: 24px;
+  padding: 40px 40px 14px;
+}
+.category-group h2 {
+  margin: 0 0 26px;
+  font: 500 26px 'Cormorant Garamond', Georgia, serif;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+.category-row-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  width: 100%;
+  padding: 22px 4px;
+  border-top: 1px solid var(--line);
+  border-left: 0;
+  border-right: 0;
+  border-bottom: 0;
+  background: none;
+  text-align: left;
+  cursor: pointer;
+  font-size: 17px;
+  font-weight: 500;
+  color: inherit;
+}
+.category-chevron {
+  width: 30px;
+  height: 30px;
+  flex: 0 0 auto;
+  border-radius: 50%;
+  border: 1px solid var(--line);
+  display: grid;
+  place-items: center;
+  transition: transform 0.25s ease;
+}
+.category-chevron.open {
+  transform: rotate(180deg);
+}
+.category-row-items {
+  padding: 4px 4px 22px;
+  display: grid;
+  gap: 2px;
+}
+.category-item {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 13px 0;
+  border-bottom: 1px dashed #d3cfc6;
+  font-size: 14px;
+}
+.category-item-dots {
+  flex: 1;
+  border-bottom: 1px dotted #c3bfb5;
+  margin: 0 4px 5px;
+  min-width: 16px;
+}
+.category-item-price {
+  font: 500 15px 'Cormorant Garamond', Georgia, serif;
+  white-space: nowrap;
+}
+@media (max-width: 800px) {
+  .category-hero-section {
+    padding-top: 120px;
+  }
+  .category-hero {
+    height: 240px;
+  }
+  .category-group {
+    padding: 28px 22px 8px;
+  }
+}
+
 /* Georgian glyphs are not included in Cormorant Garamond or DM Sans. */
 html[lang='ka'] .brand,
 html[lang='ka'] .hero h1,
@@ -1494,7 +1679,10 @@ html[lang='ka'] .loyalty-rate,
 html[lang='ka'] .loyalty-wallet-amount,
 html[lang='ka'] .loyalty-wallet-coin,
 html[lang='ka'] .loyalty-step span,
-html[lang='ka'] .loyalty-history-title {
+html[lang='ka'] .loyalty-history-title,
+html[lang='ka'] .category-hero-copy h1,
+html[lang='ka'] .category-group h2,
+html[lang='ka'] .category-item-price {
   font-family: 'Noto Serif Georgian', Georgia, serif;
 }
 html[lang='ka'] .eyebrow,

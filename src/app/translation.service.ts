@@ -6,6 +6,7 @@ export type Language = 'en' | 'ka' | 'ru';
 type Dictionary = Record<string, string>;
 
 const en: Dictionary = {
+  home: 'Home',
   services: 'Services',
   portfolio: 'Portfolio',
   about: 'About',
@@ -111,6 +112,7 @@ const en: Dictionary = {
 };
 
 const ka: Dictionary = {
+  home: 'მთავარი',
   services: 'სერვისები',
   portfolio: 'პორტფოლიო',
   about: 'ჩვენ შესახებ',
@@ -216,6 +218,7 @@ const ka: Dictionary = {
 };
 
 const ru: Dictionary = {
+  home: 'Главная',
   services: 'Услуги',
   portfolio: 'Портфолио',
   about: 'О нас',

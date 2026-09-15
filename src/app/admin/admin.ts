@@ -4,6 +4,7 @@ import { timeout } from 'rxjs';
 import { dictionaries, Language } from '../translation.service';
 import {
   BookingRecord,
+  CmsCategory,
   CmsGalleryItem,
   CmsLocation,
   CmsService,
@@ -605,10 +606,23 @@ export class Admin {
       name: { en: 'New service', ka: '', ru: '' },
       description: { en: 'Service description', ka: '', ru: '' },
       price: 0,
+      categoryId: '',
+      groupLabel: {},
+      subgroupLabel: {},
     });
   }
   removeService(index: number): void {
     if (confirm('Remove this service?')) this.model.services.splice(index, 1);
+  }
+  addCategory(): void {
+    this.model.categories.push({
+      id: crypto.randomUUID(),
+      name: { en: 'New category', ka: '', ru: '' },
+      imageUrl: '',
+    });
+  }
+  removeCategory(index: number): void {
+    if (confirm('Remove this category?')) this.model.categories.splice(index, 1);
   }
   addGalleryItem(): void {
     this.model.gallery.push({
@@ -653,6 +667,30 @@ export class Admin {
           item.imageUrl = uploadEvent.body.url;
           this.uploading = '';
           this.status = 'Portfolio image uploaded. Save to publish it.';
+        }
+        this.refresh();
+      },
+      error: () => {
+        this.uploading = '';
+        this.error = 'Image upload failed.';
+        this.refresh();
+      },
+    });
+  }
+  uploadCategoryImage(category: CmsCategory, event: Event): void {
+    const file = (event.target as HTMLInputElement).files?.[0];
+    if (!file) return;
+    this.uploading = category.id;
+    this.site.upload(file, this.token).subscribe({
+      next: (uploadEvent) => {
+        if (uploadEvent.type === HttpEventType.UploadProgress)
+          this.uploadProgress = Math.round(
+            (100 * uploadEvent.loaded) / (uploadEvent.total || uploadEvent.loaded),
+          );
+        if (uploadEvent.type === HttpEventType.Response && uploadEvent.body) {
+          category.imageUrl = uploadEvent.body.url;
+          this.uploading = '';
+          this.status = 'Category image uploaded. Save to publish it.';
         }
         this.refresh();
       },
@@ -720,6 +758,7 @@ export class Admin {
       services: structuredClone(DEFAULT_SERVICES),
       gallery: structuredClone(DEFAULT_GALLERY),
       locations: structuredClone(DEFAULT_LOCATIONS),
+      categories: [],
     };
   }
   private merge(saved: SiteContent): SiteContent {
@@ -734,6 +773,7 @@ export class Admin {
     base.services = saved.services?.length ? saved.services : base.services;
     base.gallery = saved.gallery?.length ? saved.gallery : base.gallery;
     base.locations = saved.locations?.length ? saved.locations : base.locations;
+    base.categories = saved.categories?.length ? saved.categories : base.categories;
     base.updatedAt = saved.updatedAt;
     return base;
   }
