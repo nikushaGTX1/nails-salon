@@ -5,19 +5,12 @@
     <p [appEditable]="'aboutText'">{{ i18n.t('aboutText') }}</p>
     <a class="under" href="#contact">{{ i18n.t('discover') }} →</a>
   </div>
-  <div class="studio">
+  <div class="studio" [appEditableImage]="'studioImage'">
     <img
       [src]="site.media('studioImage', '/assets/studio-interior.png')"
       alt="Nail Bar 01 studio"
       loading="lazy"
-      [appEditableCrop]="'studio'"
-      draggable="false"
     /><span class="studio-label">{{ i18n.t('studio') }}</span>
-    @if (editMode.isEditing()) {
-      <button type="button" class="replace-photo-btn" [appEditableImage]="'studioImage'">
-        Replace photo
-      </button>
-    }
   </div>
   <div class="values">
     <span

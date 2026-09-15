@@ -28,7 +28,7 @@ export class EditableText implements OnInit, OnDestroy {
 
   constructor() {
     effect(() => {
-      const active = this.editMode.isEditing();
+      const active = this.editMode.active();
       this.el.nativeElement.contentEditable = active ? 'true' : 'false';
       this.el.nativeElement.classList.toggle('is-editable', active);
       this.el.nativeElement.tabIndex = active ? 0 : -1;
@@ -47,7 +47,6 @@ export class EditableText implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.toolbar = attachFontSizeToolbar(
       this.el.nativeElement,
-      () => this.editMode.isEditing(),
       () => parseFloat(getComputedStyle(this.el.nativeElement).fontSize) || 16,
       (px) => {
         this.el.nativeElement.style.fontSize = px + 'px';
@@ -63,7 +62,7 @@ export class EditableText implements OnInit, OnDestroy {
 
   @HostListener('click', ['$event'])
   onClick(event: Event): void {
-    if (this.editMode.isEditing()) {
+    if (this.editMode.active()) {
       event.stopPropagation();
       event.preventDefault();
     }
@@ -71,7 +70,7 @@ export class EditableText implements OnInit, OnDestroy {
 
   @HostListener('blur')
   onBlur(): void {
-    if (!this.editMode.isEditing() || !this.key) return;
+    if (!this.editMode.active() || !this.key) return;
     const value = this.el.nativeElement.innerText.trim();
     this.site.setTranslation(this.i18n.language(), this.key, value);
     this.editMode.dirty.set(true);

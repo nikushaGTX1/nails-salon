@@ -6,19 +6,9 @@
           <img
             [src]="site.asset(category.imageUrl, '/assets/portfolio.png')"
             alt=""
-            [appEditableCrop]="'category:' + category.id"
-            draggable="false"
+            [appEditableItemImage]="imageSetter(category)"
           />
           <span class="category-tile-shade"></span>
-          @if (editMode.isEditing()) {
-            <button
-              type="button"
-              class="replace-photo-btn"
-              [appEditableItemImage]="imageSetter(category)"
-            >
-              Replace photo
-            </button>
-          }
           <span
             class="category-tile-label"
             [appEditableField]="fieldSetter(category.name, i18n.language())"

@@ -17,13 +17,13 @@ export class EditableItemImage {
 
   constructor() {
     effect(() => {
-      this.el.nativeElement.classList.toggle('is-editable-image', this.editMode.isEditing());
+      this.el.nativeElement.classList.toggle('is-editable-image', this.editMode.active());
     });
   }
 
   @HostListener('click', ['$event'])
   onClick(event: Event): void {
-    if (!this.editMode.isEditing()) return;
+    if (!this.editMode.active()) return;
     event.preventDefault();
     event.stopPropagation();
     this.pickFile();

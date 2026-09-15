@@ -13,17 +13,17 @@
     </div>
   </div>
   <div class="grid">
-    @for (work of filteredWorks; track work.id; let i = $index) {
+    @for (work of filteredWorks; track work.position; let i = $index) {
       <figure class="portfolio-card">
         <div
           class="crop"
+          [style.background-position]="work.position"
           [style.background-image]="
             'url(' +
             site.asset(work.imageUrl, site.media('galleryImage', '/assets/portfolio.png')) +
             ')'
           "
-          [appEditableCrop]="'gallery:' + work.id"
-          [initialPosition]="work.position"
+          [appEditableCrop]="cropSetter(work)"
         >
           <a
             class="portfolio-link"
@@ -35,7 +35,7 @@
             "
             ><span class="view-portfolio">{{ i18n.t('viewPortfolio') }} ↗</span></a
           >
-          @if (editMode.isEditing()) {
+          @if (editMode.active()) {
             <button
               type="button"
               class="replace-photo-btn"
