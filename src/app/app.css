@@ -1797,8 +1797,8 @@ footer div {
 }
 .block-drag-handle {
   position: absolute;
-  left: -9px;
-  top: -9px;
+  right: -9px;
+  top: -26px;
   width: 22px;
   height: 22px;
   display: flex;
@@ -1810,7 +1810,7 @@ footer div {
   border-radius: 6px;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
   cursor: grab;
-  z-index: 31;
+  z-index: 150;
   touch-action: none;
 }
 .block-drag-handle:active {
@@ -1827,7 +1827,7 @@ footer div {
   border-radius: 50%;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
   cursor: nwse-resize;
-  z-index: 30;
+  z-index: 149;
   touch-action: none;
 }
 

@@ -8,13 +8,15 @@ import {
   effect,
   inject,
 } from '@angular/core';
+import { attachDragResizeHandles } from './drag-resize';
 import { attachFontSizeToolbar } from './font-size-toolbar';
 import { EditModeService } from './edit-mode.service';
 import { SiteContentService } from './site-content.service';
 
 /** Generic per-item editable field: the caller supplies a setter closure (works for any array
  *  item — a service's name, a category's label, a location's phone number, etc.) plus a stable
- *  `editStyleKey` (e.g. "service:<id>:name") so its font-size override persists across reloads. */
+ *  `editStyleKey` (e.g. "service:<id>:name") so its font-size override and its own drag/resize
+ *  handles persist across reloads. */
 @Directive({ selector: '[appEditableField]', standalone: false })
 export class EditableField implements OnInit, OnDestroy {
   @Input('appEditableField') handler: (value: string) => void = () => {};
@@ -24,6 +26,7 @@ export class EditableField implements OnInit, OnDestroy {
   private readonly editMode = inject(EditModeService);
   private readonly site = inject(SiteContentService);
   private toolbar?: { destroy: () => void };
+  private dragResize?: ReturnType<typeof attachDragResizeHandles>;
 
   constructor() {
     effect(() => {
@@ -31,6 +34,7 @@ export class EditableField implements OnInit, OnDestroy {
       this.el.nativeElement.contentEditable = active ? 'true' : 'false';
       this.el.nativeElement.classList.toggle('is-editable', active);
       this.el.nativeElement.tabIndex = active ? 0 : -1;
+      this.dragResize?.setActive(active);
     });
     effect(() => {
       if (!this.editStyleKey) return;
@@ -51,10 +55,20 @@ export class EditableField implements OnInit, OnDestroy {
         this.editMode.dirty.set(true);
       },
     );
+    this.dragResize = attachDragResizeHandles(
+      this.el.nativeElement,
+      this.editStyleKey,
+      (k, f) => this.site.setting(k, f),
+      (k, v) => this.site.setSetting(k, v),
+      () => this.editMode.dirty.set(true),
+    );
+    this.dragResize.load();
+    this.dragResize.setActive(this.editMode.isEditing());
   }
 
   ngOnDestroy(): void {
     this.toolbar?.destroy();
+    this.dragResize?.destroy();
   }
 
   @HostListener('click', ['$event'])
