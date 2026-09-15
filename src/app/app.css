@@ -1830,6 +1830,15 @@ footer div {
   z-index: 149;
   touch-action: none;
 }
+/* Individual text/field handles are positioned in JS against the element's measured text
+   bounds (not its CSS box, which can stretch far wider than the visible words) — fixed instead
+   of absolute, with right/top/bottom set inline per-element rather than here. */
+.block-drag-handle--fixed,
+.block-resize-handle--fixed {
+  position: fixed;
+  right: auto;
+  bottom: auto;
+}
 .snap-guide {
   position: fixed;
   z-index: 160;

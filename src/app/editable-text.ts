@@ -66,6 +66,7 @@ export class EditableText implements OnInit, OnDestroy {
         (k, f) => this.site.setting(k, f),
         (k, v) => this.site.setSetting(k, v),
         () => this.editMode.dirty.set(true),
+        true,
       );
       this.dragResize.load();
       this.dragResize.setActive(this.editMode.isEditing());

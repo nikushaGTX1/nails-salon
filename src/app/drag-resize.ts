@@ -1,13 +1,21 @@
 /** Shared drag-to-move + drag-to-resize handles, used by any editable element (whole card blocks
  *  and individual text/fields alike). Move/resize are stored as vw/vh (viewport-relative) rather
  *  than fixed px, so a position/size set on one screen scales proportionally on another instead
- *  of staying a fixed pixel offset — not full breakpoint-perfect responsiveness, but it holds up
- *  much better across screen widths than a raw px offset would. Persists via the CMS settings
- *  map, keyed by `editKey`, under `block:<key>:pos` / `block:<key>:w` / `:h`.
+ *  of staying a fixed pixel offset. They only ever apply above the site's mobile breakpoint
+ *  (800px) — on a phone, everything renders in its original, unmoved responsive layout, so a
+ *  desktop-only drag/resize can never look broken on a visitor's phone.
  *
  *  While dragging, the element snaps to the edges/centers of other editable elements on the
- *  page (within a few pixels) and shows a thin guide line, the way a design tool aligns layers. */
+ *  page (within a few pixels) and shows a thin guide line, the way a design tool aligns layers.
+ *
+ *  `measureContent: true` (used for individual text/fields) positions the handles against the
+ *  element's actual rendered TEXT bounds rather than its CSS box — a `<p>`/`<h2>` is block-level
+ *  and its box can stretch far wider than the visible words (e.g. inside a wide grid column), so
+ *  anchoring a handle to the box's own edge would put it nowhere near what's on screen. Whole
+ *  card blocks (`measureContent: false`) anchor to the box itself, which for a card IS the
+ *  visible thing. */
 
+const MOBILE_BREAKPOINT = 800;
 const SNAP_PX = 6;
 
 let vGuide: HTMLDivElement | null = null;
@@ -68,6 +76,7 @@ export function attachDragResizeHandles(
   getSetting: (key: string, fallback: string) => string,
   setSetting: (key: string, value: string) => void,
   markDirty: () => void,
+  measureContent = false,
 ): {
   load: () => void;
   setActive: (active: boolean) => void;
@@ -80,9 +89,24 @@ export function attachDragResizeHandles(
   let sizeVh = 0;
   let dragHandle: HTMLDivElement | null = null;
   let resizeHandle: HTMLDivElement | null = null;
+  let resizeObserver: ResizeObserver | null = null;
+
+  function contentRect(): DOMRect {
+    if (measureContent) {
+      try {
+        const range = document.createRange();
+        range.selectNodeContents(hostEl);
+        const r = range.getBoundingClientRect();
+        if (r.width > 0 || r.height > 0) return r;
+      } catch {
+        // fall through to the box rect below
+      }
+    }
+    return hostEl.getBoundingClientRect();
+  }
 
   function load(): void {
-    if (!editKey) return;
+    if (!editKey || window.innerWidth <= MOBILE_BREAKPOINT) return;
     const pos = getSetting('block:' + editKey + ':pos', '');
     if (pos) {
       const [x, y] = pos.split(',').map(Number);
@@ -103,7 +127,22 @@ export function attachDragResizeHandles(
   }
 
   function ensureRelative(): void {
-    if (getComputedStyle(hostEl).position === 'static') hostEl.style.position = 'relative';
+    if (!measureContent && getComputedStyle(hostEl).position === 'static') {
+      hostEl.style.position = 'relative';
+    }
+  }
+
+  function positionFixedHandles(): void {
+    if (!measureContent) return;
+    const r = contentRect();
+    if (dragHandle) {
+      dragHandle.style.left = `${r.right + window.scrollX - 4}px`;
+      dragHandle.style.top = `${r.top + window.scrollY - 26}px`;
+    }
+    if (resizeHandle) {
+      resizeHandle.style.left = `${r.right + window.scrollX - 4}px`;
+      resizeHandle.style.top = `${r.bottom + window.scrollY - 4}px`;
+    }
   }
 
   function ensureHandles(): void {
@@ -111,21 +150,30 @@ export function attachDragResizeHandles(
     ensureRelative();
     if (!dragHandle) {
       dragHandle = document.createElement('div');
-      dragHandle.className = 'block-drag-handle';
+      dragHandle.className = measureContent ? 'block-drag-handle block-drag-handle--fixed' : 'block-drag-handle';
       dragHandle.contentEditable = 'false';
       dragHandle.setAttribute('aria-hidden', 'true');
       dragHandle.innerHTML =
         '<svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor" style="pointer-events:none"><circle cx="3" cy="3" r="1.3"/><circle cx="9" cy="3" r="1.3"/><circle cx="3" cy="9" r="1.3"/><circle cx="9" cy="9" r="1.3"/></svg>';
       dragHandle.addEventListener('pointerdown', beginDrag);
-      hostEl.appendChild(dragHandle);
+      (measureContent ? document.body : hostEl).appendChild(dragHandle);
     }
     if (!resizeHandle) {
       resizeHandle = document.createElement('div');
-      resizeHandle.className = 'block-resize-handle';
+      resizeHandle.className = measureContent
+        ? 'block-resize-handle block-resize-handle--fixed'
+        : 'block-resize-handle';
       resizeHandle.contentEditable = 'false';
       resizeHandle.setAttribute('aria-hidden', 'true');
       resizeHandle.addEventListener('pointerdown', startResize);
-      hostEl.appendChild(resizeHandle);
+      (measureContent ? document.body : hostEl).appendChild(resizeHandle);
+    }
+    if (measureContent) {
+      positionFixedHandles();
+      window.addEventListener('scroll', positionFixedHandles, true);
+      window.addEventListener('resize', positionFixedHandles);
+      resizeObserver = new ResizeObserver(positionFixedHandles);
+      resizeObserver.observe(hostEl);
     }
   }
 
@@ -134,6 +182,12 @@ export function attachDragResizeHandles(
     dragHandle = null;
     resizeHandle?.remove();
     resizeHandle = null;
+    if (measureContent) {
+      window.removeEventListener('scroll', positionFixedHandles, true);
+      window.removeEventListener('resize', positionFixedHandles);
+      resizeObserver?.disconnect();
+      resizeObserver = null;
+    }
   }
 
   function setActive(active: boolean): void {
@@ -177,6 +231,7 @@ export function attachDragResizeHandles(
       hostEl.style.transform = `translate(${pxX}px, ${pxY}px)`;
       lastPxX = pxX;
       lastPxY = pxY;
+      positionFixedHandles();
     };
     const up = () => {
       window.removeEventListener('pointermove', move);
@@ -187,6 +242,7 @@ export function attachDragResizeHandles(
       hostEl.style.transform = `translate(${posVwX}vw, ${posVhY}vh)`;
       setSetting('block:' + editKey + ':pos', `${posVwX.toFixed(2)},${posVhY.toFixed(2)}`);
       markDirty();
+      positionFixedHandles();
     };
     window.addEventListener('pointermove', move);
     window.addEventListener('pointerup', up);
@@ -208,6 +264,7 @@ export function attachDragResizeHandles(
       lastH = Math.max(24, originH + (e.clientY - startClientY));
       hostEl.style.width = lastW + 'px';
       hostEl.style.height = lastH + 'px';
+      positionFixedHandles();
     };
     const up = () => {
       window.removeEventListener('pointermove', move);
@@ -219,6 +276,7 @@ export function attachDragResizeHandles(
       setSetting('block:' + editKey + ':w', sizeVw.toFixed(2));
       setSetting('block:' + editKey + ':h', sizeVh.toFixed(2));
       markDirty();
+      positionFixedHandles();
     };
     window.addEventListener('pointermove', move);
     window.addEventListener('pointerup', up);
