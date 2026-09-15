@@ -13,7 +13,7 @@
       <source [src]="site.media('heroVideo', '/video1.mp4')" type="video/mp4" />
     </video>
     <div class="shade"></div>
-    <div class="hero-copy">
+    <div class="hero-copy" [appEditableBlock]="'heroCopy'">
       <p class="eyebrow" [appEditable]="'heroLocation'">{{ i18n.t('heroLocation') }}</p>
       <h1 [appEditable]="'heroTitle'">{{ i18n.t('heroTitle') }}</h1>
       <div class="hero-actions">

@@ -30,11 +30,4 @@ export class Gallery {
       work.imageUrl = url;
     };
   }
-
-  cropSetter(work: CmsGalleryItem): (position: string) => void {
-    return (position: string) => {
-      work.position = position;
-      this.editMode.dirty.set(true);
-    };
-  }
 }

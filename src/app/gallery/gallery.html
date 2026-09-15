@@ -13,8 +13,8 @@
     </div>
   </div>
   <div class="grid">
-    @for (work of filteredWorks; track work.position; let i = $index) {
-      <figure class="portfolio-card">
+    @for (work of filteredWorks; track work.id; let i = $index) {
+      <figure class="portfolio-card" [appEditableBlock]="'gallery:' + work.id">
         <div
           class="crop"
           [style.background-position]="work.position"
@@ -23,7 +23,6 @@
             site.asset(work.imageUrl, site.media('galleryImage', '/assets/portfolio.png')) +
             ')'
           "
-          [appEditableCrop]="cropSetter(work)"
         >
           <a
             class="portfolio-link"

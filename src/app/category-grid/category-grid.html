@@ -2,7 +2,11 @@
   <section id="categories" class="section category-grid-section">
     <div class="category-tiles">
       @for (category of site.categories(); track category.id) {
-        <a class="category-tile" [routerLink]="['/category', category.id]">
+        <a
+          class="category-tile"
+          [routerLink]="['/category', category.id]"
+          [appEditableBlock]="'category:' + category.id"
+        >
           <img
             [src]="site.asset(category.imageUrl, '/assets/portfolio.png')"
             alt=""

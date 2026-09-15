@@ -1791,6 +1791,28 @@ footer div {
   cursor: pointer;
 }
 
+.is-editable-block {
+  outline: 1px dashed rgba(216, 191, 174, 0.6);
+  outline-offset: 4px;
+  cursor: grab;
+}
+.is-editable-block:active {
+  cursor: grabbing;
+}
+.block-resize-handle {
+  position: absolute;
+  right: -7px;
+  bottom: -7px;
+  width: 16px;
+  height: 16px;
+  background: #171715;
+  border: 2px solid #fff;
+  border-radius: 50%;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+  cursor: nwse-resize;
+  z-index: 30;
+}
+
 /* Georgian glyphs are not included in Cormorant Garamond or DM Sans. */
 html[lang='ka'] .brand,
 html[lang='ka'] .hero h1,

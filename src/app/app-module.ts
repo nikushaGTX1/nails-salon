@@ -9,6 +9,7 @@ import { App } from './app';
 import { Booking } from './booking/booking';
 import { CategoryGrid } from './category-grid/category-grid';
 import { CategoryPage } from './category-page/category-page';
+import { EditableBlock } from './editable-block';
 import { EditableCrop } from './editable-crop';
 import { EditableField } from './editable-field';
 import { EditableImage } from './editable-image';
@@ -46,6 +47,7 @@ import { Admin } from './admin/admin';
     EditableField,
     EditableItemImage,
     EditableCrop,
+    EditableBlock,
     EditToolbar,
   ],
   imports: [BrowserModule, FormsModule, AppRoutingModule],

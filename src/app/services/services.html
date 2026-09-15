@@ -5,7 +5,7 @@
     <p [appEditable]="'servicesIntro'">{{ i18n.t('servicesIntro') }}</p>
   </div>
   @for (service of site.services(); track service.id; let i = $index) {
-    <article class="service">
+    <article class="service" [appEditableBlock]="'service:' + service.id">
       <span>{{ (i + 1).toString().padStart(2, '0') }}</span>
       <div>
         <h3
