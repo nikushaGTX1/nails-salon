@@ -26,7 +26,7 @@
         >
           <a
             class="portfolio-link"
-            routerLink="/portfolio"
+            [routerLink]="editMode.isEditing() ? null : '/portfolio'"
             [attr.aria-label]="
               i18n.t('viewPortfolio') +
               ': ' +

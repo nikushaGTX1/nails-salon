@@ -4,7 +4,7 @@
       @for (category of site.categories(); track category.id) {
         <a
           class="category-tile"
-          [routerLink]="['/category', category.id]"
+          [routerLink]="editMode.isEditing() ? null : ['/category', category.id]"
           [appEditableBlock]="'category:' + category.id"
         >
           <img
