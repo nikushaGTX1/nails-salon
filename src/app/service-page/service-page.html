@@ -1,0 +1,52 @@
+<main class="service-page">
+  <section class="section service-hero-section">
+    <div class="service-crumbs">
+      <a routerLink="/"><span [appEditable]="'home'">{{ i18n.t('home') }}</span></a>
+      <span aria-hidden="true">/</span>
+      @if (category(); as cat) {
+        <a [routerLink]="['/category', cat.id]">{{
+          site.localized(cat.name, i18n.language(), cat.id)
+        }}</a>
+        <span aria-hidden="true">/</span>
+      }
+      <span>{{
+        site.localized(service()?.name, i18n.language(), service()?.id)
+      }}</span>
+    </div>
+
+    <p class="eyebrow" [appEditable]="'services'">{{ i18n.t('services') }}</p>
+    <h1
+      class="service-title"
+      [appEditableField]="fieldSetter(service()?.name, i18n.language())"
+      [editStyleKey]="'service:' + serviceId() + ':name'"
+    >
+      {{ site.localized(service()?.name, i18n.language(), service()?.id) }}
+    </h1>
+    <p
+      class="service-description"
+      [appEditableField]="fieldSetter(service()?.description, i18n.language())"
+      [editStyleKey]="'service:' + serviceId() + ':description'"
+    >
+      {{ site.localized(service()?.description, i18n.language(), '') }}
+    </p>
+
+    <div class="service-price-row">
+      <span class="service-price-label" [appEditable]="'from'">{{ i18n.t('from') }}</span>
+      <span
+        class="service-price-value"
+        [appEditableField]="priceSetter()"
+        >{{ service()?.price }}</span
+      >
+      GEL
+    </div>
+
+    <a
+      class="service-book-btn"
+      href="https://taplink.cc/nail_bar_1"
+      target="_blank"
+      rel="noopener"
+    >
+      <span [appEditable]="'book'">{{ i18n.t('book') }}</span> <span aria-hidden="true">→</span>
+    </a>
+  </section>
+</main>

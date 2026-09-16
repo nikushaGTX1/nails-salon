@@ -8,23 +8,26 @@
     <article class="service" [appEditableBlock]="'service:' + service.id">
       <span>{{ (i + 1).toString().padStart(2, '0') }}</span>
       <div>
-        <h3
-          [appEditableField]="fieldSetter(service.name, i18n.language())"
-          [editStyleKey]="'service:' + service.id + ':name'"
-        >
-          {{ site.localized(service.name, i18n.language(), i18n.t('s' + (i + 1))) }}
-        </h3>
-        <p
-          [appEditableField]="fieldSetter(service.description, i18n.language())"
-          [editStyleKey]="'service:' + service.id + ':description'"
-        >
-          {{ site.localized(service.description, i18n.language(), i18n.t('sd' + (i + 1))) }}
-        </p>
+        <a class="service-link" [routerLink]="editMode.isEditing() ? null : ['/service', service.id]">
+          <h3
+            [appEditableField]="fieldSetter(service.name, i18n.language())"
+            [editStyleKey]="'service:' + service.id + ':name'"
+          >
+            {{ site.localized(service.name, i18n.language(), i18n.t('s' + (i + 1))) }}
+          </h3>
+          <p
+            [appEditableField]="fieldSetter(service.description, i18n.language())"
+            [editStyleKey]="'service:' + service.id + ':description'"
+          >
+            {{ site.localized(service.description, i18n.language(), i18n.t('sd' + (i + 1))) }}
+          </p>
+        </a>
       </div>
       <strong
         ><span [appEditable]="'from'">{{ i18n.t('from') }}</span>
         <span [appEditableField]="priceSetter(service)">{{ service.price }}</span> GEL</strong
       ><a
+        class="book-arrow"
         href="https://taplink.cc/nail_bar_1"
         target="_blank"
         rel="noopener"

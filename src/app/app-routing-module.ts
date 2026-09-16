@@ -5,6 +5,7 @@ import { Gallery } from './gallery/gallery';
 import { LoyaltyPage } from './loyalty-page/loyalty-page';
 import { Main } from './main/main';
 import { Admin } from './admin/admin';
+import { ServicePage } from './service-page/service-page';
 
 const routes: Routes = [
   { path: 'admin', component: Admin, title: 'Website admin - NAIL BAR 01' },
@@ -12,6 +13,7 @@ const routes: Routes = [
   { path: 'portfolio', component: Gallery, title: 'Portfolio — NAIL BAR 01' },
   { path: 'loyalty', component: LoyaltyPage, title: 'Loyalty — NAIL BAR 01' },
   { path: 'category/:id', component: CategoryPage, title: 'Services — NAIL BAR 01' },
+  { path: 'service/:id', component: ServicePage, title: 'Service — NAIL BAR 01' },
   { path: '**', redirectTo: '' },
 ];
 

@@ -23,6 +23,7 @@ import { LoyaltyPage } from './loyalty-page/loyalty-page';
 import { Main } from './main/main';
 import { Navigation } from './navigation/navigation';
 import { Services } from './services/services';
+import { ServicePage } from './service-page/service-page';
 import { SiteFooter } from './site-footer/site-footer';
 import { Admin } from './admin/admin';
 
@@ -32,6 +33,7 @@ import { Admin } from './admin/admin';
     Navigation,
     Main,
     Services,
+    ServicePage,
     CategoryGrid,
     CategoryPage,
     Gallery,
