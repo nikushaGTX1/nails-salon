@@ -108,6 +108,11 @@ export function attachDragResizeHandles(
   let outlineBox: HTMLDivElement | null = null;
   let resizeObserver: ResizeObserver | null = null;
   let syncTimer: ReturnType<typeof setInterval> | null = null;
+  let lastActive = false;
+
+  function isDesktopWidth(): boolean {
+    return window.innerWidth > MOBILE_BREAKPOINT;
+  }
 
   /** Box that visually wraps ALL rendered lines — used for the outline and for snap targets. */
   function unionRect(): DOMRect {
@@ -267,10 +272,21 @@ export function attachDragResizeHandles(
     }
   }
 
-  function setActive(active: boolean): void {
-    hostEl.classList.toggle('is-editable-block', active);
-    if (active) ensureHandles();
+  /** The editing chrome (handles, outline) only ever shows above the mobile breakpoint — below
+   *  it, position/size overrides are pixel-fragile anyway (see `load()`), and a phone-width
+   *  screen is far too small for a cluster of drag/resize/outline UI to be usable. Re-evaluated
+   *  on window resize so shrinking the admin's own browser mid-edit hides it cleanly instead of
+   *  leaving stale handles floating over a now-mobile layout. */
+  function applyVisibility(): void {
+    const show = lastActive && isDesktopWidth();
+    hostEl.classList.toggle('is-editable-block', show);
+    if (show) ensureHandles();
     else removeHandles();
+  }
+
+  function setActive(active: boolean): void {
+    lastActive = active;
+    applyVisibility();
   }
 
   function beginDrag(event: PointerEvent): void {
@@ -359,5 +375,15 @@ export function attachDragResizeHandles(
     window.addEventListener('pointerup', up);
   }
 
-  return { load, setActive, beginDrag, destroy: removeHandles };
+  window.addEventListener('resize', applyVisibility);
+
+  return {
+    load,
+    setActive,
+    beginDrag,
+    destroy: () => {
+      window.removeEventListener('resize', applyVisibility);
+      removeHandles();
+    },
+  };
 }

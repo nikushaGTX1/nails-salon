@@ -57,7 +57,13 @@ export class EditableText implements OnInit, OnDestroy {
         this.editMode.dirty.set(true);
       },
     );
-    if (this.key) {
+    // Skip independent drag/resize for text that's already inside a draggable card block —
+    // dragging the card AND its own heading both moving the whole thing was confusing (and a
+    // stray click on the wrong one of two overlapping handles could move the card when only
+    // the text inside it was meant to move). The card's own handle covers this; text here
+    // keeps click-to-edit and its font-size control.
+    const insideBlock = this.el.nativeElement.closest('.editable-block-root');
+    if (this.key && !insideBlock) {
       this.dragResize = attachDragResizeHandles(
         this.el.nativeElement,
         'text:' + this.key,

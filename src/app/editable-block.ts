@@ -45,6 +45,10 @@ export class EditableBlock implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     if (!this.editKey) return;
+    // Marks this as a draggable unit so nested EditableText/EditableField instances (its own
+    // heading, price, etc.) know to skip their own independent drag/resize — a permanent class,
+    // not tied to active state, so it's there for `.closest()` lookups before editing even starts.
+    this.el.nativeElement.classList.add('editable-block-root');
     this.dragResize = attachDragResizeHandles(
       this.el.nativeElement,
       this.editKey,

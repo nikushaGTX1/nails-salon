@@ -53,15 +53,21 @@ export class EditableField implements OnInit, OnDestroy {
         this.editMode.dirty.set(true);
       },
     );
-    this.dragResize = attachDragResizeHandles(
-      this.el.nativeElement,
-      this.editStyleKey,
-      (k, f) => this.site.setting(k, f),
-      (k, v) => this.site.setSetting(k, v),
-      () => this.editMode.dirty.set(true),
-      true,
-    );
-    this.dragResize.setActive(this.editMode.isEditing());
+    // Skip independent drag/resize for a field that's already inside a draggable card block —
+    // see EditableText for why (the card's own handle covers repositioning it; this element
+    // keeps click-to-edit and its font-size control).
+    const insideBlock = this.el.nativeElement.closest('.editable-block-root');
+    if (!insideBlock) {
+      this.dragResize = attachDragResizeHandles(
+        this.el.nativeElement,
+        this.editStyleKey,
+        (k, f) => this.site.setting(k, f),
+        (k, v) => this.site.setSetting(k, v),
+        () => this.editMode.dirty.set(true),
+        true,
+      );
+      this.dragResize.setActive(this.editMode.isEditing());
+    }
     // site.content() loads asynchronously (an HTTP GET), so reading it just once here —
     // before the real saved data has arrived — would silently miss it. Both reads live
     // inside effects (created here, once editStyleKey is actually set) so they re-apply
