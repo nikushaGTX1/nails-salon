@@ -1,4 +1,15 @@
-import { Directive, ElementRef, HostListener, Input, OnDestroy, OnInit, effect, inject } from '@angular/core';
+import {
+  Directive,
+  ElementRef,
+  HostListener,
+  Injector,
+  Input,
+  OnDestroy,
+  OnInit,
+  effect,
+  inject,
+  runInInjectionContext,
+} from '@angular/core';
 import { attachDragResizeHandles } from './drag-resize';
 import { EditModeService } from './edit-mode.service';
 import { SiteContentService } from './site-content.service';
@@ -25,6 +36,7 @@ export class EditableBlock implements OnInit, OnDestroy {
   private readonly el = inject(ElementRef<HTMLElement>);
   private readonly editMode = inject(EditModeService);
   private readonly site = inject(SiteContentService);
+  private readonly injector = inject(Injector);
   private dragResize?: ReturnType<typeof attachDragResizeHandles>;
 
   constructor() {
@@ -40,8 +52,12 @@ export class EditableBlock implements OnInit, OnDestroy {
       (key, value) => this.site.setSetting(key, value),
       () => this.editMode.dirty.set(true),
     );
-    this.dragResize.load();
     this.dragResize.setActive(this.editMode.isEditing());
+    // site.content() loads asynchronously (an HTTP GET), so a plain one-shot load() call
+    // can run before the real saved position has arrived. Reading it inside an effect
+    // (created only once dragResize actually exists) makes it re-apply once the data shows
+    // up, and again after every later save.
+    runInInjectionContext(this.injector, () => effect(() => this.dragResize!.load()));
   }
 
   ngOnDestroy(): void {

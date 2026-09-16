@@ -2,11 +2,13 @@ import {
   Directive,
   ElementRef,
   HostListener,
+  Injector,
   Input,
   OnDestroy,
   OnInit,
   effect,
   inject,
+  runInInjectionContext,
 } from '@angular/core';
 import { attachDragResizeHandles } from './drag-resize';
 import { attachFontSizeToolbar } from './font-size-toolbar';
@@ -25,6 +27,7 @@ export class EditableField implements OnInit, OnDestroy {
   private readonly el = inject(ElementRef<HTMLElement>);
   private readonly editMode = inject(EditModeService);
   private readonly site = inject(SiteContentService);
+  private readonly injector = inject(Injector);
   private toolbar?: { destroy: () => void };
   private dragResize?: ReturnType<typeof attachDragResizeHandles>;
 
@@ -35,11 +38,6 @@ export class EditableField implements OnInit, OnDestroy {
       this.el.nativeElement.classList.toggle('is-editable', active);
       this.el.nativeElement.tabIndex = active ? 0 : -1;
       this.dragResize?.setActive(active);
-    });
-    effect(() => {
-      if (!this.editStyleKey) return;
-      const storedPx = this.site.setting('style:' + this.editStyleKey, '');
-      if (storedPx) this.el.nativeElement.style.fontSize = storedPx + 'px';
     });
   }
 
@@ -63,8 +61,18 @@ export class EditableField implements OnInit, OnDestroy {
       () => this.editMode.dirty.set(true),
       true,
     );
-    this.dragResize.load();
     this.dragResize.setActive(this.editMode.isEditing());
+    // site.content() loads asynchronously (an HTTP GET), so reading it just once here —
+    // before the real saved data has arrived — would silently miss it. Both reads live
+    // inside effects (created here, once editStyleKey is actually set) so they re-apply
+    // once the data shows up, and again after every later save.
+    runInInjectionContext(this.injector, () => {
+      effect(() => {
+        const storedPx = this.site.setting('style:' + this.editStyleKey, '');
+        if (storedPx) this.el.nativeElement.style.fontSize = storedPx + 'px';
+      });
+      effect(() => this.dragResize?.load());
+    });
   }
 
   ngOnDestroy(): void {

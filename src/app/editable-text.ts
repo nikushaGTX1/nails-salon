@@ -2,11 +2,13 @@ import {
   Directive,
   ElementRef,
   HostListener,
+  Injector,
   Input,
   OnDestroy,
   OnInit,
   effect,
   inject,
+  runInInjectionContext,
 } from '@angular/core';
 import { attachDragResizeHandles } from './drag-resize';
 import { attachFontSizeToolbar } from './font-size-toolbar';
@@ -26,6 +28,7 @@ export class EditableText implements OnInit, OnDestroy {
   private readonly editMode = inject(EditModeService);
   private readonly site = inject(SiteContentService);
   private readonly i18n = inject(TranslationService);
+  private readonly injector = inject(Injector);
   private toolbar?: { destroy: () => void };
   private dragResize?: ReturnType<typeof attachDragResizeHandles>;
 
@@ -36,11 +39,6 @@ export class EditableText implements OnInit, OnDestroy {
       this.el.nativeElement.classList.toggle('is-editable', active);
       this.el.nativeElement.tabIndex = active ? 0 : -1;
       this.dragResize?.setActive(active);
-    });
-    effect(() => {
-      if (!this.key) return;
-      const storedPx = this.site.setting(this.styleKey, '');
-      if (storedPx) this.el.nativeElement.style.fontSize = storedPx + 'px';
     });
   }
 
@@ -68,9 +66,21 @@ export class EditableText implements OnInit, OnDestroy {
         () => this.editMode.dirty.set(true),
         true,
       );
-      this.dragResize.load();
       this.dragResize.setActive(this.editMode.isEditing());
     }
+    // site.content() (translations, media, settings...) loads asynchronously (an HTTP GET),
+    // so reading it just once here — before the real data has arrived — would silently miss
+    // it. Both reads live inside effects (created here, once `this.key` is actually set, so
+    // Angular has a real signal to react to on the first run) so they re-apply once the data
+    // shows up, and again after every later save.
+    runInInjectionContext(this.injector, () => {
+      effect(() => {
+        if (!this.key) return;
+        const storedPx = this.site.setting(this.styleKey, '');
+        if (storedPx) this.el.nativeElement.style.fontSize = storedPx + 'px';
+      });
+      effect(() => this.dragResize?.load());
+    });
   }
 
   ngOnDestroy(): void {

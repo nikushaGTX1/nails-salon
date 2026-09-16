@@ -109,6 +109,11 @@ export function attachDragResizeHandles(
     if (!editKey || window.innerWidth <= MOBILE_BREAKPOINT) return;
     const pos = getSetting('block:' + editKey + ':pos', '');
     if (pos) {
+      // A CSS entrance animation with fill-mode "both"/"forwards" keeps overriding this
+      // element's `transform` forever (animations beat even inline !important in the
+      // cascade), so our own offset would silently never render. Turn it off once we're
+      // actually placing a custom offset.
+      hostEl.style.animation = 'none';
       const [x, y] = pos.split(',').map(Number);
       posVwX = x || 0;
       posVhY = y || 0;
@@ -148,6 +153,7 @@ export function attachDragResizeHandles(
   function ensureHandles(): void {
     if (!editKey) return;
     ensureRelative();
+    hostEl.style.animation = 'none';
     if (!dragHandle) {
       dragHandle = document.createElement('div');
       dragHandle.className = measureContent ? 'block-drag-handle block-drag-handle--fixed' : 'block-drag-handle';
