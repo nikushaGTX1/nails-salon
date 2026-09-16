@@ -4,6 +4,7 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { map } from 'rxjs';
 import { TranslationService } from '../translation.service';
 import { SiteContentService } from '../site-content.service';
+import { EditModeService } from '../edit-mode.service';
 
 @Component({
   selector: 'app-category-page',
@@ -20,6 +21,7 @@ export class CategoryPage {
   constructor(
     readonly i18n: TranslationService,
     readonly site: SiteContentService,
+    readonly editMode: EditModeService,
   ) {}
 
   category() {

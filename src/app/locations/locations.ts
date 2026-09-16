@@ -20,6 +20,11 @@ export class Locations {
       location.phone = value;
     };
   }
+  areaSetter(location: CmsLocation): (value: string) => void {
+    return (value: string) => {
+      location.area = value;
+    };
+  }
   map(coordinates: string): SafeResourceUrl {
     return this.sanitizer.bypassSecurityTrustResourceUrl(
       `https://www.google.com/maps?q=${coordinates}&z=16&output=embed`,

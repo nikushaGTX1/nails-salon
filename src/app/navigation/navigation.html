@@ -16,19 +16,19 @@
   </button>
   <nav id="primary-navigation" [class.open]="menuOpen">
     <a href="/#services" (click)="navigateToSection('services', $event)"
-      ><span>01</span>{{ i18n.t('services') }}</a
+      ><span>01</span><span [appEditable]="'services'">{{ i18n.t('services') }}</span></a
     >
     <a href="/#gallery" (click)="navigateToSection('gallery', $event)"
-      ><span>02</span>{{ i18n.t('portfolio') }}</a
+      ><span>02</span><span [appEditable]="'portfolio'">{{ i18n.t('portfolio') }}</span></a
     >
     <a href="/#about" (click)="navigateToSection('about', $event)"
-      ><span>03</span>{{ i18n.t('about') }}</a
+      ><span>03</span><span [appEditable]="'about'">{{ i18n.t('about') }}</span></a
     >
     <a href="/#contact" (click)="navigateToSection('contact', $event)"
-      ><span>04</span>{{ i18n.t('locations') }}</a
+      ><span>04</span><span [appEditable]="'locations'">{{ i18n.t('locations') }}</span></a
     >
     <a href="/#loyalty" (click)="navigateToSection('loyalty', $event)"
-      ><span>05</span>{{ i18n.t('loyalty') }}</a
+      ><span>05</span><span [appEditable]="'loyalty'">{{ i18n.t('loyalty') }}</span></a
     >
     <a
       class="mobile-booking"
@@ -36,7 +36,7 @@
       target="_blank"
       rel="noopener"
       (click)="closeMenu()"
-      ><span>06</span>{{ i18n.t('book') }} ↗</a
+      ><span>06</span><span [appEditable]="'book'">{{ i18n.t('book') }}</span> ↗</a
     >
   </nav>
   <div class="topbar-actions">
@@ -52,7 +52,7 @@
       }
     </div>
     <a class="book-link" href="https://taplink.cc/nail_bar_1" target="_blank" rel="noopener"
-      >{{ i18n.t('book') }} ↗</a
+      ><span [appEditable]="'book'">{{ i18n.t('book') }}</span> ↗</a
     >
   </div>
 </header>

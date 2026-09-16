@@ -19,7 +19,13 @@
           ><span class="branch-number">{{ (i + 1).toString().padStart(2, '0') }}</span>
         </div>
         <div class="location-info">
-          <p class="eyebrow">{{ location.area }}</p>
+          <p
+            class="eyebrow"
+            [appEditableField]="areaSetter(location)"
+            [editStyleKey]="'location:' + location.id + ':area'"
+          >
+            {{ location.area }}
+          </p>
           <h3
             [appEditableField]="fieldSetter(location.address, i18n.language())"
             [editStyleKey]="'location:' + location.id + ':address'"
@@ -47,14 +53,14 @@
             [href]="directions(location.coordinates)"
             target="_blank"
             rel="noopener"
-            >{{ i18n.t('maps') }} <span>↗</span></a
+            ><span [appEditable]="'maps'">{{ i18n.t('maps') }}</span> <span>↗</span></a
           >
         </div>
       </article>
     }
   </div>
   <div class="location-footer">
-    <span>{{ i18n.t('daily') }}</span
+    <span [appEditable]="'daily'">{{ i18n.t('daily') }}</span
     ><strong>{{ site.setting('openingHours', '10:00 — 21:00') }}</strong
     ><a
       [href]="site.setting('instagramUrl', 'https://instagram.com/nail_bar_1')"

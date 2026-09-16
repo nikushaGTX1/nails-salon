@@ -1,8 +1,8 @@
 <section id="gallery" class="section gallery">
   <div class="gallery-head">
     <div>
-      <p class="eyebrow">{{ i18n.t('selectedWork') }}</p>
-      <h2>{{ i18n.t('ourPortfolio') }}</h2>
+      <p class="eyebrow" [appEditable]="'selectedWork'">{{ i18n.t('selectedWork') }}</p>
+      <h2 [appEditable]="'ourPortfolio'">{{ i18n.t('ourPortfolio') }}</h2>
     </div>
     <div class="filters" [attr.aria-label]="i18n.t('filterPortfolio')">
       @for (filter of filters; track filter) {
@@ -32,7 +32,9 @@
               ': ' +
               site.localized(work.title, i18n.language(), i18n.t('w' + (i + 1)))
             "
-            ><span class="view-portfolio">{{ i18n.t('viewPortfolio') }} ↗</span></a
+            ><span class="view-portfolio"
+              ><span [appEditable]="'viewPortfolio'">{{ i18n.t('viewPortfolio') }}</span> ↗</span
+            ></a
           >
           @if (editMode.isEditing()) {
             <button

@@ -33,11 +33,15 @@
 
   <div class="loyalty-wallet">
     <div>
-      <p class="loyalty-wallet-label">{{ i18n.t('loyaltyBalanceLabel') }}</p>
+      <p class="loyalty-wallet-label" [appEditable]="'loyaltyBalanceLabel'">
+        {{ i18n.t('loyaltyBalanceLabel') }}
+      </p>
       <p class="loyalty-wallet-amount">
         {{ currency }}{{ exampleBalanceAmount.toFixed(2) }}
       </p>
-      <small class="loyalty-example-badge">{{ i18n.t('loyaltyExample') }}</small>
+      <small class="loyalty-example-badge" [appEditable]="'loyaltyExample'">{{
+        i18n.t('loyaltyExample')
+      }}</small>
     </div>
     <span class="loyalty-wallet-coin" aria-hidden="true">₾</span>
   </div>

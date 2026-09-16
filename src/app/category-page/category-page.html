@@ -1,7 +1,9 @@
 <main class="category-page">
   <section class="section category-hero-section">
     <div class="category-crumbs">
-      <a routerLink="/">{{ i18n.t('home') }}</a>
+      <a [routerLink]="editMode.isEditing() ? null : '/'"
+        ><span [appEditable]="'home'">{{ i18n.t('home') }}</span></a
+      >
       <span aria-hidden="true">/</span>
       <span>{{ site.localized(category()?.name, i18n.language(), category()?.id) }}</span>
     </div>
@@ -14,7 +16,7 @@
       />
       <div class="category-hero-shade"></div>
       <div class="category-hero-copy">
-        <p class="eyebrow">{{ i18n.t('services') }}</p>
+        <p class="eyebrow" [appEditable]="'services'">{{ i18n.t('services') }}</p>
         <h1>{{ site.localized(category()?.name, i18n.language(), category()?.id) }}</h1>
       </div>
     </div>
@@ -55,7 +57,8 @@
                         <span>{{ site.localized(item.name, i18n.language()) }}</span>
                         <span class="category-item-dots"></span>
                         <span class="category-item-price"
-                          >{{ i18n.t('from') }} {{ item.price }} GEL</span
+                          ><span [appEditable]="'from'">{{ i18n.t('from') }}</span>
+                          {{ item.price }} GEL</span
                         >
                       </div>
                     }

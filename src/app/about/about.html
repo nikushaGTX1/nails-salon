@@ -3,22 +3,24 @@
     <p class="eyebrow" [appEditable]="'aboutUs'">{{ i18n.t('aboutUs') }}</p>
     <h2 [appEditable]="'aboutTitle'">{{ i18n.t('aboutTitle') }}</h2>
     <p [appEditable]="'aboutText'">{{ i18n.t('aboutText') }}</p>
-    <a class="under" href="#contact">{{ i18n.t('discover') }} →</a>
+    <a class="under" href="#contact"
+      ><span [appEditable]="'discover'">{{ i18n.t('discover') }}</span> →</a
+    >
   </div>
   <div class="studio" [appEditableImage]="'studioImage'">
     <img
       [src]="site.media('studioImage', '/assets/studio-interior.png')"
       alt="Nail Bar 01 studio"
       loading="lazy"
-    /><span class="studio-label">{{ i18n.t('studio') }}</span>
+    /><span class="studio-label" [appEditable]="'studio'">{{ i18n.t('studio') }}</span>
   </div>
   <div class="values">
     <span
-      >01<br /><b>{{ i18n.t('quality') }}</b></span
+      >01<br /><b [appEditable]="'quality'">{{ i18n.t('quality') }}</b></span
     ><span
-      >02<br /><b>{{ i18n.t('artists') }}</b></span
+      >02<br /><b [appEditable]="'artists'">{{ i18n.t('artists') }}</b></span
     ><span
-      >03<br /><b>{{ i18n.t('calm') }}</b></span
+      >03<br /><b [appEditable]="'calm'">{{ i18n.t('calm') }}</b></span
     >
   </div>
 </section>

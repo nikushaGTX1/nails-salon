@@ -30,27 +30,33 @@
 
     <div class="loyalty-wallet">
       <div>
-        <p class="loyalty-wallet-label">{{ i18n.t('loyaltyBalanceLabel') }}</p>
+        <p class="loyalty-wallet-label" [appEditable]="'loyaltyBalanceLabel'">
+          {{ i18n.t('loyaltyBalanceLabel') }}
+        </p>
         <p class="loyalty-wallet-amount">
           {{ currency }}{{ exampleBalanceAmount.toFixed(2) }}
         </p>
-        <small class="loyalty-example-badge">{{ i18n.t('loyaltyExample') }}</small>
+        <small class="loyalty-example-badge" [appEditable]="'loyaltyExample'">{{
+          i18n.t('loyaltyExample')
+        }}</small>
       </div>
       <span class="loyalty-wallet-coin" aria-hidden="true">₾</span>
     </div>
 
     <h3 class="loyalty-history-title">
-      {{ i18n.t('loyaltyHistory') }}
-      <small class="loyalty-example-badge">{{ i18n.t('loyaltyExample') }}</small>
+      <span [appEditable]="'loyaltyHistory'">{{ i18n.t('loyaltyHistory') }}</span>
+      <small class="loyalty-example-badge" [appEditable]="'loyaltyExample'">{{
+        i18n.t('loyaltyExample')
+      }}</small>
     </h3>
     <div class="loyalty-table-wrap">
       <table class="loyalty-table">
         <thead>
           <tr>
-            <th>{{ i18n.t('loyaltyDate') }}</th>
-            <th>{{ i18n.t('loyaltyService') }}</th>
-            <th>{{ i18n.t('loyaltyPaid') }}</th>
-            <th>{{ i18n.t('loyaltyEarned') }}</th>
+            <th [appEditable]="'loyaltyDate'">{{ i18n.t('loyaltyDate') }}</th>
+            <th [appEditable]="'loyaltyService'">{{ i18n.t('loyaltyService') }}</th>
+            <th [appEditable]="'loyaltyPaid'">{{ i18n.t('loyaltyPaid') }}</th>
+            <th [appEditable]="'loyaltyEarned'">{{ i18n.t('loyaltyEarned') }}</th>
           </tr>
         </thead>
         <tbody>
@@ -60,7 +66,12 @@
               <td>
                 {{ i18n.t(tx.serviceKey) }}
                 @if (tx.isBirthdayReward) {
-                  <span class="loyalty-birthday-badge">{{ i18n.t('loyaltyBirthdayBadge') }} · 40%</span>
+                  <span class="loyalty-birthday-badge"
+                    ><span [appEditable]="'loyaltyBirthdayBadge'">{{
+                      i18n.t('loyaltyBirthdayBadge')
+                    }}</span>
+                    · 40%</span
+                  >
                 }
               </td>
               <td>{{ tx.currency }}{{ tx.amountPaid.toFixed(2) }}</td>
@@ -70,7 +81,9 @@
         </tbody>
       </table>
     </div>
-    <p class="loyalty-note">{{ i18n.t('loyaltyBackendNote') }}</p>
+    <p class="loyalty-note" [appEditable]="'loyaltyBackendNote'">
+      {{ i18n.t('loyaltyBackendNote') }}
+    </p>
 
     <div class="loyalty-cta">
       <a
@@ -79,10 +92,11 @@
         target="_blank"
         rel="noopener"
       >
-        {{ i18n.t('loyaltyBookEarn') }} <span aria-hidden="true">→</span>
+        <span [appEditable]="'loyaltyBookEarn'">{{ i18n.t('loyaltyBookEarn') }}</span>
+        <span aria-hidden="true">→</span>
       </a>
       <a class="loyalty-btn loyalty-btn--ghost" routerLink="/">
-        {{ i18n.t('loyaltyJoin') }}
+        <span [appEditable]="'loyaltyJoin'">{{ i18n.t('loyaltyJoin') }}</span>
       </a>
     </div>
   </section>

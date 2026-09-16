@@ -13,7 +13,7 @@
     rel="noopener"
     [attr.aria-label]="i18n.t('book')"
   >
-    <span>{{ i18n.t('online') }}</span>
+    <span [appEditable]="'online'">{{ i18n.t('online') }}</span>
   </a>
   <app-site-footer />
 }

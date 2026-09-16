@@ -21,10 +21,10 @@
       </div>
     </div>
     <div class="hero-meta">
-      <span>{{ i18n.t('heroMeta') }}</span
-      ><span>01 / 04</span>
+      <span [appEditable]="'heroMeta'">{{ i18n.t('heroMeta') }}</span
+      ><span [appEditable]="'heroCounter'">{{ i18n.t('heroCounter') }}</span>
     </div>
-    <div class="scroll">{{ i18n.t('scroll') }}</div>
+    <div class="scroll" [appEditable]="'scroll'">{{ i18n.t('scroll') }}</div>
   </section>
   @if (showFilm) {
     <div class="film-modal" role="dialog" aria-modal="true" aria-label="Nail Bar film">
