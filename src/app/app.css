@@ -1720,6 +1720,23 @@ footer div {
   outline-color: #c8a88f;
   outline-style: solid;
 }
+/* Individual text/fields draw their own outline (positioned against the measured text, not
+   the element's own CSS box, which can stretch far beyond the visible words) instead of the
+   native outline above. */
+.is-editable.has-precise-outline {
+  outline: none;
+}
+.text-outline-box {
+  position: fixed;
+  z-index: 148;
+  border: 2px dashed rgba(216, 191, 174, 0.7);
+  border-radius: 4px;
+  pointer-events: none;
+}
+.text-outline-box.is-focused {
+  border-color: #c8a88f;
+  border-style: solid;
+}
 .is-editable-image {
   position: relative;
   cursor: pointer;

@@ -8,12 +8,17 @@
  *  While dragging, the element snaps to the edges/centers of other editable elements on the
  *  page (within a few pixels) and shows a thin guide line, the way a design tool aligns layers.
  *
- *  `measureContent: true` (used for individual text/fields) positions the handles against the
- *  element's actual rendered TEXT bounds rather than its CSS box — a `<p>`/`<h2>` is block-level
- *  and its box can stretch far wider than the visible words (e.g. inside a wide grid column), so
- *  anchoring a handle to the box's own edge would put it nowhere near what's on screen. Whole
- *  card blocks (`measureContent: false`) anchor to the box itself, which for a card IS the
- *  visible thing. */
+ *  `measureContent: true` (used for individual text/fields) positions the handles AND the
+ *  selection outline against the element's actual rendered TEXT bounds rather than its CSS box —
+ *  a `<p>`/`<h2>` is block-level and its box can stretch far wider than the visible words (e.g.
+ *  inside a wide grid column), so anchoring anything to the box's own edge would put it nowhere
+ *  near what's on screen. The native `.is-editable` CSS outline (which *does* follow that
+ *  stretched box) is suppressed in favor of a custom outline drawn from the same measurement, so
+ *  the outline and the handles always agree on what "the text" actually is. For multi-line text,
+ *  the drag handle anchors to the first line and the resize handle to the last line — both
+ *  stable, predictable corners — while the outline itself wraps the full multi-line union.
+ *  Whole card blocks (`measureContent: false`) anchor everything to the box itself, which for a
+ *  card IS the visible thing. */
 
 const MOBILE_BREAKPOINT = 800;
 const SNAP_PX = 6;
@@ -70,6 +75,17 @@ function nearestSnap(values: number[], targets: number[]): { value: number; delt
   return null;
 }
 
+function textClientRects(hostEl: HTMLElement): DOMRectList | null {
+  try {
+    const range = document.createRange();
+    range.selectNodeContents(hostEl);
+    const rects = range.getClientRects();
+    return rects.length > 0 ? rects : null;
+  } catch {
+    return null;
+  }
+}
+
 export function attachDragResizeHandles(
   hostEl: HTMLElement,
   editKey: string,
@@ -89,18 +105,47 @@ export function attachDragResizeHandles(
   let sizeVh = 0;
   let dragHandle: HTMLDivElement | null = null;
   let resizeHandle: HTMLDivElement | null = null;
+  let outlineBox: HTMLDivElement | null = null;
   let resizeObserver: ResizeObserver | null = null;
+  let syncTimer: ReturnType<typeof setInterval> | null = null;
 
-  function contentRect(): DOMRect {
+  /** Box that visually wraps ALL rendered lines — used for the outline and for snap targets. */
+  function unionRect(): DOMRect {
     if (measureContent) {
-      try {
-        const range = document.createRange();
-        range.selectNodeContents(hostEl);
-        const r = range.getBoundingClientRect();
-        if (r.width > 0 || r.height > 0) return r;
-      } catch {
-        // fall through to the box rect below
+      const rects = textClientRects(hostEl);
+      if (rects) {
+        let left = Infinity;
+        let top = Infinity;
+        let right = -Infinity;
+        let bottom = -Infinity;
+        for (const r of Array.from(rects)) {
+          left = Math.min(left, r.left);
+          top = Math.min(top, r.top);
+          right = Math.max(right, r.right);
+          bottom = Math.max(bottom, r.bottom);
+        }
+        if (Number.isFinite(left)) {
+          return { left, top, right, bottom, width: right - left, height: bottom - top } as DOMRect;
+        }
       }
+    }
+    return hostEl.getBoundingClientRect();
+  }
+
+  /** Stable anchor points: first line for the drag handle, last line for resize — the union
+   *  rect's own corners aren't reliable anchors once a paragraph wraps across very differently
+   *  sized lines. */
+  function firstLineRect(): DOMRect {
+    if (measureContent) {
+      const rects = textClientRects(hostEl);
+      if (rects) return rects[0];
+    }
+    return hostEl.getBoundingClientRect();
+  }
+  function lastLineRect(): DOMRect {
+    if (measureContent) {
+      const rects = textClientRects(hostEl);
+      if (rects) return rects[rects.length - 1];
     }
     return hostEl.getBoundingClientRect();
   }
@@ -139,14 +184,22 @@ export function attachDragResizeHandles(
 
   function positionFixedHandles(): void {
     if (!measureContent) return;
-    const r = contentRect();
+    const first = firstLineRect();
+    const last = lastLineRect();
     if (dragHandle) {
-      dragHandle.style.left = `${r.right + window.scrollX - 4}px`;
-      dragHandle.style.top = `${r.top + window.scrollY - 26}px`;
+      dragHandle.style.left = `${first.right - 4}px`;
+      dragHandle.style.top = `${first.top - 26}px`;
     }
     if (resizeHandle) {
-      resizeHandle.style.left = `${r.right + window.scrollX - 4}px`;
-      resizeHandle.style.top = `${r.bottom + window.scrollY - 4}px`;
+      resizeHandle.style.left = `${last.right - 4}px`;
+      resizeHandle.style.top = `${last.bottom - 4}px`;
+    }
+    if (outlineBox) {
+      const u = unionRect();
+      outlineBox.style.left = `${u.left - 4}px`;
+      outlineBox.style.top = `${u.top - 2}px`;
+      outlineBox.style.width = `${u.width + 8}px`;
+      outlineBox.style.height = `${u.height + 4}px`;
     }
   }
 
@@ -175,11 +228,24 @@ export function attachDragResizeHandles(
       (measureContent ? document.body : hostEl).appendChild(resizeHandle);
     }
     if (measureContent) {
+      hostEl.classList.add('has-precise-outline');
+      if (!outlineBox) {
+        outlineBox = document.createElement('div');
+        outlineBox.className = 'text-outline-box';
+        outlineBox.setAttribute('aria-hidden', 'true');
+        document.body.appendChild(outlineBox);
+        hostEl.addEventListener('focus', () => outlineBox?.classList.add('is-focused'));
+        hostEl.addEventListener('blur', () => outlineBox?.classList.remove('is-focused'));
+      }
       positionFixedHandles();
       window.addEventListener('scroll', positionFixedHandles, true);
       window.addEventListener('resize', positionFixedHandles);
       resizeObserver = new ResizeObserver(positionFixedHandles);
       resizeObserver.observe(hostEl);
+      // A layout shift caused by something ELSE on the page (e.g. a sibling growing taller)
+      // moves this element without changing its own size, so the ResizeObserver above won't
+      // fire — nothing short of polling reliably catches that.
+      syncTimer = setInterval(positionFixedHandles, 200);
     }
   }
 
@@ -188,11 +254,16 @@ export function attachDragResizeHandles(
     dragHandle = null;
     resizeHandle?.remove();
     resizeHandle = null;
+    outlineBox?.remove();
+    outlineBox = null;
+    hostEl.classList.remove('has-precise-outline');
     if (measureContent) {
       window.removeEventListener('scroll', positionFixedHandles, true);
       window.removeEventListener('resize', positionFixedHandles);
       resizeObserver?.disconnect();
       resizeObserver = null;
+      if (syncTimer) clearInterval(syncTimer);
+      syncTimer = null;
     }
   }
 
