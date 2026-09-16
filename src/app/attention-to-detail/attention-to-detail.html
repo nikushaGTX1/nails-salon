@@ -1,0 +1,35 @@
+<!-- Copy below is a placeholder pending the client's exact sterilization/guarantee policy text. -->
+<section id="care" class="section care">
+  <div class="intro">
+    <p class="eyebrow" [appEditable]="'attention'">{{ i18n.t('attention') }}</p>
+    <h2 [appEditable]="'attentionTitle'">{{ i18n.t('attentionTitle') }}</h2>
+    <p [appEditable]="'attentionText'">{{ i18n.t('attentionText') }}</p>
+  </div>
+
+  <div class="care-grid">
+    <article class="care-item" [appEditableBlock]="'careSterile'">
+      <span class="care-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2">
+          <path
+            d="M12 3l7 3v5c0 4.6-3 8.3-7 9.7-4-1.4-7-5.1-7-9.7V6l7-3z"
+            stroke-linejoin="round"
+          />
+          <path d="M8.5 12l2.3 2.3L15.5 9.7" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+      </span>
+      <h3 [appEditable]="'sterilizationTitle'">{{ i18n.t('sterilizationTitle') }}</h3>
+      <p [appEditable]="'sterilizationText'">{{ i18n.t('sterilizationText') }}</p>
+    </article>
+
+    <article class="care-item" [appEditableBlock]="'careGuarantee'">
+      <span class="care-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2">
+          <circle cx="12" cy="12" r="8.3" />
+          <path d="M9 12.3l2 2 4-4.3" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+      </span>
+      <h3 [appEditable]="'guaranteeTitle'">{{ i18n.t('guaranteeTitle') }}</h3>
+      <p [appEditable]="'guaranteeText'">{{ i18n.t('guaranteeText') }}</p>
+    </article>
+  </div>
+</section>

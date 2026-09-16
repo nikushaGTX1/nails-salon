@@ -4,40 +4,48 @@
     <h2 [appEditable]="'servicesTitle'">{{ i18n.t('servicesTitle') }}</h2>
     <p [appEditable]="'servicesIntro'">{{ i18n.t('servicesIntro') }}</p>
   </div>
-  @for (service of site.services(); track service.id; let i = $index) {
-    <article class="service" [appEditableBlock]="'service:' + service.id">
-      <span>{{ (i + 1).toString().padStart(2, '0') }}</span>
-      <div>
-        <a class="service-link" [routerLink]="editMode.isEditing() ? null : ['/service', service.id]">
-          <h3
-            [appEditableField]="fieldSetter(service.name, i18n.language())"
-            [editStyleKey]="'service:' + service.id + ':name'"
-          >
-            {{ site.localized(service.name, i18n.language(), i18n.t('s' + (i + 1))) }}
-          </h3>
-          <p
-            [appEditableField]="fieldSetter(service.description, i18n.language())"
-            [editStyleKey]="'service:' + service.id + ':description'"
-          >
-            {{ site.localized(service.description, i18n.language(), i18n.t('sd' + (i + 1))) }}
-          </p>
+  <div class="service-grid">
+    @for (service of site.services(); track service.id; let i = $index) {
+      <article class="service-card" [appEditableBlock]="'service:' + service.id">
+        <a
+          class="service-card-link"
+          [routerLink]="editMode.isEditing() ? null : ['/service', service.id]"
+          [style.backgroundImage]="site.serviceImage(service) ? 'url(' + site.serviceImage(service) + ')' : null"
+        >
+          <span class="service-card-index">{{ (i + 1).toString().padStart(2, '0') }}</span>
+          @if (editMode.isEditing()) {
+            <button
+              type="button"
+              class="replace-photo-btn"
+              [appEditableItemImage]="imageSetter(service)"
+            >
+              Replace photo
+            </button>
+          }
+          <div class="service-card-overlay">
+            <h3
+              [appEditableField]="fieldSetter(service.name, i18n.language())"
+              [editStyleKey]="'service:' + service.id + ':name'"
+            >
+              {{ site.localized(service.name, i18n.language(), i18n.t('s' + (i + 1))) }}
+            </h3>
+            <p
+              [appEditableField]="fieldSetter(service.description, i18n.language())"
+              [editStyleKey]="'service:' + service.id + ':description'"
+            >
+              {{ site.localized(service.description, i18n.language(), i18n.t('sd' + (i + 1))) }}
+            </p>
+            <div class="service-card-foot">
+              <strong
+                ><span [appEditable]="'from'">{{ i18n.t('from') }}</span>
+                <span [appEditableField]="priceSetter(service)">{{ service.price }}</span>
+                GEL</strong
+              >
+              <span class="book-arrow" aria-hidden="true">↗</span>
+            </div>
+          </div>
         </a>
-      </div>
-      <strong
-        ><span [appEditable]="'from'">{{ i18n.t('from') }}</span>
-        <span [appEditableField]="priceSetter(service)">{{ service.price }}</span> GEL</strong
-      ><a
-        class="book-arrow"
-        href="https://taplink.cc/nail_bar_1"
-        target="_blank"
-        rel="noopener"
-        [attr.aria-label]="
-          i18n.t('book') +
-          ' ' +
-          site.localized(service.name, i18n.language(), i18n.t('s' + (i + 1)))
-        "
-        >↗</a
-      >
-    </article>
-  }
+      </article>
+    }
+  </div>
 </section>

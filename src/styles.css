@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=DM+Sans:wght@400;500;600&family=Noto+Sans+Georgian:wght@400;500;600&family=Noto+Serif+Georgian:wght@400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Charis+SIL:ital,wght@0,400;0,700;1,400;1,700&family=Noto+Serif+Georgian:wght@400;500;600;700&display=swap');
 * {
   box-sizing: border-box;
 }
@@ -11,7 +11,7 @@ body {
   overflow-x: hidden;
   background: #f2f0eb;
   color: #171715;
-  font-family: 'DM Sans', Arial, sans-serif;
+  font-family: 'Charis SIL', 'Noto Serif Georgian', Georgia, serif;
   font-size: 16px;
   font-weight: 400;
   line-height: 1.5;
@@ -19,7 +19,10 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 html[lang='ka'] body {
-  font-family: 'Noto Sans Georgian', 'DM Sans', Arial, sans-serif;
+  font-family: 'Charis SIL', 'Noto Serif Georgian', Georgia, serif;
+}
+html[lang='ru'] body {
+  font-family: 'Charis SIL', Georgia, serif;
 }
 button,
 input,

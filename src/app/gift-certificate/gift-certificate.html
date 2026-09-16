@@ -1,0 +1,26 @@
+<section id="gift" class="section gift">
+  <div class="gift-copy" [appEditableBlock]="'giftCopy'">
+    <p class="eyebrow" [appEditable]="'giftCert'">{{ i18n.t('giftCert') }}</p>
+    <h2 [appEditable]="'giftCertTitle'">{{ i18n.t('giftCertTitle') }}</h2>
+    <p class="gift-text" [appEditable]="'giftCertText'">{{ i18n.t('giftCertText') }}</p>
+    <a class="gift-cta" [href]="phoneHref">
+      <span [appEditable]="'giftCertCta'">{{ i18n.t('giftCertCta') }}</span> →
+    </a>
+  </div>
+  <div class="gift-visual" aria-hidden="true">
+    <div class="gift-photo"></div>
+    <div class="gift-card">
+      <div class="gift-card-top">
+        <span class="gift-card-brand">NAIL BAR <em>01</em></span>
+        <span class="gift-card-number">№ 001</span>
+      </div>
+      <span class="gift-card-label" [appEditable]="'giftCertVisualLabel'">{{
+        i18n.t('giftCertVisualLabel')
+      }}</span>
+      <div class="gift-card-bottom">
+        <span class="gift-card-rule"></span>
+        <span class="gift-card-foot">Tbilisi · Georgia</span>
+      </div>
+    </div>
+  </div>
+</section>

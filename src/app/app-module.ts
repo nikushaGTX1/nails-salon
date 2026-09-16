@@ -6,6 +6,7 @@ import { provideHttpClient } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing-module';
 import { About } from './about/about';
 import { App } from './app';
+import { AttentionToDetail } from './attention-to-detail/attention-to-detail';
 import { Booking } from './booking/booking';
 import { CategoryGrid } from './category-grid/category-grid';
 import { CategoryPage } from './category-page/category-page';
@@ -17,6 +18,7 @@ import { EditableItemImage } from './editable-item-image';
 import { EditableText } from './editable-text';
 import { EditToolbar } from './edit-toolbar/edit-toolbar';
 import { Gallery } from './gallery/gallery';
+import { GiftCertificate } from './gift-certificate/gift-certificate';
 import { Locations } from './locations/locations';
 import { Loyalty } from './loyalty/loyalty';
 import { LoyaltyPage } from './loyalty-page/loyalty-page';
@@ -37,6 +39,8 @@ import { Admin } from './admin/admin';
     CategoryGrid,
     CategoryPage,
     Gallery,
+    GiftCertificate,
+    AttentionToDetail,
     About,
     Locations,
     Loyalty,

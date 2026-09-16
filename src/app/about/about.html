@@ -1,26 +1,40 @@
-<section id="about" class="section about">
-  <div class="about-copy">
-    <p class="eyebrow" [appEditable]="'aboutUs'">{{ i18n.t('aboutUs') }}</p>
-    <h2 [appEditable]="'aboutTitle'">{{ i18n.t('aboutTitle') }}</h2>
-    <p [appEditable]="'aboutText'">{{ i18n.t('aboutText') }}</p>
-    <a class="under" href="#contact"
-      ><span [appEditable]="'discover'">{{ i18n.t('discover') }}</span> →</a
-    >
+<section id="about" class="section reviews">
+  <div class="intro">
+    <p class="eyebrow" [appEditable]="'reviews'">{{ i18n.t('reviews') }}</p>
+    <h2 [appEditable]="'reviewsTitle'">{{ i18n.t('reviewsTitle') }}</h2>
+    <p [appEditable]="'reviewsText'">{{ i18n.t('reviewsText') }}</p>
   </div>
-  <div class="studio" [appEditableImage]="'studioImage'">
-    <img
-      [src]="site.media('studioImage', '/assets/studio-interior.png')"
-      alt="Nail Bar 01 studio"
-      loading="lazy"
-    /><span class="studio-label" [appEditable]="'studio'">{{ i18n.t('studio') }}</span>
+  <div class="reviews-rating">
+    <strong>5.0</strong>
+    <span><span class="reviews-stars" aria-hidden="true">★★★★★</span><span class="reviews-rating-label" [appEditable]="'reviewsRatingLabel'">{{ i18n.t('reviewsRatingLabel') }}</span></span>
   </div>
-  <div class="values">
-    <span
-      >01<br /><b [appEditable]="'quality'">{{ i18n.t('quality') }}</b></span
-    ><span
-      >02<br /><b [appEditable]="'artists'">{{ i18n.t('artists') }}</b></span
-    ><span
-      >03<br /><b [appEditable]="'calm'">{{ i18n.t('calm') }}</b></span
-    >
+  <div class="reviews-grid">
+    <article class="review-card">
+      <span class="review-number">01</span><span class="review-quote" aria-hidden="true">“</span>
+      <span class="review-demo-badge" [appEditable]="'reviewsDemoBadge'">{{
+        i18n.t('reviewsDemoBadge')
+      }}</span>
+      <span class="review-stars" aria-hidden="true">★★★★★</span>
+      <p [appEditable]="'review1Text'">{{ i18n.t('review1Text') }}</p>
+      <span class="review-name" [appEditable]="'review1Name'">{{ i18n.t('review1Name') }}</span>
+    </article>
+    <article class="review-card">
+      <span class="review-number">02</span><span class="review-quote" aria-hidden="true">“</span>
+      <span class="review-demo-badge" [appEditable]="'reviewsDemoBadge'">{{
+        i18n.t('reviewsDemoBadge')
+      }}</span>
+      <span class="review-stars" aria-hidden="true">★★★★★</span>
+      <p [appEditable]="'review2Text'">{{ i18n.t('review2Text') }}</p>
+      <span class="review-name" [appEditable]="'review2Name'">{{ i18n.t('review2Name') }}</span>
+    </article>
+    <article class="review-card">
+      <span class="review-number">03</span><span class="review-quote" aria-hidden="true">“</span>
+      <span class="review-demo-badge" [appEditable]="'reviewsDemoBadge'">{{
+        i18n.t('reviewsDemoBadge')
+      }}</span>
+      <span class="review-stars" aria-hidden="true">★★★★★</span>
+      <p [appEditable]="'review3Text'">{{ i18n.t('review3Text') }}</p>
+      <span class="review-name" [appEditable]="'review3Name'">{{ i18n.t('review3Name') }}</span>
+    </article>
   </div>
 </section>

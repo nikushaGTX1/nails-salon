@@ -23,6 +23,7 @@ export interface CmsService {
   groupLabel: LocalizedText;
   /** Expandable row label within a group, e.g. "С покрытием". */
   subgroupLabel: LocalizedText;
+  imageUrl: string;
 }
 export interface CmsCategory {
   id: string;
@@ -68,6 +69,7 @@ export const DEFAULT_SERVICES: CmsService[] = [
     categoryId: '',
     groupLabel: {},
     subgroupLabel: {},
+    imageUrl: '/assets/services/signature-manicure.png',
   },
   {
     id: 'service-2',
@@ -77,6 +79,7 @@ export const DEFAULT_SERVICES: CmsService[] = [
     categoryId: '',
     groupLabel: {},
     subgroupLabel: {},
+    imageUrl: '/assets/services/soft-gel-manicure.png',
   },
   {
     id: 'service-3',
@@ -86,6 +89,7 @@ export const DEFAULT_SERVICES: CmsService[] = [
     categoryId: '',
     groupLabel: {},
     subgroupLabel: {},
+    imageUrl: '/assets/services/essential-pedicure.png',
   },
   {
     id: 'service-4',
@@ -95,6 +99,7 @@ export const DEFAULT_SERVICES: CmsService[] = [
     categoryId: '',
     groupLabel: {},
     subgroupLabel: {},
+    imageUrl: '/assets/services/bespoke-nail-art.png',
   },
 ];
 export const DEFAULT_CATEGORIES: CmsCategory[] = [];
@@ -103,42 +108,42 @@ export const DEFAULT_GALLERY: CmsGalleryItem[] = [
     id: 'work-1',
     title: { en: 'Velvet wine', ka: '', ru: '' },
     category: 'manicure',
-    imageUrl: '',
+    imageUrl: 'https://loremflickr.com/800/800/rednails?lock=11',
     position: '0% 0%',
   },
   {
     id: 'work-2',
     title: { en: 'Olive study', ka: '', ru: '' },
     category: 'manicure',
-    imageUrl: '',
+    imageUrl: 'https://loremflickr.com/800/800/nailpolish?lock=12',
     position: '50% 0%',
   },
   {
     id: 'work-3',
     title: { en: 'Blush steps', ka: '', ru: '' },
     category: 'pedicure',
-    imageUrl: '',
+    imageUrl: 'https://loremflickr.com/800/800/pedicure?lock=13',
     position: '100% 0%',
   },
   {
     id: 'work-4',
     title: { en: 'Quiet pink', ka: '', ru: '' },
     category: 'manicure',
-    imageUrl: '',
+    imageUrl: 'https://loremflickr.com/800/800/pinknails?lock=14',
     position: '0% 100%',
   },
   {
     id: 'work-5',
     title: { en: 'Golden lines', ka: '', ru: '' },
     category: 'nailArt',
-    imageUrl: '',
+    imageUrl: 'https://loremflickr.com/800/800/nailart?lock=15',
     position: '50% 100%',
   },
   {
     id: 'work-6',
     title: { en: 'Red hour', ka: '', ru: '' },
     category: 'pedicure',
-    imageUrl: '',
+    imageUrl: 'https://loremflickr.com/800/800/pedicurespa?lock=16',
     position: '100% 100%',
   },
 ];
@@ -202,6 +207,24 @@ export class SiteContentService {
     const url = value || fallback;
     return url.startsWith('/uploads/') ? this.apiUrl + url : url;
   }
+  serviceImage(service: CmsService | undefined): string {
+    if (!service) return '';
+    const curated: Record<string, string> = {
+      'service-1': '/assets/services/signature-manicure.png',
+      'service-2': '/assets/services/soft-gel-manicure.png',
+      'service-3': '/assets/services/essential-pedicure.png',
+      'service-4': '/assets/services/bespoke-nail-art.png',
+    };
+    const source = service.imageUrl || curated[service.id] || '';
+    const selected = source.includes('loremflickr.com') ? curated[service.id] || source : source;
+    return this.asset(selected, curated[service.id] || '');
+  }
+  galleryImage(item: CmsGalleryItem): string {
+    const source = item.imageUrl || '/assets/portfolio.png';
+    return source.includes('loremflickr.com')
+      ? '/assets/portfolio.png'
+      : this.asset(source, '/assets/portfolio.png');
+  }
   setting(key: string, fallback: string): string {
     return this.content().settings[key] || fallback;
   }
@@ -247,6 +270,13 @@ export class SiteContentService {
   }
   locations(): CmsLocation[] {
     return this.content().locations?.length ? this.content().locations : DEFAULT_LOCATIONS;
+  }
+  /** Salon's primary contact number, reused wherever a single phone CTA is needed. */
+  primaryPhone(): string {
+    return this.locations()[0]?.phone ?? '';
+  }
+  phoneHref(phone: string): string {
+    return phone.replace(/[^+\d]/g, '');
   }
   categories(): CmsCategory[] {
     return this.content().categories?.length ? this.content().categories : DEFAULT_CATEGORIES;

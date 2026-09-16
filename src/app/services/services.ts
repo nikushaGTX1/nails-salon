@@ -17,6 +17,12 @@ export class Services {
     };
   }
 
+  imageSetter(service: CmsService): (url: string) => void {
+    return (url: string) => {
+      service.imageUrl = url;
+    };
+  }
+
   priceSetter(service: CmsService): (value: string) => void {
     return (value: string) => {
       const parsed = Number(value.replace(/[^\d.]/g, ''));

@@ -70,7 +70,7 @@ export class Admin {
       keys: [
         'services',
         'portfolio',
-        'about',
+        'reviews',
         'locations',
         'loyalty',
         'book',
@@ -103,10 +103,43 @@ export class Admin {
       keys: ['selectedWork', 'ourPortfolio', 'all', 'manicure', 'pedicure', 'nailArt'],
     },
     {
-      id: 'about',
-      title: 'About section',
-      description: 'Studio story and the three values displayed below the image.',
-      keys: ['aboutUs', 'aboutTitle', 'aboutText', 'studio', 'quality', 'artists', 'calm'],
+      id: 'gift',
+      title: 'Gift certificate section',
+      description: 'Homepage section offering a gift certificate, with a phone call-to-action.',
+      keys: ['giftCert', 'giftCertTitle', 'giftCertText', 'giftCertCta', 'giftCertVisualLabel'],
+    },
+    {
+      id: 'attention',
+      title: 'Attention to detail section',
+      description: 'Sterilization and guarantee information shown on the homepage.',
+      keys: [
+        'attention',
+        'attentionTitle',
+        'attentionText',
+        'sterilizationTitle',
+        'sterilizationText',
+        'guaranteeTitle',
+        'guaranteeText',
+      ],
+    },
+    {
+      id: 'reviews',
+      title: 'Reviews section',
+      description:
+        'Ratings and client reviews shown on the homepage (replaces the old About section). Review text below is demo data — replace with real client reviews.',
+      keys: [
+        'reviews',
+        'reviewsTitle',
+        'reviewsText',
+        'reviewsRatingLabel',
+        'reviewsDemoBadge',
+        'review1Name',
+        'review1Text',
+        'review2Name',
+        'review2Text',
+        'review3Name',
+        'review3Text',
+      ],
     },
     {
       id: 'locations',
@@ -189,7 +222,6 @@ export class Admin {
   readonly labels: Record<string, string> = {
     services: 'Menu — Services',
     portfolio: 'Menu — Portfolio',
-    about: 'Menu — About',
     locations: 'Menu — Locations',
     loyalty: 'Menu — Loyalty',
     loyaltyLabel: 'Loyalty — Small section label',
@@ -223,7 +255,6 @@ export class Admin {
     online: 'Floating booking button',
     explore: 'Explore services label',
     viewPortfolio: 'View portfolio button',
-    discover: 'Discover studios link',
     maps: 'Google Maps link',
     from: 'Price prefix',
     heroLocation: 'Small location line',
@@ -252,13 +283,29 @@ export class Admin {
     w4: 'Photo 4 caption',
     w5: 'Photo 5 caption',
     w6: 'Photo 6 caption',
-    aboutUs: 'Small section label',
-    aboutTitle: 'About headline',
-    aboutText: 'About paragraph',
-    studio: 'Studio image caption',
-    quality: 'Value 1',
-    artists: 'Value 2',
-    calm: 'Value 3',
+    giftCert: 'Small section label',
+    giftCertTitle: 'Gift certificate headline',
+    giftCertText: 'Gift certificate paragraph',
+    giftCertCta: 'Order button',
+    giftCertVisualLabel: 'Certificate card label',
+    attention: 'Small section label',
+    attentionTitle: 'Attention to detail headline',
+    attentionText: 'Attention to detail introduction',
+    sterilizationTitle: 'Sterilization — title',
+    sterilizationText: 'Sterilization — text',
+    guaranteeTitle: 'Guarantee — title',
+    guaranteeText: 'Guarantee — text',
+    reviews: 'Menu — Reviews / small section label',
+    reviewsTitle: 'Reviews headline',
+    reviewsText: 'Reviews introduction',
+    reviewsRatingLabel: 'Rating label',
+    reviewsDemoBadge: 'Demo badge text',
+    review1Name: 'Review 1 — Name (demo)',
+    review1Text: 'Review 1 — Text (demo)',
+    review2Name: 'Review 2 — Name (demo)',
+    review2Text: 'Review 2 — Text (demo)',
+    review3Name: 'Review 3 — Name (demo)',
+    review3Text: 'Review 3 — Text (demo)',
     ourLocations: 'Small section label',
     locationsTitle: 'Locations headline',
     locationsText: 'Locations introduction',
@@ -616,6 +663,7 @@ export class Admin {
       categoryId: '',
       groupLabel: {},
       subgroupLabel: {},
+      imageUrl: '',
     });
   }
   removeService(index: number): void {
@@ -698,6 +746,30 @@ export class Admin {
           category.imageUrl = uploadEvent.body.url;
           this.uploading = '';
           this.status = 'Category image uploaded. Save to publish it.';
+        }
+        this.refresh();
+      },
+      error: () => {
+        this.uploading = '';
+        this.error = 'Image upload failed.';
+        this.refresh();
+      },
+    });
+  }
+  uploadServiceImage(service: CmsService, event: Event): void {
+    const file = (event.target as HTMLInputElement).files?.[0];
+    if (!file) return;
+    this.uploading = service.id;
+    this.site.upload(file, this.token).subscribe({
+      next: (uploadEvent) => {
+        if (uploadEvent.type === HttpEventType.UploadProgress)
+          this.uploadProgress = Math.round(
+            (100 * uploadEvent.loaded) / (uploadEvent.total || uploadEvent.loaded),
+          );
+        if (uploadEvent.type === HttpEventType.Response && uploadEvent.body) {
+          service.imageUrl = uploadEvent.body.url;
+          this.uploading = '';
+          this.status = 'Service image uploaded. Save to publish it.';
         }
         this.refresh();
       },

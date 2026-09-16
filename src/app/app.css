@@ -333,53 +333,92 @@ router-outlet + * {
   color: #666;
   margin: 35px 0;
 }
-.service {
+.service-grid {
   display: grid;
-  grid-template-columns: 70px 1fr 160px 40px;
-  gap: 25px;
-  align-items: center;
-  border-top: 1px solid var(--line);
-  padding: 27px 0;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 28px;
 }
-.service > span {
+.service-card-link {
+  position: relative;
+  display: block;
+  aspect-ratio: 4 / 5;
+  border-radius: 18px;
+  overflow: hidden;
+  background: #d9d5cc center/cover no-repeat;
+  color: #fff;
+  isolation: isolate;
+}
+.service-card-link::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(10, 10, 8, 0.88) 0%,
+    rgba(10, 10, 8, 0.35) 45%,
+    rgba(10, 10, 8, 0) 75%
+  );
+  z-index: 1;
+}
+.service-card-index {
+  position: relative;
+  z-index: 2;
+  display: block;
+  padding: 20px 24px 0;
   font:
     500 15px 'Cormorant Garamond',
     Georgia,
     serif;
-  color: #888;
+  color: rgba(255, 255, 255, 0.75);
 }
-.service h3 {
+.service-card-overlay {
+  position: absolute;
+  z-index: 2;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 24px;
+  transition: transform 0.4s ease;
+}
+.service-card h3 {
   font:
     500 30px 'Cormorant Garamond',
     Georgia,
     serif;
   text-transform: uppercase;
-  margin: 0 0 6px;
+  margin: 0 0 8px;
 }
-.service p {
+.service-card p {
   font-size: 13px;
-  color: #5f5b55;
-  margin: 0;
+  color: rgba(255, 255, 255, 0.78);
+  margin: 0 0 18px;
+  max-width: 32ch;
 }
-.service strong {
-  font-size: 10px;
+.service-card-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.service-card-foot strong {
+  font-size: 11px;
   font-weight: 400;
+  letter-spacing: 0.04em;
 }
-.service .book-arrow {
+.service-card .book-arrow {
   width: 38px;
   height: 38px;
-  border: 1px solid var(--line);
+  border: 1px solid rgba(255, 255, 255, 0.6);
   border-radius: 50%;
   display: grid;
   place-items: center;
+  transition: background 0.25s ease;
 }
-.service:hover .book-arrow {
-  background: #191918;
-  color: #fff;
+.service-card-link:hover .book-arrow {
+  background: #fff;
+  color: #191918;
 }
-.service-link {
-  display: block;
-  color: inherit;
+.service-card-link:hover .service-card-overlay {
+  transform: translateY(-4px);
 }
 .gallery {
   background: #e9e6e0;
@@ -479,73 +518,6 @@ figcaption {
 }
 figcaption small {
   font: 9px 'DM Sans';
-}
-.about {
-  display: grid;
-  grid-template-columns: 0.72fr 1.28fr;
-  gap: 8vw;
-}
-.about-copy > p:nth-of-type(2) {
-  font-size: 14px;
-  line-height: 1.9;
-  max-width: 430px;
-  margin: 45px 0;
-}
-.under {
-  font-size: 10px;
-  text-transform: uppercase;
-  letter-spacing: 0.15em;
-  border-bottom: 1px solid;
-  padding-bottom: 6px;
-}
-.studio {
-  min-height: 600px;
-  position: relative;
-  overflow: hidden;
-  background: #b9aea1;
-}
-.studio img {
-  display: block;
-  width: 100%;
-  height: 100%;
-  min-height: 600px;
-  object-fit: cover;
-  object-position: center;
-  transition: transform 0.8s ease;
-}
-.studio:hover img {
-  transform: scale(1.015);
-}
-.studio-label {
-  position: absolute;
-  right: 18px;
-  bottom: 18px;
-  padding: 10px 13px;
-  background: rgba(242, 240, 235, 0.92);
-  color: var(--ink);
-  font-size: 9px;
-  font-weight: 500;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-}
-.values {
-  grid-column: 1/-1;
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  border-top: 1px solid var(--line);
-  padding-top: 30px;
-  font-size: 11px;
-  color: #66625c;
-}
-.values b {
-  display: block;
-  margin-top: 8px;
-  text-transform: uppercase;
-  color: #222;
-  font-weight: 400;
-  letter-spacing: 0.1em;
 }
 .booking {
   display: grid;
@@ -1003,14 +975,11 @@ footer div {
   .intro > p:last-child {
     max-width: 400px;
   }
-  .service {
-    grid-template-columns: 36px 1fr 36px;
+  .service-grid {
+    grid-template-columns: 1fr;
   }
-  .service strong {
-    display: none;
-  }
-  .service h3 {
-    font-size: 21px;
+  .service-card h3 {
+    font-size: 24px;
   }
   .gallery-head {
     display: block;
@@ -1022,19 +991,19 @@ footer div {
   .grid {
     grid-template-columns: 1fr 1fr;
   }
-  .about,
-  .booking {
+  .booking,
+  .gift {
     grid-template-columns: 1fr;
   }
-  .studio {
-    min-height: 450px;
+  .gift-visual {
+    order: -1;
   }
-  .studio img {
-    min-height: 450px;
-  }
-  .values {
+  .care-grid {
     grid-template-columns: 1fr;
-    gap: 20px;
+    gap: 40px;
+  }
+  .reviews-grid {
+    grid-template-columns: 1fr;
   }
   .locations-head {
     grid-template-columns: 1fr;
@@ -1090,9 +1059,6 @@ footer div {
   }
   .crop {
     border-radius: 16px;
-  }
-  .service p {
-    display: none;
   }
   .form-row {
     grid-template-columns: 1fr;
@@ -1672,9 +1638,83 @@ footer div {
 .service-page {
   background: var(--paper);
 }
+.service-back-btn {
+  position: absolute;
+  top: 40px;
+  left: max(7.5vw, calc((100vw - 1600px) / 2));
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink);
+}
 .service-hero-section {
+  position: relative;
   padding-top: 150px;
-  max-width: 780px;
+  display: grid;
+  grid-template-columns: 0.85fr 1fr;
+  gap: 6vw;
+  align-items: center;
+}
+.service-hero-media {
+  position: relative;
+  padding: 18px 0 0 18px;
+}
+.service-hero-frame {
+  position: absolute;
+  inset: 0 18px 18px 0;
+  border: 1px solid var(--line);
+  border-radius: 22px;
+}
+.service-hero-image {
+  position: relative;
+  aspect-ratio: 4 / 5;
+  border-radius: 22px;
+  background: #d9d5cc center/cover no-repeat;
+  box-shadow: 0 30px 60px -20px rgba(20, 18, 15, 0.35);
+}
+.service-hero-placeholder {
+  aspect-ratio: 4 / 5;
+  border-radius: 22px;
+  display: grid;
+  place-items: center;
+  background: radial-gradient(circle at 30% 25%, #3a3733, #171715 70%);
+}
+.service-hero-placeholder span {
+  font:
+    500 clamp(90px, 14vw, 160px) 'Cormorant Garamond',
+    Georgia,
+    serif;
+  color: rgba(255, 255, 255, 0.9);
+}
+.service-price-card {
+  position: absolute;
+  left: -4px;
+  bottom: -22px;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 18px 26px;
+  display: flex;
+  align-items: baseline;
+  gap: 9px;
+  box-shadow: 0 22px 44px rgba(20, 18, 15, 0.16);
+}
+.service-price-label {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: #68645e;
+}
+.service-price-value {
+  font: 500 30px 'Cormorant Garamond', Georgia, serif;
+}
+.service-price-currency {
+  font-size: 12px;
+  color: #68645e;
 }
 .service-crumbs {
   display: flex;
@@ -1686,6 +1726,7 @@ footer div {
   text-transform: uppercase;
   color: #68645e;
   margin-bottom: 28px;
+  flex-wrap: wrap;
 }
 .service-title {
   margin: 0 0 26px;
@@ -1694,29 +1735,11 @@ footer div {
   letter-spacing: 0.02em;
 }
 .service-description {
-  margin: 0 0 40px;
-  max-width: 520px;
+  margin: 0 0 44px;
+  max-width: 460px;
   color: #5f5b55;
   font-size: 15px;
   line-height: 1.8;
-}
-.service-price-row {
-  display: flex;
-  align-items: baseline;
-  gap: 10px;
-  padding: 26px 0;
-  border-top: 1px solid var(--line);
-  border-bottom: 1px solid var(--line);
-  margin-bottom: 40px;
-}
-.service-price-label {
-  font-size: 11px;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  color: #68645e;
-}
-.service-price-value {
-  font: 500 26px 'Cormorant Garamond', Georgia, serif;
 }
 .service-book-btn {
   display: inline-flex;
@@ -1731,9 +1754,64 @@ footer div {
   font-weight: 500;
   letter-spacing: 0.16em;
 }
+.service-more-section {
+  border-bottom: 0;
+}
+.service-more-section h2 {
+  margin-bottom: 50px;
+}
+.service-more-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+.service-more-card {
+  display: block;
+  color: inherit;
+}
+.service-more-image {
+  aspect-ratio: 4 / 3;
+  border-radius: 16px;
+  background: #d9d5cc center/cover no-repeat;
+  background-size: 100%;
+  margin-bottom: 16px;
+  transition: background-size 0.5s ease;
+}
+.service-more-card:hover .service-more-image {
+  background-size: 112%;
+}
+.service-more-image--placeholder {
+  display: grid;
+  place-items: center;
+  background: radial-gradient(circle at 30% 25%, #3a3733, #171715 70%);
+}
+.service-more-image--placeholder span {
+  font: 500 46px 'Cormorant Garamond', Georgia, serif;
+  color: rgba(255, 255, 255, 0.9);
+}
+.service-more-card h3 {
+  font: 500 20px 'Cormorant Garamond', Georgia, serif;
+  text-transform: uppercase;
+  margin: 0 0 6px;
+}
+.service-more-price {
+  font-size: 12px;
+  color: #68645e;
+}
 @media (max-width: 800px) {
   .service-hero-section {
     padding-top: 120px;
+    grid-template-columns: 1fr;
+    gap: 50px;
+  }
+  .service-price-card {
+    left: -4px;
+  }
+  .service-more-grid {
+    grid-template-columns: 1fr;
+  }
+  .service-back-btn {
+    top: 24px;
   }
 }
 
@@ -1951,8 +2029,8 @@ footer div {
 html[lang='ka'] .brand,
 html[lang='ka'] .hero h1,
 html[lang='ka'] .section h2,
-html[lang='ka'] .service > span,
-html[lang='ka'] .service h3,
+html[lang='ka'] .service-card-index,
+html[lang='ka'] .service-card h3,
 html[lang='ka'] figcaption,
 html[lang='ka'] .branch-number,
 html[lang='ka'] .location-info h3,
@@ -1967,18 +2045,43 @@ html[lang='ka'] .category-hero-copy h1,
 html[lang='ka'] .category-group h2,
 html[lang='ka'] .category-item-price,
 html[lang='ka'] .service-title,
-html[lang='ka'] .service-price-value {
+html[lang='ka'] .service-price-value,
+html[lang='ka'] .gift-card-brand,
+html[lang='ka'] .gift-card-label,
+html[lang='ka'] .care-item h3 {
   font-family: 'Noto Serif Georgian', Georgia, serif;
 }
 html[lang='ka'] .eyebrow,
 html[lang='ka'] .topbar nav a,
 html[lang='ka'] .book-link,
-html[lang='ka'] .values b,
 html[lang='ka'] .directions,
 html[lang='ka'] .location-footer,
 html[lang='ka'] .booking label,
 html[lang='ka'] .booking button {
   letter-spacing: 0.04em;
+}
+html[lang='ru'] .hero h1,
+html[lang='ru'] .section h2,
+html[lang='ru'] .service-card h3,
+html[lang='ru'] figcaption,
+html[lang='ru'] .branch-number,
+html[lang='ru'] .location-info h3,
+html[lang='ru'] .topbar nav a,
+html[lang='ru'] .loyalty-card h3,
+html[lang='ru'] .loyalty-rate,
+html[lang='ru'] .loyalty-wallet-amount,
+html[lang='ru'] .loyalty-wallet-coin,
+html[lang='ru'] .loyalty-step span,
+html[lang='ru'] .loyalty-history-title,
+html[lang='ru'] .category-hero-copy h1,
+html[lang='ru'] .category-group h2,
+html[lang='ru'] .category-item-price,
+html[lang='ru'] .service-title,
+html[lang='ru'] .service-price-value,
+html[lang='ru'] .gift-card-brand,
+html[lang='ru'] .gift-card-label,
+html[lang='ru'] .care-item h3 {
+  font-family: 'Forum', Georgia, serif;
 }
 @media (prefers-reduced-motion: reduce) {
   html {
@@ -1993,4 +2096,604 @@ html[lang='ka'] .booking button {
     transform: none;
     transition: none;
   }
+}
+
+/* ---- 2026 editorial services refresh ---- */
+.service-grid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: clamp(12px, 1.4vw, 22px);
+}
+.service-page {
+  background: #eeeae3;
+}
+.service-page .service-hero-section {
+  min-height: min(860px, 100svh);
+  padding-top: 142px;
+  padding-bottom: 96px;
+  grid-template-columns: minmax(320px, 0.92fr) minmax(360px, 1.08fr);
+  gap: clamp(54px, 8vw, 130px);
+  background:
+    radial-gradient(circle at 88% 16%, rgba(153, 35, 48, 0.09), transparent 28%),
+    #eeeae3;
+}
+.service-page .service-back-btn {
+  top: 110px;
+  padding-bottom: 5px;
+  border-bottom: 1px solid #aaa39a;
+}
+.service-page .service-hero-media {
+  padding: 0;
+}
+.service-page .service-hero-frame {
+  inset: 22px -22px -22px 22px;
+  border-radius: 0;
+  border-color: #bfb8ae;
+}
+.service-page .service-hero-image,
+.service-page .service-hero-placeholder {
+  aspect-ratio: 4 / 5;
+  border-radius: 0;
+}
+.service-page .service-price-card {
+  left: auto;
+  right: -22px;
+  bottom: -22px;
+  min-width: 170px;
+  justify-content: center;
+  border: 0;
+  border-radius: 0;
+  background: #7d1f2a;
+  color: #fff;
+  box-shadow: none;
+}
+.service-page .service-price-label,
+.service-page .service-price-currency {
+  color: rgba(255, 255, 255, 0.7);
+}
+.service-page .service-crumbs {
+  margin-bottom: 58px;
+}
+.service-page .service-hero-content .eyebrow {
+  margin-bottom: 20px;
+  color: #7d1f2a;
+}
+.service-page .service-title {
+  max-width: 9ch;
+  margin-bottom: 30px;
+  font-size: clamp(52px, 6.2vw, 88px);
+  line-height: 0.86;
+  letter-spacing: -0.035em;
+}
+.service-page .service-description {
+  max-width: 42ch;
+  padding-top: 25px;
+  border-top: 1px solid #c7c0b6;
+  font-size: 16px;
+}
+.service-page .service-book-btn {
+  min-width: 210px;
+  justify-content: space-between;
+  background: #171715;
+}
+.service-page .service-book-btn:hover {
+  background: #7d1f2a;
+}
+.service-page .service-more-section {
+  padding-top: 96px;
+  background: #171715;
+  color: #f4f0e9;
+}
+.service-page .service-more-section > .eyebrow {
+  color: #caa9a0;
+}
+.service-page .service-more-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(18px, 2vw, 32px);
+}
+.service-page .service-more-image {
+  aspect-ratio: 4 / 5;
+  border-radius: 0;
+  margin-bottom: 20px;
+  background-size: cover;
+}
+.service-page .service-more-card:hover .service-more-image {
+  background-size: cover;
+  transform: translateY(-6px);
+}
+.service-page .service-more-card h3 {
+  font-size: 25px;
+}
+.service-page .service-more-price {
+  color: #aaa39a;
+}
+@media (max-width: 1100px) {
+  .service-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (max-width: 800px) {
+  .service-page .service-hero-section {
+    min-height: 0;
+    padding-top: 126px;
+    grid-template-columns: 1fr;
+    gap: 72px;
+  }
+  .service-page .service-back-btn {
+    top: 92px;
+  }
+  .service-page .service-hero-media {
+    margin-right: 18px;
+  }
+  .service-page .service-crumbs {
+    margin-bottom: 34px;
+  }
+  .service-page .service-title {
+    font-size: clamp(48px, 15vw, 68px);
+  }
+  .service-page .service-more-grid {
+    grid-template-columns: repeat(3, minmax(240px, 1fr));
+    overflow-x: auto;
+    padding-bottom: 20px;
+    scroll-snap-type: x mandatory;
+  }
+  .service-page .service-more-card {
+    scroll-snap-align: start;
+  }
+}
+@media (max-width: 620px) {
+  .service-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ---- Gift Certificate ---- */
+.gift {
+  display: grid;
+  grid-template-columns: 0.9fr 1.1fr;
+  align-items: center;
+  gap: 8vw;
+}
+.gift-text {
+  font-size: 14px;
+  line-height: 1.9;
+  max-width: 430px;
+  margin: 30px 0 40px;
+  color: #66625c;
+}
+.gift-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  height: 62px;
+  padding: 0 30px;
+  background: #191918;
+  color: #fff;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  font-size: 11px;
+  font-weight: 500;
+  transition:
+    transform 0.2s ease,
+    background 0.2s ease;
+}
+.gift-cta:hover {
+  transform: translateY(-2px);
+  background: #2b2a28;
+}
+.gift-visual {
+  display: flex;
+  justify-content: center;
+}
+.gift-card {
+  position: relative;
+  width: 100%;
+  max-width: 420px;
+  aspect-ratio: 8 / 5;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 34px 36px;
+  background: linear-gradient(155deg, #f7f5f0 0%, #ece7dd 100%);
+  border: 1px solid #d7d3cc;
+  color: var(--ink);
+  transition:
+    transform 0.35s ease,
+    box-shadow 0.35s ease;
+  box-shadow: 0 30px 60px -35px rgba(23, 23, 21, 0.35);
+}
+.gift-card::before {
+  content: '';
+  position: absolute;
+  inset: 12px;
+  border: 1px solid rgba(23, 23, 21, 0.18);
+  pointer-events: none;
+}
+.gift-card:hover {
+  transform: translateY(-6px) rotate(-0.4deg);
+  box-shadow: 0 40px 70px -32px rgba(23, 23, 21, 0.42);
+}
+.gift-card-brand {
+  font:
+    500 20px 'Cormorant Garamond',
+    Georgia,
+    serif;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+}
+.gift-card-brand em {
+  font-style: normal;
+  font-weight: 600;
+}
+.gift-card-label {
+  font:
+    500 30px 'Cormorant Garamond',
+    Georgia,
+    serif;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  line-height: 1.15;
+}
+.gift-card-rule {
+  display: block;
+  width: 56px;
+  height: 1px;
+  background: var(--ink);
+  opacity: 0.35;
+}
+.gift-card-foot {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: #66625c;
+}
+
+/* ---- Attention to Detail / Sterilization & Guarantee ---- */
+.care {
+  background: #e9e6e0;
+}
+.care-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 3vw;
+}
+.care-item {
+  padding: 40px 6px 0;
+  border-top: 1px solid var(--line);
+}
+.care-icon {
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  border: 1px solid #c9c5bd;
+  border-radius: 50%;
+  color: #66625c;
+  margin-bottom: 22px;
+}
+.care-icon svg {
+  width: 22px;
+  height: 22px;
+}
+.care-item h3 {
+  font:
+    500 26px 'Cormorant Garamond',
+    Georgia,
+    serif;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  margin: 0 0 12px;
+}
+.care-item p {
+  font-size: 14px;
+  line-height: 1.8;
+  color: #66625c;
+  max-width: 420px;
+  margin: 0;
+}
+
+/* ---- Reviews / Trust ---- */
+.reviews-rating {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 50px;
+}
+.reviews-stars {
+  color: #d8bfae;
+  letter-spacing: 0.1em;
+  font-size: 18px;
+}
+.reviews-rating-label {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  color: #66625c;
+}
+.reviews-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+.review-card {
+  position: relative;
+  padding: 30px 26px 26px;
+  border: 1px solid var(--line);
+  background: #f7f5f0;
+  transition:
+    transform 0.25s ease,
+    border-color 0.25s ease;
+}
+.review-card:hover {
+  transform: translateY(-4px);
+  border-color: #a9a396;
+}
+.review-demo-badge {
+  display: inline-block;
+  margin-bottom: 14px;
+  font-size: 9px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #6b655e;
+  border: 1px solid #c9c5bd;
+  border-radius: 999px;
+  padding: 4px 10px;
+}
+.review-stars {
+  display: block;
+  color: #d8bfae;
+  letter-spacing: 0.08em;
+  margin-bottom: 14px;
+}
+.review-card p {
+  font-size: 14px;
+  line-height: 1.75;
+  color: #3d3b37;
+  margin: 0 0 18px;
+}
+.review-name {
+  display: block;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: #66625c;
+}
+
+@media (max-width: 800px) {
+  .gift {
+    grid-template-columns: 1fr;
+    gap: 50px;
+  }
+  .gift-card {
+    max-width: 100%;
+  }
+  .care-grid {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+  .reviews-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Gift and reviews visual polish */
+.gift {
+  position: relative;
+  grid-template-columns: minmax(320px,.8fr) minmax(480px,1.2fr);
+  gap: clamp(70px,10vw,160px);
+  overflow: hidden;
+  background: #e8e1d8;
+}
+.gift::after {
+  content: '01';
+  position: absolute;
+  right: -.03em;
+  bottom: -.28em;
+  color: rgba(125,31,42,.055);
+  font: 500 clamp(220px,31vw,520px)/1 'Cormorant Garamond',Georgia,serif;
+}
+.gift-copy,.gift-visual { position: relative; z-index: 1; }
+.gift-copy .eyebrow { color: #7d1f2a; }
+.gift-copy h2 { font-size: clamp(48px,5.2vw,82px); }
+.gift-copy h2::after { content: ''; display: block; width: 72px; height: 1px; margin-top: 30px; background: #7d1f2a; }
+.gift-cta { background: #7d1f2a; }
+.gift-cta:hover { background: #171715; }
+.gift-visual { min-height: 520px; display: block; }
+.gift-photo {
+  position: absolute;
+  inset: 0 18% 8% 0;
+  background: url('/assets/hero.png') center 43%/cover no-repeat;
+  filter: saturate(.82) contrast(1.03);
+}
+.gift-card {
+  z-index: 2;
+  width: min(440px,76%);
+  margin: 165px 0 0 auto;
+  padding: 34px 38px;
+  background: #7d1f2a;
+  border-color: rgba(255,255,255,.28);
+  color: #f8f2ea;
+  box-shadow: 0 35px 70px -28px rgba(23,14,14,.65);
+}
+.gift-card::before { border-color: rgba(255,255,255,.26); }
+.gift-card-top,.gift-card-bottom { display: flex; align-items: center; justify-content: space-between; }
+.gift-card-number { font-size: 9px; letter-spacing: .18em; opacity: .68; }
+.gift-card-label { font-size: clamp(25px,2.4vw,34px); }
+.gift-card-rule { background: currentColor; opacity: .5; }
+.gift-card-foot { color: rgba(255,255,255,.7); }
+
+.reviews { position: relative; overflow: hidden; background: #171715; color: #f3eee7; }
+.reviews::before {
+  content: '“';
+  position: absolute;
+  right: 4vw;
+  top: -80px;
+  color: rgba(255,255,255,.035);
+  font: 500 420px/1 Georgia,serif;
+}
+.reviews .intro { position: relative; z-index: 1; }
+.reviews .intro>p:last-child { color: #a9a39a; }
+.reviews-rating { gap: 18px; }
+.reviews-rating strong { font: 500 48px/1 'Cormorant Garamond',Georgia,serif; color: #fff; }
+.reviews-rating>span { display: grid; gap: 3px; }
+.reviews-stars { color: #c89d88; }
+.reviews-rating-label,.review-name { color: #8e8982; }
+.reviews-grid { gap: 0; border-block: 1px solid rgba(255,255,255,.18); }
+.review-card {
+  min-height: 330px;
+  padding: 34px clamp(24px,2.5vw,42px) 30px;
+  border: 0;
+  border-right: 1px solid rgba(255,255,255,.18);
+  background: transparent;
+}
+.review-card:last-child { border-right: 0; }
+.review-card:hover { transform: translateY(-6px); background: #211f1d; }
+.review-number { float: left; font-size: 10px; letter-spacing: .16em; color: #7b7670; }
+.review-quote { float: right; height: 44px; color: #c89d88; font: 500 62px/.8 Georgia,serif; }
+.review-demo-badge { clear: both; color: #aaa39a; border-color: #514d48; }
+.review-card p { color: #f0ebe4; font: 500 clamp(17px,1.35vw,21px)/1.6 'Cormorant Garamond',Georgia,serif; }
+@media (max-width:800px) {
+  .gift { grid-template-columns: 1fr; }
+  .gift-visual { min-height: 430px; }
+  .gift-card { width: min(440px,82%); }
+  .review-card { min-height: 0; border-right: 0; border-bottom: 1px solid rgba(255,255,255,.16); }
+}
+
+/* Care section: balanced Georgian-friendly composition */
+.care {
+  background:
+    linear-gradient(120deg, rgba(125,31,42,.045), transparent 42%),
+    #e9e6e0;
+}
+.care .intro {
+  grid-template-columns: .55fr 1.15fr 1fr;
+  gap: clamp(30px,5vw,80px);
+  align-items: start;
+  margin-bottom: 64px;
+}
+.care .intro h2 {
+  font-size: clamp(38px,4vw,60px);
+  line-height: 1;
+  letter-spacing: -.025em;
+  max-width: 11ch;
+}
+.care .intro>p:last-child {
+  margin-top: 8px;
+  max-width: 38ch;
+}
+.care-grid { gap: 18px; }
+.care-item {
+  position: relative;
+  min-height: 300px;
+  padding: 38px;
+  border: 1px solid #d1cbc2;
+  background: rgba(247,245,240,.72);
+  transition: transform .25s ease,background .25s ease;
+}
+.care-item:hover { transform: translateY(-5px); background: #f8f5ef; }
+.care-icon {
+  width: 54px;
+  height: 54px;
+  border: 0;
+  background: #7d1f2a;
+  color: #fff;
+}
+.care-item h3 { margin-top: 42px; font-size: 28px; }
+.care-item p { max-width: 52ch; }
+.care-item::after {
+  position: absolute;
+  right: 28px;
+  top: 24px;
+  color: #aaa39a;
+  font-size: 10px;
+  letter-spacing: .18em;
+}
+.care-item:first-child::after { content: '01'; }
+.care-item:last-child::after { content: '02'; }
+html[lang='ka'] .care .intro h2 {
+  max-width: none;
+  white-space: nowrap;
+  font-size: clamp(28px,3.5vw,48px);
+  letter-spacing: -.045em;
+}
+html[lang='ka'] .gift {
+  grid-template-columns: minmax(480px,1.15fr) minmax(420px,.85fr);
+}
+html[lang='ka'] .gift-copy h2,
+html[lang='ka'] .reviews .intro h2 {
+  max-width: none;
+  white-space: nowrap;
+  font-size: clamp(28px,3.25vw,50px);
+  letter-spacing: -.045em;
+}
+@media (max-width:1100px) {
+  .care .intro { grid-template-columns: 1fr; gap: 18px; margin-bottom: 44px; }
+  .care .intro h2 {
+    width: 100%;
+    max-width: none;
+    font-size: clamp(36px,6vw,50px);
+    line-height: 1.05;
+  }
+  .care .intro>p:last-child { margin: 8px 0 0; }
+  html[lang='ka'] .gift { grid-template-columns: 1fr; }
+  html[lang='ka'] .gift-copy h2,
+  html[lang='ka'] .reviews .intro h2 { font-size: clamp(25px,4.5vw,40px); }
+}
+@media (max-width:620px) {
+  .care-grid { grid-template-columns: 1fr; }
+  .care-item { min-height: 0; padding: 28px; }
+  .care-item h3 { margin-top: 30px; }
+  html[lang='ka'] .care .intro h2,
+  html[lang='ka'] .gift-copy h2,
+  html[lang='ka'] .reviews .intro h2 { font-size: clamp(23px,6vw,32px); }
+}
+
+/* Charis SIL must also win over all component-level Russian display fonts. */
+html[lang='ru'] body,
+html[lang='ru'] body * {
+  font-family: 'Charis SIL', Georgia, serif !important;
+}
+
+@media (max-width: 620px) {
+  .gift {
+    gap: 42px;
+    padding-top: 78px;
+    padding-bottom: 78px;
+  }
+  .gift-visual {
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+  }
+  .gift-photo {
+    position: relative;
+    inset: auto;
+    width: 100%;
+    height: 280px;
+    background-position: center 38%;
+  }
+  .gift-card {
+    width: calc(100% - 28px);
+    margin: -54px auto 0;
+    padding: 26px 28px;
+    aspect-ratio: 1.62;
+    transform: none;
+  }
+  .gift-card:hover { transform: translateY(-3px); }
+  .gift-card::before { inset: 9px; }
+  .gift-card-brand { font-size: 17px; }
+  .gift-card-label {
+    font-size: clamp(20px, 6.2vw, 27px);
+    line-height: 1.05;
+  }
+  .gift-card-foot,
+  .gift-card-number { font-size: 8px; }
+  .gift-card-rule { width: 38px; }
+  .gift-copy h2 { white-space: normal; }
+}
+
+/* One type family across the complete storefront. */
+body,
+body * {
+  font-family: 'Charis SIL', 'Noto Serif Georgian', Georgia, serif;
 }

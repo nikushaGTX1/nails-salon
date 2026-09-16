@@ -263,6 +263,16 @@
               ><label
                 ><span>Price in GEL</span><input [(ngModel)]="service.price" type="number" min="0"
               /></label>
+              <label class="wide"
+                ><span>Image URL</span
+                ><input
+                  [(ngModel)]="service.imageUrl"
+                  placeholder="Upload an image or paste its URL" /></label
+              ><label class="upload compact"
+                >{{
+                  uploading === service.id ? 'Uploading ' + uploadProgress + '%' : 'Upload photo'
+                }}<input type="file" accept="image/*" (change)="uploadServiceImage(service, $event)"
+              /></label>
               <label
                 ><span>Category</span
                 ><select [(ngModel)]="service.categoryId">
