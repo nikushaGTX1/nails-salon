@@ -190,6 +190,28 @@
           </p>
         </div>
       </div>
+      <div class="collection-block portfolio-switch-block">
+        <div class="collection-heading">
+          <div>
+            <h3>Portfolio on the website</h3>
+            <p>
+              Turn OFF to hide the whole portfolio: the homepage section, the menu link and the
+              /portfolio page. Your photos are kept. Press Save to publish the change.
+            </p>
+          </div>
+          <button
+            type="button"
+            class="switch"
+            role="switch"
+            [class.on]="portfolioOn"
+            [attr.aria-checked]="portfolioOn"
+            (click)="portfolioOn = !portfolioOn"
+          >
+            <span class="switch-knob"></span>
+            <span class="switch-label">{{ portfolioOn ? 'ON' : 'OFF' }}</span>
+          </button>
+        </div>
+      </div>
       <div class="collection-block">
         <div class="collection-heading">
           <div>
@@ -329,10 +351,6 @@
           <div>
             <h3>Portfolio items</h3>
             <p>Add photos, choose their category and set translated captions.</p>
-            <label class="portfolio-toggle"
-              ><input type="checkbox" [(ngModel)]="portfolioOn" />
-              <span>Show the portfolio on the website</span></label
-            >
           </div>
           <button (click)="addGalleryItem()">+ Add portfolio item</button>
         </div>

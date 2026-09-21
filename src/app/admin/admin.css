@@ -569,17 +569,42 @@
   }
 }
 
-.portfolio-toggle {
+
+.switch {
+  position: relative;
   display: inline-flex;
   align-items: center;
-  gap: 10px;
-  margin-top: 12px;
-  font-size: 13px;
-  font-weight: 600;
+  flex: 0 0 auto;
+  min-width: 96px;
+  height: 44px;
+  padding: 0 16px 0 52px;
+  border: 1px solid #c9c5bd;
+  border-radius: 999px;
+  background: #e9e6e0;
+  color: #4d4a45;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
   cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease, padding 0.2s ease;
 }
-.portfolio-toggle input {
-  width: 18px;
-  height: 18px;
-  cursor: pointer;
+.switch-knob {
+  position: absolute;
+  left: 5px;
+  top: 5px;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.25);
+  transition: left 0.2s ease;
+}
+.switch.on {
+  padding: 0 52px 0 16px;
+  background: #171715;
+  border-color: #171715;
+  color: #fff;
+}
+.switch.on .switch-knob {
+  left: calc(100% - 37px);
 }
