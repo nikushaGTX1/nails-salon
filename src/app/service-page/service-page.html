@@ -1,100 +1,92 @@
-<main class="service-page">
-  <section class="section service-hero-section">
-    <a class="service-back-btn" routerLink="/" fragment="services">
-      <span aria-hidden="true">←</span> <span [appEditable]="'back'">{{ i18n.t('back') }}</span>
-    </a>
-    <div class="service-hero-media">
-      <div class="service-hero-frame" aria-hidden="true"></div>
-      @if (site.serviceImage(service())) {
-        <div
-          class="service-hero-image"
-          [style.backgroundImage]="'url(' + site.serviceImage(service()) + ')'"
-        ></div>
-      } @else {
-        <div class="service-hero-placeholder" aria-hidden="true">
-          <span>{{ site.localized(service()?.name, i18n.language(), '') | slice: 0 : 1 }}</span>
-        </div>
+<main class="category-page">
+  <section class="section category-hero-section">
+    <div class="category-crumbs">
+      <a routerLink="/" fragment="services"
+        ><span [appEditable]="'home'">{{ i18n.t('home') }}</span></a
+      >
+      <span aria-hidden="true">/</span>
+      @if (category(); as cat) {
+        <a [routerLink]="['/category', cat.id]">{{
+          site.localized(cat.name, i18n.language(), cat.id)
+        }}</a>
+        <span aria-hidden="true">/</span>
       }
+      <span>{{ serviceName(service()) }}</span>
+    </div>
+
+    <div class="category-hero">
+      @if (site.serviceImage(service())) {
+        <img [src]="site.serviceImage(service())" alt="" class="category-hero-img" />
+      }
+      <div class="category-hero-shade"></div>
       @if (editMode.isEditing() && service()) {
         <button type="button" class="replace-photo-btn" [appEditableItemImage]="imageSetter()">
           Replace photo
         </button>
       }
-      <div class="service-price-card">
-        <span class="service-price-label" [appEditable]="'from'">{{ i18n.t('from') }}</span>
-        <span class="service-price-value" [appEditableField]="priceSetter()">{{
-          service()?.price
-        }}</span>
-        <span class="service-price-currency">GEL</span>
+      <div class="category-hero-copy">
+        <p class="eyebrow" [appEditable]="'services'">{{ i18n.t('services') }}</p>
+        <h1
+          [appEditableField]="fieldSetter(service()?.name, i18n.language())"
+          [editStyleKey]="'service:' + serviceId() + ':name'"
+        >
+          {{ serviceName(service()) }}
+        </h1>
       </div>
     </div>
 
-    <div class="service-hero-content">
-      <div class="service-crumbs">
-        <a routerLink="/"><span [appEditable]="'home'">{{ i18n.t('home') }}</span></a>
-        <span aria-hidden="true">/</span>
-        @if (category(); as cat) {
-          <a [routerLink]="['/category', cat.id]">{{
-            site.localized(cat.name, i18n.language(), cat.id)
-          }}</a>
-          <span aria-hidden="true">/</span>
-        }
-        <span>{{
-          site.localized(service()?.name, i18n.language(), service()?.id)
-        }}</span>
-      </div>
-
-      <p class="eyebrow" [appEditable]="'services'">{{ i18n.t('services') }}</p>
-      <h1
-        class="service-title"
-        [appEditableField]="fieldSetter(service()?.name, i18n.language())"
-        [editStyleKey]="'service:' + serviceId() + ':name'"
-      >
-        {{ site.localized(service()?.name, i18n.language(), service()?.id) }}
-      </h1>
-      <p
-        class="service-description"
-        [appEditableField]="fieldSetter(service()?.description, i18n.language())"
-        [editStyleKey]="'service:' + serviceId() + ':description'"
-      >
-        {{ site.localized(service()?.description, i18n.language(), '') }}
-      </p>
-
-      <a
-        class="service-book-btn"
-        href="https://taplink.cc/nail_bar_1"
-        target="_blank"
-        rel="noopener"
-      >
-        <span [appEditable]="'book'">{{ i18n.t('book') }}</span> <span aria-hidden="true">→</span>
-      </a>
+    <div class="category-groups">
+      <section class="category-group">
+        <h2 [appEditable]="'services'">{{ i18n.t('services') }}</h2>
+        <div>
+          @for (row of rows(); track $index) {
+            <div class="category-row">
+              <button
+                type="button"
+                class="category-row-head"
+                (click)="toggleRow($index)"
+                [attr.aria-expanded]="!!rowOpen[$index]"
+              >
+                <span>{{ row.title }}</span>
+                <span class="category-chevron" [class.open]="rowOpen[$index]" aria-hidden="true">
+                  <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                    <path
+                      d="M4.5 2L8.5 6L4.5 10"
+                      stroke="currentColor"
+                      stroke-width="1.4"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg>
+                </span>
+              </button>
+              @if (rowOpen[$index]) {
+                <div class="category-row-items category-row-info">
+                  @if (row.info) {
+                    <p>{{ row.info }}</p>
+                  }
+                  <a
+                    class="category-row-book"
+                    href="https://taplink.cc/nail_bar_1"
+                    target="_blank"
+                    rel="noopener"
+                    >{{ i18n.t('book') }} →</a
+                  >
+                </div>
+              }
+            </div>
+          }
+        </div>
+      </section>
     </div>
+
+    <a
+      class="service-list-cta"
+      href="https://taplink.cc/nail_bar_1"
+      target="_blank"
+      rel="noopener"
+    >
+      <span [appEditable]="'book'">{{ i18n.t('book') }}</span> <span aria-hidden="true">→</span>
+    </a>
   </section>
-
-  @if (otherServices().length) {
-    <section class="section service-more-section">
-      <p class="eyebrow" [appEditable]="'services'">{{ i18n.t('services') }}</p>
-      <h2 [appEditable]="'servicesTitle'">{{ i18n.t('servicesTitle') }}</h2>
-      <div class="service-more-grid">
-        @for (other of otherServices(); track other.id) {
-          <a class="service-more-card" [routerLink]="['/service', other.id]">
-            @if (site.serviceImage(other)) {
-              <div
-                class="service-more-image"
-                [style.backgroundImage]="'url(' + site.serviceImage(other) + ')'"
-              ></div>
-            } @else {
-              <div class="service-more-image service-more-image--placeholder" aria-hidden="true">
-                <span>{{ site.localized(other.name, i18n.language(), '') | slice: 0 : 1 }}</span>
-              </div>
-            }
-            <h3>{{ site.localized(other.name, i18n.language(), other.id) }}</h3>
-            <span class="service-more-price"
-              >{{ i18n.t('from') }} {{ other.price }} GEL</span
-            >
-          </a>
-        }
-      </div>
-    </section>
-  }
 </main>

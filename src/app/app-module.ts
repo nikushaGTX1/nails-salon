@@ -17,6 +17,7 @@ import { EditableImage } from './editable-image';
 import { EditableItemImage } from './editable-item-image';
 import { EditableText } from './editable-text';
 import { EditToolbar } from './edit-toolbar/edit-toolbar';
+import { FourHands } from './four-hands/four-hands';
 import { Gallery } from './gallery/gallery';
 import { GiftCertificate } from './gift-certificate/gift-certificate';
 import { Locations } from './locations/locations';
@@ -38,6 +39,7 @@ import { Admin } from './admin/admin';
     ServicePage,
     CategoryGrid,
     CategoryPage,
+    FourHands,
     Gallery,
     GiftCertificate,
     AttentionToDetail,

@@ -284,6 +284,16 @@
                   }
                 </select></label
               >
+              <label class="wide"
+                ><span
+                  >Services listed on this service's page — one per line as “Title | information” ({{ activeLanguage }})</span
+                ><textarea
+                  [ngModel]="subServicesText(service.id)"
+                  (ngModelChange)="model.settings['sub:' + service.id + ':' + activeLanguage] = $event"
+                  rows="4"
+                  placeholder="With coating | Short description shown when opened"
+                ></textarea></label
+              >
               @if (service.categoryId) {
                 <label
                   ><span>Group (e.g. "Manicure" / "Filing")</span

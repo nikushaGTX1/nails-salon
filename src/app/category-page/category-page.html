@@ -41,7 +41,7 @@
                   <span class="category-chevron" [class.open]="rowOpen[key]">
                     <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
                       <path
-                        d="M2 4.5L6 8.5L10 4.5"
+                        d="M4.5 2L8.5 6L4.5 10"
                         stroke="currentColor"
                         stroke-width="1.4"
                         stroke-linecap="round"
@@ -55,11 +55,6 @@
                     @for (item of row.items; track item.id) {
                       <div class="category-item">
                         <span>{{ site.localized(item.name, i18n.language()) }}</span>
-                        <span class="category-item-dots"></span>
-                        <span class="category-item-price"
-                          ><span [appEditable]="'from'">{{ i18n.t('from') }}</span>
-                          {{ item.price }} GEL</span
-                        >
                       </div>
                     }
                   </div>

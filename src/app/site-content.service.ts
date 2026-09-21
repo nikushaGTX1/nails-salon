@@ -102,6 +102,83 @@ export const DEFAULT_SERVICES: CmsService[] = [
     imageUrl: '/assets/services/bespoke-nail-art.png',
   },
 ];
+/** Each line is "Title | information". */
+export const DEFAULT_SUB_SERVICES: Record<string, Record<string, string[]>> = {
+  "service-1": {
+    "en": [
+      "With coating | Classic manicure finished with a coating of your choice.",
+      "Without coating | Classic manicure with cuticle care and nail shaping, without polish.",
+      "With extensions | Manicure with nail extensions and a finish of your choice.",
+      "With correction | Correction of existing extensions, with a finish of your choice."
+    ],
+    "ka": [
+      "დაფარვით | კლასიკური მანიკური თქვენთვის სასურველი საფარით.",
+      "დაფარვის გარეშე | კლასიკური მანიკური კუტიკულის მოვლითა და ფრჩხილების ფორმირებით, ლაქის გარეშე.",
+      "ნამატით | მანიკური ფრჩხილების დაგრძელებითა და თქვენთვის სასურველი საფარით.",
+      "კორექციით | არსებული ნამატის კორექცია თქვენთვის სასურველი საფარით."
+    ],
+    "ru": [
+      "С покрытием | Классический маникюр с покрытием на ваш выбор.",
+      "Без покрытия | Классический маникюр с уходом за кутикулой и формированием ногтей, без покрытия.",
+      "С наращиванием | Маникюр с наращиванием ногтей и покрытием на ваш выбор.",
+      "С коррекцией | Коррекция нарощенных ногтей с покрытием на ваш выбор."
+    ]
+  },
+  "service-2": {
+    "en": [
+      "Solid color | Soft gel manicure in a single color of your choice.",
+      "French | Soft gel manicure with a French design.",
+      "Coating removal | Careful removal of the existing coating.",
+      "Nail strengthening | Soft gel manicure to strengthen the natural nail."
+    ],
+    "ka": [
+      "ერთფერადი დაფარვა | გელ-ლაქის მანიკური თქვენთვის სასურველი ერთი ფერით.",
+      "ფრენჩი | გელ-ლაქის მანიკური ფრენჩის დიზაინით.",
+      "დაფარვის მოხსნა | არსებული საფარის ფრთხილი მოხსნა.",
+      "ფრჩხილების გამაგრება | მანიკური ბუნებრივი ფრჩხილების გამაგრებით."
+    ],
+    "ru": [
+      "Однотонное покрытие | Маникюр с гель-лаком в одном цвете на ваш выбор.",
+      "Френч | Маникюр с гель-лаком и дизайном френч.",
+      "Снятие покрытия | Аккуратное снятие имеющегося покрытия.",
+      "Укрепление ногтей | Маникюр с укреплением натуральных ногтей."
+    ]
+  },
+  "service-3": {
+    "en": [
+      "With coating | Pedicure finished with a coating of your choice.",
+      "Without coating | Pedicure with foot and nail care, without polish.",
+      "Foot care | Care for the skin of the feet."
+    ],
+    "ka": [
+      "დაფარვით | პედიკური თქვენთვის სასურველი საფარით.",
+      "დაფარვის გარეშე | პედიკური ტერფისა და ფრჩხილების მოვლით, ლაქის გარეშე.",
+      "ტერფის მოვლა | ტერფის კანის მოვლა."
+    ],
+    "ru": [
+      "С покрытием | Педикюр с покрытием на ваш выбор.",
+      "Без покрытия | Педикюр с уходом за стопами и ногтями, без покрытия.",
+      "Уход за стопами | Уход за кожей стоп."
+    ]
+  },
+  "service-4": {
+    "en": [
+      "French | French nail design.",
+      "Hand-painted art | Individual hand-painted nail art.",
+      "Rhinestones and decor | Nail decoration with rhinestones and other details."
+    ],
+    "ka": [
+      "ფრენჩი | ფრჩხილების ფრენჩის დიზაინი.",
+      "ხატვა | ფრჩხილების ინდივიდუალური მხატვრული მოხატვა.",
+      "სტრასები და დეკორი | ფრჩხილების მორთვა სტრასებითა და სხვა დეტალებით."
+    ],
+    "ru": [
+      "Френч | Дизайн ногтей френч.",
+      "Роспись | Индивидуальная художественная роспись ногтей.",
+      "Стразы и декор | Украшение ногтей стразами и другими деталями."
+    ]
+  }
+};
 export const DEFAULT_CATEGORIES: CmsCategory[] = [];
 export const DEFAULT_GALLERY: CmsGalleryItem[] = [
   {
@@ -277,6 +354,29 @@ export class SiteContentService {
   }
   phoneHref(phone: string): string {
     return phone.replace(/[^+\d]/g, '');
+  }
+  /** Sub-services listed on a service's page. Admin list (settings "sub:<serviceId>:<lang>", one "Title | information" per line) wins over the defaults. */
+  subServices(serviceId: string, language: string): { title: string; info: string }[] {
+    const settings = this.content().settings;
+    const defaults = DEFAULT_SUB_SERVICES[serviceId];
+    const parse = (raw: string | undefined) =>
+      (raw ?? '')
+        .split(/\r?\n/)
+        .map((line) => line.trim())
+        .filter(Boolean)
+        .map((line) => {
+          const cut = line.indexOf('|');
+          return cut < 0
+            ? { title: line, info: '' }
+            : { title: line.slice(0, cut).trim(), info: line.slice(cut + 1).trim() };
+        });
+    for (const lang of [language, 'en']) {
+      const admin = parse(settings['sub:' + serviceId + ':' + lang]);
+      if (admin.length) return admin;
+      const fallback = parse(defaults?.[lang]?.join('\n'));
+      if (fallback.length) return fallback;
+    }
+    return [];
   }
   categories(): CmsCategory[] {
     return this.content().categories?.length ? this.content().categories : DEFAULT_CATEGORIES;

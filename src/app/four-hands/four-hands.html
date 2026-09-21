@@ -1,0 +1,25 @@
+<section id="four-hands" class="section four-hands">
+  <div class="four-hands-frame" [appEditableImage]="'fourHandsImage'">
+    <img
+      [src]="site.media('fourHandsImage', '/assets/hero-editorial.png')"
+      width="1672"
+      height="941"
+      alt=""
+      loading="lazy"
+    />
+    <div class="four-hands-panel">
+      <div>
+        <p class="eyebrow" [appEditable]="'fourHandsLabel'">{{ i18n.t('fourHandsLabel') }}</p>
+        <h2 [appEditable]="'fourHandsTitle'">{{ i18n.t('fourHandsTitle') }}</h2>
+      </div>
+      <a
+        class="four-hands-arrow"
+        href="https://taplink.cc/nail_bar_1"
+        target="_blank"
+        rel="noopener"
+        [attr.aria-label]="i18n.t('book')"
+        >→</a
+      >
+    </div>
+  </div>
+</section>

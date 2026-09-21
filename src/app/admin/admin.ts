@@ -13,6 +13,7 @@ import {
   DEFAULT_GALLERY,
   DEFAULT_LOCATIONS,
   DEFAULT_SERVICES,
+  DEFAULT_SUB_SERVICES,
   SiteContent,
   SiteContentService,
 } from '../site-content.service';
@@ -653,6 +654,11 @@ export class Admin {
         this.refresh();
       },
     });
+  }
+  subServicesText(serviceId: string): string {
+    const saved = this.model.settings['sub:' + serviceId + ':' + this.activeLanguage];
+    if (saved !== undefined) return saved;
+    return (DEFAULT_SUB_SERVICES[serviceId]?.[this.activeLanguage] ?? []).join('\n');
   }
   addService(): void {
     this.model.services.push({

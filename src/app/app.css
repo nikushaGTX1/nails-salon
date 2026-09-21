@@ -1579,14 +1579,21 @@ footer div {
 }
 .category-group {
   background: #e9e6e0;
-  border-radius: 24px;
-  padding: 40px 40px 14px;
+  border-radius: 28px;
+  padding: 34px 22px 22px;
 }
 .category-group h2 {
-  margin: 0 0 26px;
-  font: 500 26px 'Cormorant Garamond', Georgia, serif;
+  margin: 0 0 24px;
+  padding: 0 8px;
+  font: 500 clamp(22px, 2.4vw, 30px) 'Cormorant Garamond', Georgia, serif;
   text-transform: uppercase;
   letter-spacing: 0.02em;
+}
+.category-row {
+  margin-bottom: 10px;
+}
+.category-row:last-child {
+  margin-bottom: 0;
 }
 .category-row-head {
   display: flex;
@@ -1594,54 +1601,47 @@ footer div {
   justify-content: space-between;
   gap: 20px;
   width: 100%;
-  padding: 22px 4px;
-  border-top: 1px solid var(--line);
-  border-left: 0;
-  border-right: 0;
-  border-bottom: 0;
-  background: none;
+  min-height: 64px;
+  padding: 16px 26px;
+  border: 0;
+  border-radius: 999px;
+  background: #f6f4f0;
   text-align: left;
   cursor: pointer;
   font-size: 17px;
   font-weight: 500;
   color: inherit;
+  transition:
+    background 0.2s ease,
+    transform 0.2s ease;
+}
+.category-row-head:hover {
+  background: #fff;
+  transform: translateY(-1px);
 }
 .category-chevron {
-  width: 30px;
-  height: 30px;
-  flex: 0 0 auto;
-  border-radius: 50%;
-  border: 1px solid var(--line);
   display: grid;
   place-items: center;
+  flex: 0 0 auto;
+  width: 24px;
+  height: 24px;
   transition: transform 0.25s ease;
 }
 .category-chevron.open {
-  transform: rotate(180deg);
+  transform: rotate(90deg);
 }
 .category-row-items {
-  padding: 4px 4px 22px;
   display: grid;
   gap: 2px;
+  padding: 10px 26px 16px;
 }
 .category-item {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: 16px;
-  padding: 13px 0;
-  border-bottom: 1px dashed #d3cfc6;
-  font-size: 14px;
+  padding: 12px 0;
+  border-bottom: 1px solid #d7d3cc;
+  font-size: 15px;
 }
-.category-item-dots {
-  flex: 1;
-  border-bottom: 1px dotted #c3bfb5;
-  margin: 0 4px 5px;
-  min-width: 16px;
-}
-.category-item-price {
-  font: 500 15px 'Cormorant Garamond', Georgia, serif;
-  white-space: nowrap;
+.category-item:last-child {
+  border-bottom: 0;
 }
 @media (max-width: 800px) {
   .category-hero-section {
@@ -1651,191 +1651,18 @@ footer div {
     height: 240px;
   }
   .category-group {
-    padding: 28px 22px 8px;
+    padding: 26px 14px 14px;
+    border-radius: 24px;
+  }
+  .category-row-head {
+    min-height: 58px;
+    padding: 14px 20px;
+    font-size: 16px;
+  }
+  .category-row-items {
+    padding: 8px 20px 14px;
   }
 }
-
-/* ---- Individual service detail page ---- */
-.service-page {
-  background: var(--paper);
-}
-.service-back-btn {
-  position: absolute;
-  top: 40px;
-  left: max(7.5vw, calc((100vw - 1600px) / 2));
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 11px;
-  font-weight: 500;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--ink);
-}
-.service-hero-section {
-  position: relative;
-  padding-top: 150px;
-  display: grid;
-  grid-template-columns: 0.85fr 1fr;
-  gap: 6vw;
-  align-items: center;
-}
-.service-hero-media {
-  position: relative;
-  padding: 18px 0 0 18px;
-}
-.service-hero-frame {
-  position: absolute;
-  inset: 0 18px 18px 0;
-  border: 1px solid var(--line);
-  border-radius: 22px;
-}
-.service-hero-image {
-  position: relative;
-  aspect-ratio: 4 / 5;
-  border-radius: 22px;
-  background: #d9d5cc center/cover no-repeat;
-  box-shadow: 0 30px 60px -20px rgba(20, 18, 15, 0.35);
-}
-.service-hero-placeholder {
-  aspect-ratio: 4 / 5;
-  border-radius: 22px;
-  display: grid;
-  place-items: center;
-  background: radial-gradient(circle at 30% 25%, #3a3733, #171715 70%);
-}
-.service-hero-placeholder span {
-  font:
-    500 clamp(90px, 14vw, 160px) 'Cormorant Garamond',
-    Georgia,
-    serif;
-  color: rgba(255, 255, 255, 0.9);
-}
-.service-price-card {
-  position: absolute;
-  left: -4px;
-  bottom: -22px;
-  background: var(--paper);
-  border: 1px solid var(--line);
-  border-radius: 14px;
-  padding: 18px 26px;
-  display: flex;
-  align-items: baseline;
-  gap: 9px;
-  box-shadow: 0 22px 44px rgba(20, 18, 15, 0.16);
-}
-.service-price-label {
-  font-size: 11px;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  color: #68645e;
-}
-.service-price-value {
-  font: 500 30px 'Cormorant Garamond', Georgia, serif;
-}
-.service-price-currency {
-  font-size: 12px;
-  color: #68645e;
-}
-.service-crumbs {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 10px;
-  font-weight: 500;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: #68645e;
-  margin-bottom: 28px;
-  flex-wrap: wrap;
-}
-.service-title {
-  margin: 0 0 26px;
-  font: 500 clamp(40px, 6vw, 64px) / 0.98 'Cormorant Garamond', Georgia, serif;
-  text-transform: uppercase;
-  letter-spacing: 0.02em;
-}
-.service-description {
-  margin: 0 0 44px;
-  max-width: 460px;
-  color: #5f5b55;
-  font-size: 15px;
-  line-height: 1.8;
-}
-.service-book-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 14px;
-  min-height: 62px;
-  padding: 0 26px;
-  background: #191918;
-  color: #fff;
-  text-transform: uppercase;
-  font-size: 11px;
-  font-weight: 500;
-  letter-spacing: 0.16em;
-}
-.service-more-section {
-  border-bottom: 0;
-}
-.service-more-section h2 {
-  margin-bottom: 50px;
-}
-.service-more-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 24px;
-}
-.service-more-card {
-  display: block;
-  color: inherit;
-}
-.service-more-image {
-  aspect-ratio: 4 / 3;
-  border-radius: 16px;
-  background: #d9d5cc center/cover no-repeat;
-  background-size: 100%;
-  margin-bottom: 16px;
-  transition: background-size 0.5s ease;
-}
-.service-more-card:hover .service-more-image {
-  background-size: 112%;
-}
-.service-more-image--placeholder {
-  display: grid;
-  place-items: center;
-  background: radial-gradient(circle at 30% 25%, #3a3733, #171715 70%);
-}
-.service-more-image--placeholder span {
-  font: 500 46px 'Cormorant Garamond', Georgia, serif;
-  color: rgba(255, 255, 255, 0.9);
-}
-.service-more-card h3 {
-  font: 500 20px 'Cormorant Garamond', Georgia, serif;
-  text-transform: uppercase;
-  margin: 0 0 6px;
-}
-.service-more-price {
-  font-size: 12px;
-  color: #68645e;
-}
-@media (max-width: 800px) {
-  .service-hero-section {
-    padding-top: 120px;
-    grid-template-columns: 1fr;
-    gap: 50px;
-  }
-  .service-price-card {
-    left: -4px;
-  }
-  .service-more-grid {
-    grid-template-columns: 1fr;
-  }
-  .service-back-btn {
-    top: 24px;
-  }
-}
-
 /* ---- Live edit mode ---- */
 .edit-toolbar {
   position: fixed;
@@ -2124,141 +1951,9 @@ html[lang='ru'] .care-item h3 {
   grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: clamp(12px, 1.4vw, 22px);
 }
-.service-page {
-  background: #eeeae3;
-}
-.service-page .service-hero-section {
-  min-height: min(860px, 100svh);
-  padding-top: 142px;
-  padding-bottom: 96px;
-  grid-template-columns: minmax(320px, 0.92fr) minmax(360px, 1.08fr);
-  gap: clamp(54px, 8vw, 130px);
-  background:
-    radial-gradient(circle at 88% 16%, rgba(153, 35, 48, 0.09), transparent 28%),
-    #eeeae3;
-}
-.service-page .service-back-btn {
-  top: 110px;
-  padding-bottom: 5px;
-  border-bottom: 1px solid #aaa39a;
-}
-.service-page .service-hero-media {
-  padding: 0;
-}
-.service-page .service-hero-frame {
-  inset: 22px -22px -22px 22px;
-  border-radius: 0;
-  border-color: #bfb8ae;
-}
-.service-page .service-hero-image,
-.service-page .service-hero-placeholder {
-  aspect-ratio: 4 / 5;
-  border-radius: 0;
-}
-.service-page .service-price-card {
-  left: auto;
-  right: -22px;
-  bottom: -22px;
-  min-width: 170px;
-  justify-content: center;
-  border: 0;
-  border-radius: 0;
-  background: #7d1f2a;
-  color: #fff;
-  box-shadow: none;
-}
-.service-page .service-price-label,
-.service-page .service-price-currency {
-  color: rgba(255, 255, 255, 0.7);
-}
-.service-page .service-crumbs {
-  margin-bottom: 58px;
-}
-.service-page .service-hero-content .eyebrow {
-  margin-bottom: 20px;
-  color: #7d1f2a;
-}
-.service-page .service-title {
-  max-width: 9ch;
-  margin-bottom: 30px;
-  font-size: clamp(52px, 6.2vw, 88px);
-  line-height: 0.86;
-  letter-spacing: -0.035em;
-}
-.service-page .service-description {
-  max-width: 42ch;
-  padding-top: 25px;
-  border-top: 1px solid #c7c0b6;
-  font-size: 16px;
-}
-.service-page .service-book-btn {
-  min-width: 210px;
-  justify-content: space-between;
-  background: #171715;
-}
-.service-page .service-book-btn:hover {
-  background: #7d1f2a;
-}
-.service-page .service-more-section {
-  padding-top: 96px;
-  background: #171715;
-  color: #f4f0e9;
-}
-.service-page .service-more-section > .eyebrow {
-  color: #caa9a0;
-}
-.service-page .service-more-grid {
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: clamp(18px, 2vw, 32px);
-}
-.service-page .service-more-image {
-  aspect-ratio: 4 / 5;
-  border-radius: 0;
-  margin-bottom: 20px;
-  background-size: cover;
-}
-.service-page .service-more-card:hover .service-more-image {
-  background-size: cover;
-  transform: translateY(-6px);
-}
-.service-page .service-more-card h3 {
-  font-size: 25px;
-}
-.service-page .service-more-price {
-  color: #aaa39a;
-}
 @media (max-width: 1100px) {
   .service-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-}
-@media (max-width: 800px) {
-  .service-page .service-hero-section {
-    min-height: 0;
-    padding-top: 126px;
-    grid-template-columns: 1fr;
-    gap: 72px;
-  }
-  .service-page .service-back-btn {
-    top: 92px;
-  }
-  .service-page .service-hero-media {
-    margin-right: 18px;
-  }
-  .service-page .service-crumbs {
-    margin-bottom: 34px;
-  }
-  .service-page .service-title {
-    font-size: clamp(48px, 15vw, 68px);
-  }
-  .service-page .service-more-grid {
-    grid-template-columns: repeat(3, minmax(240px, 1fr));
-    overflow-x: auto;
-    padding-bottom: 20px;
-    scroll-snap-type: x mandatory;
-  }
-  .service-page .service-more-card {
-    scroll-snap-align: start;
   }
 }
 @media (max-width: 620px) {
@@ -2316,7 +2011,7 @@ html[lang='ru'] .care-item h3 {
   padding: 34px 36px;
   background: linear-gradient(155deg, #f7f5f0 0%, #ece7dd 100%);
   border: 1px solid #d7d3cc;
-  color: var(--ink);
+  color: #171715;
   transition:
     transform 0.35s ease,
     box-shadow 0.35s ease;
@@ -2358,7 +2053,7 @@ html[lang='ru'] .care-item h3 {
   display: block;
   width: 56px;
   height: 1px;
-  background: var(--ink);
+  background: #171715;
   opacity: 0.35;
 }
 .gift-card-foot {
@@ -2379,7 +2074,7 @@ html[lang='ru'] .care-item h3 {
 }
 .care-item {
   padding: 40px 6px 0;
-  border-top: 1px solid var(--line);
+  border-top: 1px solid #cbc7bf;
 }
 .care-icon {
   display: grid;
@@ -2438,7 +2133,7 @@ html[lang='ru'] .care-item h3 {
 .review-card {
   position: relative;
   padding: 30px 26px 26px;
-  border: 1px solid var(--line);
+  border: 1px solid #cbc7bf;
   background: #f7f5f0;
   transition:
     transform 0.25s ease,
@@ -2717,4 +2412,185 @@ html[lang='ru'] body * {
 body,
 body * {
   font-family: 'Charis SIL', 'Noto Serif Georgian', Georgia, serif;
+}
+
+/* ---- Four hands card ---- */
+.four-hands {
+  padding-top: 70px;
+  padding-bottom: 90px;
+}
+.four-hands-frame {
+  position: relative;
+  overflow: hidden;
+  border-radius: 28px;
+  aspect-ratio: 16 / 9;
+  max-height: 780px;
+  width: 100%;
+  background: #050505;
+  isolation: isolate;
+}
+.four-hands-frame img {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 70% center;
+  transition: transform 1.2s ease;
+}
+.four-hands-frame:hover img {
+  transform: scale(1.015);
+}
+.four-hands-panel {
+  position: absolute;
+  left: clamp(20px, 3vw, 44px);
+  bottom: clamp(20px, 3vw, 44px);
+  width: min(560px, calc(100% - 40px));
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 28px 30px;
+  border-radius: 22px;
+  background: rgba(242, 240, 235, 0.94);
+  color: #171715;
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  transition:
+    transform 0.25s ease,
+    background 0.25s ease;
+}
+.four-hands-panel:hover {
+  transform: translateY(-3px);
+  background: #f2f0eb;
+}
+.four-hands-panel .eyebrow {
+  margin: 0 0 14px;
+  font-size: 10px;
+  color: #66625c;
+}
+.four-hands-panel h2 {
+  font-size: clamp(30px, 3.2vw, 52px);
+  line-height: 1.02;
+  letter-spacing: 0;
+}
+html[lang='ka'] .four-hands-panel h2 {
+  line-height: 1.12;
+}
+.four-hands-arrow {
+  flex: 0 0 auto;
+  display: grid;
+  place-items: center;
+  width: 52px;
+  height: 52px;
+  border: 1px solid #171715;
+  border-radius: 50%;
+  font-size: 22px;
+  transition:
+    background 0.25s ease,
+    color 0.25s ease;
+}
+.four-hands-panel:hover .four-hands-arrow {
+  background: #171715;
+  color: #f2f0eb;
+}
+@media (max-width: 800px) {
+  .four-hands {
+    padding-top: 48px;
+    padding-bottom: 60px;
+  }
+  .four-hands-frame {
+    aspect-ratio: 4 / 5;
+    max-height: none;
+    border-radius: 24px;
+  }
+  .four-hands-frame img {
+    object-position: 74% center;
+  }
+  .four-hands-panel {
+    left: 12px;
+    right: 12px;
+    bottom: 12px;
+    width: auto;
+    padding: 20px 20px 20px 22px;
+    border-radius: 18px;
+  }
+  .four-hands-panel .eyebrow {
+    margin-bottom: 10px;
+  }
+  .four-hands-panel h2 {
+    font-size: clamp(28px, 8.5vw, 40px);
+  }
+  .four-hands-arrow {
+    width: 46px;
+    height: 46px;
+  }
+}
+
+.service-list-cta {
+  display: inline-flex;
+  margin-top: 28px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  min-width: 220px;
+  min-height: 60px;
+  padding: 0 30px;
+  border-radius: 999px;
+  background: #171715;
+  color: #fff;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+.service-list-cta:hover {
+  transform: translateY(-2px);
+  background: #2b2a28;
+}
+@media (max-width: 800px) {
+  .service-list-cta {
+    display: flex;
+    width: 100%;
+  }
+}
+.category-hero-copy {
+  right: 6%;
+}
+.category-hero-copy h1 {
+  overflow-wrap: anywhere;
+}
+@media (max-width: 800px) {
+  .category-hero-copy {
+    left: 22px;
+    right: 22px;
+    bottom: 24px;
+  }
+  .category-hero-copy h1 {
+    font-size: clamp(30px, 8.6vw, 44px);
+  }
+}
+
+.category-row-info {
+  margin-top: 6px;
+  padding: 16px 26px 18px;
+  border-radius: 24px;
+  background: rgba(246, 244, 240, 0.6);
+}
+.category-row-info p {
+  margin: 0 0 14px;
+  font-size: 15px;
+  line-height: 1.7;
+  color: #4d4a45;
+}
+.category-row-book {
+  display: inline-block;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  border-bottom: 1px solid;
+  padding-bottom: 5px;
 }
