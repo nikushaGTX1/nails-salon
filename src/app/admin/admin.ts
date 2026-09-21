@@ -208,6 +208,12 @@ export class Admin {
       ],
     },
     {
+      id: 'values',
+      title: 'Our values section',
+      description: 'Three value cards just above the footer.',
+      keys: ['valuesTitle', 'value1Title', 'value1Text', 'value2Title', 'value2Text', 'value3Title', 'value3Text'],
+    },
+    {
       id: 'footer',
       title: 'Footer',
       description: 'Copyright text at the bottom of every page.',
@@ -654,6 +660,12 @@ export class Admin {
         this.refresh();
       },
     });
+  }
+  get portfolioOn(): boolean {
+    return this.model.settings['showPortfolio'] === '1';
+  }
+  set portfolioOn(value: boolean) {
+    this.model.settings['showPortfolio'] = value ? '1' : '0';
   }
   subServicesText(serviceId: string): string {
     const saved = this.model.settings['sub:' + serviceId + ':' + this.activeLanguage];

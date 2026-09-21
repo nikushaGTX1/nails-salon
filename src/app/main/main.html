@@ -35,7 +35,9 @@
       </video>
     </div>
   }
-  <app-category-grid /><app-services /><app-four-hands /><app-gallery /><app-gift-certificate
-  /><app-attention-to-detail /><app-about /><app-locations /><app-loyalty
+  <app-category-grid /><app-services />@if (site.portfolioVisible()) {
+    <app-gallery />
+  }<app-gift-certificate
+  /><app-attention-to-detail /><app-values /><app-about /><app-locations /><app-loyalty
   /><app-booking />
 </main>

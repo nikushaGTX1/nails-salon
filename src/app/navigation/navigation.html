@@ -18,17 +18,19 @@
     <a href="/#services" (click)="navigateToSection('services', $event)"
       ><span>01</span><span [appEditable]="'services'">{{ i18n.t('services') }}</span></a
     >
-    <a href="/#gallery" (click)="navigateToSection('gallery', $event)"
-      ><span>02</span><span [appEditable]="'portfolio'">{{ i18n.t('portfolio') }}</span></a
-    >
+    @if (site.portfolioVisible()) {
+      <a href="/#gallery" (click)="navigateToSection('gallery', $event)"
+        ><span>{{ num(2) }}</span><span [appEditable]="'portfolio'">{{ i18n.t('portfolio') }}</span></a
+      >
+    }
     <a href="/#about" (click)="navigateToSection('about', $event)"
-      ><span>03</span><span [appEditable]="'reviews'">{{ i18n.t('reviews') }}</span></a
+      ><span>{{ num(3) }}</span><span [appEditable]="'reviews'">{{ i18n.t('reviews') }}</span></a
     >
     <a href="/#contact" (click)="navigateToSection('contact', $event)"
-      ><span>04</span><span [appEditable]="'locations'">{{ i18n.t('locations') }}</span></a
+      ><span>{{ num(4) }}</span><span [appEditable]="'locations'">{{ i18n.t('locations') }}</span></a
     >
     <a href="/#loyalty" (click)="navigateToSection('loyalty', $event)"
-      ><span>05</span><span [appEditable]="'loyalty'">{{ i18n.t('loyalty') }}</span></a
+      ><span>{{ num(5) }}</span><span [appEditable]="'loyalty'">{{ i18n.t('loyalty') }}</span></a
     >
     <a
       class="mobile-booking"
@@ -36,7 +38,7 @@
       target="_blank"
       rel="noopener"
       (click)="closeMenu()"
-      ><span>06</span><span [appEditable]="'book'">{{ i18n.t('book') }}</span> ↗</a
+      ><span>{{ num(6) }}</span><span [appEditable]="'book'">{{ i18n.t('book') }}</span> ↗</a
     >
   </nav>
   <div class="topbar-actions">

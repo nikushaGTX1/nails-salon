@@ -329,6 +329,10 @@
           <div>
             <h3>Portfolio items</h3>
             <p>Add photos, choose their category and set translated captions.</p>
+            <label class="portfolio-toggle"
+              ><input type="checkbox" [(ngModel)]="portfolioOn" />
+              <span>Show the portfolio on the website</span></label
+            >
           </div>
           <button (click)="addGalleryItem()">+ Add portfolio item</button>
         </div>

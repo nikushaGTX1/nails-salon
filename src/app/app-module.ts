@@ -28,6 +28,7 @@ import { Navigation } from './navigation/navigation';
 import { Services } from './services/services';
 import { ServicePage } from './service-page/service-page';
 import { SiteFooter } from './site-footer/site-footer';
+import { Values } from './values/values';
 import { Admin } from './admin/admin';
 
 @NgModule({
@@ -48,6 +49,7 @@ import { Admin } from './admin/admin';
     Loyalty,
     LoyaltyPage,
     Booking,
+    Values,
     SiteFooter,
     Admin,
     EditableText,

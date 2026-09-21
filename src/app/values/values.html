@@ -1,0 +1,14 @@
+<section id="values" class="section our-values">
+  <h2 [appEditable]="'valuesTitle'">{{ i18n.t('valuesTitle') }}</h2>
+  <div class="values-grid">
+    @for (card of cards; track card.n) {
+      <article class="value-card" [appEditableImage]="'value' + card.n + 'Image'">
+        <img [src]="site.media('value' + card.n + 'Image', card.image)" alt="" loading="lazy" />
+        <div class="value-card-copy">
+          <h3 [appEditable]="'value' + card.n + 'Title'">{{ i18n.t('value' + card.n + 'Title') }}</h3>
+          <p [appEditable]="'value' + card.n + 'Text'">{{ i18n.t('value' + card.n + 'Text') }}</p>
+        </div>
+      </article>
+    }
+  </div>
+</section>

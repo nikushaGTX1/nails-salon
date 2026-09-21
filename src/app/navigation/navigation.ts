@@ -15,6 +15,11 @@ export class Navigation {
     readonly site: SiteContentService,
   ) {}
 
+  num(position: number): string {
+    const shifted = this.site.portfolioVisible() || position < 2 ? position : position - 1;
+    return String(shifted).padStart(2, '0');
+  }
+
   get isInnerPage(): boolean {
     return this.router.url.split('#')[0] !== '/';
   }

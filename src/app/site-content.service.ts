@@ -378,6 +378,10 @@ export class SiteContentService {
     }
     return [];
   }
+  /** Portfolio is hidden unless enabled in /admin (settings "showPortfolio" = "1"). */
+  portfolioVisible(): boolean {
+    return this.content().settings['showPortfolio'] === '1';
+  }
   categories(): CmsCategory[] {
     return this.content().categories?.length ? this.content().categories : DEFAULT_CATEGORIES;
   }

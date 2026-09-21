@@ -4,6 +4,7 @@
     <h2 [appEditable]="'servicesTitle'">{{ i18n.t('servicesTitle') }}</h2>
     <p [appEditable]="'servicesIntro'">{{ i18n.t('servicesIntro') }}</p>
   </div>
+  <app-four-hands />
   <div class="service-grid">
     @for (service of site.services(); track service.id; let i = $index) {
       <article class="service-card" [appEditableBlock]="'service:' + service.id">
