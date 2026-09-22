@@ -321,6 +321,37 @@
 .item-fields .wide {
   grid-column: 1 / -1;
 }
+.lang-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.lang-fields-label {
+  font-size: 12px;
+  font-weight: bold;
+}
+.lang-fields-row {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+.lang-fields-row label {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.lang-fields-row small {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #716960;
+}
+@media (max-width: 720px) {
+  .lang-fields-row {
+    grid-template-columns: 1fr;
+  }
+}
 .item-actions {
   display: flex;
   flex-direction: column;

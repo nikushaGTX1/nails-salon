@@ -191,10 +191,21 @@
           <p class="kicker">02 — SERVICES & LISTS</p>
           <h2>Add, remove and reorder items</h2>
           <p class="helper">
-            Names and descriptions below are edited in the language selected above:
-            <strong>{{ activeLanguage.toUpperCase() }}</strong
-            >.
+            Category names, portfolio captions, and studio addresses below are edited in one
+            language at a time — pick it here. Service names and descriptions show all three
+            languages at once, so this choice doesn't affect them.
           </p>
+        </div>
+        <div class="language-tabs" aria-label="Content language">
+          @for (language of languages; track language.code) {
+            <button
+              [class.active]="activeLanguage === language.code"
+              (click)="activeLanguage = language.code"
+            >
+              <small>{{ language.code.toUpperCase() }}</small
+              >{{ language.name }}
+            </button>
+          }
         </div>
       </div>
       <div class="collection-block portfolio-switch-block">
@@ -280,16 +291,37 @@
           <article class="item-editor">
             <div class="item-number">{{ i + 1 }}</div>
             <div class="item-fields">
+              <div class="lang-fields wide">
+                <span class="lang-fields-label">Service name — every language shown at once</span>
+                <div class="lang-fields-row">
+                  @for (language of languages; track language.code) {
+                    <label
+                      ><small>{{ language.name }}</small
+                      ><input
+                        [(ngModel)]="service.name[language.code]"
+                        [placeholder]="language.name + ' name'"
+                    /></label>
+                  }
+                </div>
+              </div>
+              <div class="lang-fields wide">
+                <span class="lang-fields-label"
+                  >Description — every language shown at once</span
+                >
+                <div class="lang-fields-row">
+                  @for (language of languages; track language.code) {
+                    <label
+                      ><small>{{ language.name }}</small
+                      ><textarea
+                        [(ngModel)]="service.description[language.code]"
+                        rows="2"
+                        [placeholder]="language.name + ' description'"
+                      ></textarea></label
+                    >
+                  }
+                </div>
+              </div>
               <label
-                ><span>Service name</span
-                ><input [(ngModel)]="service.name[activeLanguage]" /></label
-              ><label class="wide"
-                ><span>Description</span
-                ><textarea
-                  [(ngModel)]="service.description[activeLanguage]"
-                  rows="2"
-                ></textarea></label
-              ><label
                 ><span>Price in GEL</span><input [(ngModel)]="service.price" type="number" min="0"
               /></label>
               <label class="wide"
