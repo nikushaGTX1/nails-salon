@@ -284,6 +284,12 @@ export class SiteContentService {
       error: () => this.loaded.set(true),
     });
   }
+  /** Called by /admin right after a successful publish, so the very next tab or visit — including
+   *  clicking "Preview website" — shows the just-published change immediately, instead of the
+   *  previous version until that tab's own background fetch happens to complete. */
+  primeCache(value: SiteContent): void {
+    this.writeCache(value);
+  }
   private readCache(): SiteContent | null {
     try {
       const raw = localStorage.getItem(CONTENT_CACHE_KEY);

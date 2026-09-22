@@ -353,7 +353,10 @@ export class Admin {
       key: 'heroVideo',
       label: 'Homepage background video',
       fallback: '/video1.mp4',
-      hint: 'Large moving background at the top of the homepage. MP4, WebM, MOV — any video file.',
+      hint:
+        'Large moving background at the top of the homepage. MP4, WebM, MOV — any video file. ' +
+        'MP4 is safest: some browsers (Chrome, Firefox) cannot play MOV, so if the video appears ' +
+        'blank for visitors after uploading a MOV, convert it to MP4 and upload that instead.',
     },
     {
       key: 'heroPoster',
@@ -664,6 +667,7 @@ export class Admin {
           this.conflict = false;
           this.model = this.merge(saved);
           this.site.content.set(saved);
+          this.site.primeCache(saved);
           this.status = 'Saved — your changes are now live.';
           this.refresh();
         },
