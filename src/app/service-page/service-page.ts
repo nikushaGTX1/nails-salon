@@ -30,8 +30,7 @@ export class ServicePage {
 
   serviceName(service: CmsService | undefined): string {
     if (!service) return '';
-    const index = this.site.services().findIndex((s) => s.id === service.id);
-    return this.site.localized(service.name, this.i18n.language(), this.i18n.t('s' + (index + 1)));
+    return this.site.serviceName(service, this.i18n.language());
   }
 
   category() {
@@ -50,7 +49,7 @@ export class ServicePage {
     return [
       {
         title: this.serviceName(service),
-        info: this.site.localized(service.description, this.i18n.language(), ''),
+        info: this.site.serviceDescription(service, this.i18n.language()),
       },
     ];
   }

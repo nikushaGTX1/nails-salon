@@ -63,8 +63,8 @@ export interface BookingRecord extends BookingSubmission {
 export const DEFAULT_SERVICES: CmsService[] = [
   {
     id: 'service-1',
-    name: { en: 'Signature manicure', ka: '', ru: '' },
-    description: { en: 'Detailed cuticle care and your choice of finish.', ka: '', ru: '' },
+    name: { en: 'Manicure', ka: 'მანიკური', ru: 'Маникюр' },
+    description: { en: 'Expert nail shaping, cuticle care and a polished finish.', ka: 'ფრჩხილების ფორმირება, კუტიკულის მოვლა და სასურველი დაფარვა.', ru: 'Форма ногтей, уход за кутикулой и покрытие на ваш выбор.' },
     price: 55,
     categoryId: '',
     groupLabel: {},
@@ -73,33 +73,43 @@ export const DEFAULT_SERVICES: CmsService[] = [
   },
   {
     id: 'service-2',
-    name: { en: 'Soft gel manicure', ka: '', ru: '' },
-    description: { en: 'Long-lasting color with a smooth, natural result.', ka: '', ru: '' },
+    name: { en: 'Pedicure', ka: 'პედიკური', ru: 'Педикюр' },
+    description: { en: 'Care for your feet and toes, finished with your choice of polish.', ka: 'ტერფებისა და ფრჩხილების მოვლა სასურველი დაფარვით.', ru: 'Уход за стопами и ногтями с покрытием на ваш выбор.' },
     price: 75,
-    categoryId: '',
-    groupLabel: {},
-    subgroupLabel: {},
-    imageUrl: '/assets/services/soft-gel-manicure.png',
-  },
-  {
-    id: 'service-3',
-    name: { en: 'Essential pedicure', ka: '', ru: '' },
-    description: { en: 'Restorative care for soft skin and polished toes.', ka: '', ru: '' },
-    price: 70,
     categoryId: '',
     groupLabel: {},
     subgroupLabel: {},
     imageUrl: '/assets/services/essential-pedicure.png',
   },
   {
+    id: 'service-3',
+    name: { en: 'Nail extensions', ka: 'დაგრძელება', ru: 'Наращивание ногтей' },
+    description: { en: 'Length and shape tailored to your hands, with a natural finish.', ka: 'ფრჩხილების დაგრძელება თქვენთვის სასურველი ფორმითა და სიგრძით.', ru: 'Длина и форма ногтей по вашему желанию с естественным результатом.' },
+    price: 70,
+    categoryId: '',
+    groupLabel: {},
+    subgroupLabel: {},
+    imageUrl: '/assets/services/nail-extensions.png',
+  },
+  {
     id: 'service-4',
-    name: { en: 'Bespoke nail art', ka: '', ru: '' },
-    description: { en: 'Fine lines, tonal details and unique designs.', ka: '', ru: '' },
+    name: { en: 'Brows', ka: 'წარბი', ru: 'Брови' },
+    description: { en: 'Brow shaping, tinting and lamination to frame your face.', ka: 'წარბის ფორმირება, შეღებვა და ლამინირება.', ru: 'Коррекция, окрашивание и ламинирование бровей.' },
     price: 15,
     categoryId: '',
     groupLabel: {},
     subgroupLabel: {},
-    imageUrl: '/assets/services/bespoke-nail-art.png',
+    imageUrl: '/assets/services/eyebrows.png',
+  },
+  {
+    id: '72c45acf-1173-4936-b947-38ad9f17f29b',
+    name: { en: 'Lash extensions', ka: 'წამწამების დაგრძელება', ru: 'Наращивание ресниц' },
+    description: { en: 'Lash extensions styled for soft definition and a fuller look.', ka: 'წამწამების დაგრძელება ბუნებრივი ან უფრო გამოკვეთილი ეფექტით.', ru: 'Наращивание ресниц для естественного или более выразительного взгляда.' },
+    price: 0,
+    categoryId: '',
+    groupLabel: {},
+    subgroupLabel: {},
+    imageUrl: '/assets/services/lash-extensions.png',
   },
 ];
 /** Each line is "Title | information". */
@@ -317,13 +327,40 @@ export class SiteContentService {
     if (!service) return '';
     const curated: Record<string, string> = {
       'service-1': '/assets/services/signature-manicure.png',
-      'service-2': '/assets/services/soft-gel-manicure.png',
-      'service-3': '/assets/services/essential-pedicure.png',
-      'service-4': '/assets/services/bespoke-nail-art.png',
+      'service-2': '/assets/services/essential-pedicure.png',
+      'service-3': '/assets/services/nail-extensions.png',
+      'service-4': '/assets/services/eyebrows.png',
+      '72c45acf-1173-4936-b947-38ad9f17f29b': '/assets/services/lash-extensions.png',
     };
     const source = service.imageUrl || curated[service.id] || '';
     const selected = source.includes('loremflickr.com') ? curated[service.id] || source : source;
     return this.asset(selected, curated[service.id] || '');
+  }
+  serviceDescription(service: CmsService, language: string): string {
+    const current = service.description?.[language]?.trim();
+    const oldEnglish: Record<string, string> = {
+      'service-1': 'Detailed cuticle care and your choice of finish.',
+      'service-2': 'Long-lasting color with a smooth, natural result.',
+      'service-3': 'Restorative care for soft skin and polished toes.',
+      'service-4': 'Fine lines, tonal details and unique designs.',
+      '72c45acf-1173-4936-b947-38ad9f17f29b': 'Service description',
+    };
+    if (current && current !== oldEnglish[service.id]) return current;
+    const updated = DEFAULT_SERVICES.find((item) => item.id === service.id);
+    return updated?.description[language] || updated?.description['en'] || current || '';
+  }
+  serviceName(service: CmsService, language: string): string {
+    const current = service.name?.[language]?.trim();
+    const oldEnglish: Record<string, string> = {
+      'service-1': 'Signature manicure',
+      'service-2': 'Soft gel manicure',
+      'service-3': 'Essential pedicure',
+      'service-4': 'Bespoke nail art',
+      '72c45acf-1173-4936-b947-38ad9f17f29b': 'New service',
+    };
+    if (current && current !== oldEnglish[service.id]) return current;
+    const updated = DEFAULT_SERVICES.find((item) => item.id === service.id);
+    return updated?.name[language] || updated?.name['en'] || current || '';
   }
   galleryImage(item: CmsGalleryItem): string {
     const source = item.imageUrl || '/assets/portfolio.png';
@@ -387,7 +424,29 @@ export class SiteContentService {
   /** Sub-services listed on a service's page. Admin list (settings "sub:<serviceId>:<lang>", one "Title | information" per line) wins over the defaults. */
   subServices(serviceId: string, language: string): { title: string; info: string }[] {
     const settings = this.content().settings;
-    const defaults = DEFAULT_SUB_SERVICES[serviceId];
+    const matchingDefaults: Record<string, Record<string, string[]>> = {
+      'service-2': {
+        en: ['With polish | Foot and nail care finished with your choice of polish.', 'Without polish | Foot and nail care with a clean natural finish.'],
+        ka: ['დაფარვით | ტერფებისა და ფრჩხილების მოვლა სასურველი დაფარვით.', 'დაფარვის გარეშე | ტერფებისა და ფრჩხილების მოვლა ლაქის გარეშე.'],
+        ru: ['С покрытием | Уход за стопами и ногтями с покрытием на ваш выбор.', 'Без покрытия | Уход за стопами и ногтями без лака.'],
+      },
+      'service-3': {
+        en: ['Extensions | Nail length and shape tailored to your hands.', 'Correction | Refresh and reshape existing extensions.'],
+        ka: ['დაგრძელება | ფრჩხილების დაგრძელება სასურველი ფორმითა და სიგრძით.', 'კორექცია | დაგრძელებული ფრჩხილების განახლება და ფორმირება.'],
+        ru: ['Наращивание | Длина и форма ногтей по вашему желанию.', 'Коррекция | Обновление формы и покрытия нарощенных ногтей.'],
+      },
+      'service-4': {
+        en: ['Shaping | Brow shaping to suit your features.', 'Tinting | Brow color for a defined look.', 'Lamination | Brow styling for a fuller, groomed finish.'],
+        ka: ['ფორმირება | წარბის ფორმის მორგება სახის ნაკვთებზე.', 'შეღებვა | წარბის ფერის გამოკვეთა.', 'ლამინირება | წარბის მოწესრიგება და მოცულობის ეფექტი.'],
+        ru: ['Коррекция | Форма бровей с учетом черт лица.', 'Окрашивание | Выразительный цвет бровей.', 'Ламинирование | Укладка бровей для ухоженного вида.'],
+      },
+      '72c45acf-1173-4936-b947-38ad9f17f29b': {
+        en: ['Lash extensions | Choose a soft natural or fuller lash look.'],
+        ka: ['წამწამების დაგრძელება | აირჩიეთ ბუნებრივი ან უფრო გამოკვეთილი ეფექტი.'],
+        ru: ['Наращивание ресниц | Естественный или более выразительный эффект на ваш выбор.'],
+      },
+    };
+    const defaults = matchingDefaults[serviceId] || DEFAULT_SUB_SERVICES[serviceId];
     const parse = (raw: string | undefined) =>
       (raw ?? '')
         .split(/\r?\n/)

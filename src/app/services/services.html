@@ -28,13 +28,13 @@
               [appEditableField]="fieldSetter(service.name, i18n.language())"
               [editStyleKey]="'service:' + service.id + ':name'"
             >
-              {{ site.localized(service.name, i18n.language(), i18n.t('s' + (i + 1))) }}
+              {{ site.serviceName(service, i18n.language()) }}
             </h3>
             <p
               [appEditableField]="fieldSetter(service.description, i18n.language())"
               [editStyleKey]="'service:' + service.id + ':description'"
             >
-              {{ site.localized(service.description, i18n.language(), i18n.t('sd' + (i + 1))) }}
+              {{ site.serviceDescription(service, i18n.language()) }}
             </p>
             <div class="service-card-foot">
               <strong
