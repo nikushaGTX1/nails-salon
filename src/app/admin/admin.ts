@@ -373,6 +373,36 @@ export class Admin {
       fallback: '/assets/portfolio.png',
       hint: 'Image used by the six portfolio cards.',
     },
+    {
+      key: 'giftCertImage',
+      label: 'Gift certificate photo',
+      fallback: '/assets/hero.png',
+      hint: 'Photo beside the gift certificate card on the homepage.',
+    },
+    {
+      key: 'fourHandsImage',
+      label: '"Service for four hands" photo',
+      fallback: '/assets/hero-editorial.png',
+      hint: 'Large banner photo in the Services section.',
+    },
+    {
+      key: 'value1Image',
+      label: 'Our values — card 1 photo',
+      fallback: '/assets/services/signature-manicure.png',
+      hint: 'First of the three photo cards near the footer.',
+    },
+    {
+      key: 'value2Image',
+      label: 'Our values — card 2 photo',
+      fallback: '/assets/hero.png',
+      hint: 'Second of the three photo cards near the footer.',
+    },
+    {
+      key: 'value3Image',
+      label: 'Our values — card 3 photo',
+      fallback: '/assets/studio-interior.png',
+      hint: 'Third of the three photo cards near the footer.',
+    },
   ];
   readonly settingFields: AdminField[] = [
     {

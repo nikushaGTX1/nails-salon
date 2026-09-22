@@ -15,7 +15,11 @@
     }
   </div>
   <div class="gift-visual" aria-hidden="true">
-    <div class="gift-photo"></div>
+    <div
+      class="gift-photo"
+      [appEditableImage]="'giftCertImage'"
+      [style.backgroundImage]="'url(' + site.media('giftCertImage', '/assets/hero.png') + ')'"
+    ></div>
     <div class="gift-card">
       <div class="gift-card-top">
         <span class="gift-card-brand">NAIL BAR <em>01</em></span>
