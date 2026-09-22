@@ -9,4 +9,9 @@ export class Main {
     readonly i18n: TranslationService,
     readonly site: SiteContentService,
   ) {}
+
+  get heroTitleWidth(): string {
+    const value = this.site.setting('heroTitleWidth', '');
+    return value ? `${value}vw` : 'none';
+  }
 }

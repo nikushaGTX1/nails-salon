@@ -95,8 +95,15 @@
   padding: 14px 18px;
   background: #dcebd7;
   display: flex;
-  gap: 15px;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px 15px;
   margin-bottom: 16px;
+}
+.notice .button,
+.notice button {
+  flex: 0 0 auto;
+  margin-left: auto;
 }
 .notice.error {
   background: #f5dada;

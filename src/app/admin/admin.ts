@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component } from '@angular/core';
+import { ChangeDetectorRef, Component, HostListener } from '@angular/core';
 import { HttpEventType } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { timeout } from 'rxjs';
@@ -42,9 +42,11 @@ export class Admin {
   token = sessionStorage.getItem('nailbar-admin-token') || '';
   sessionChecking = !!this.token;
   saving = false;
+  dirty = false;
   loggingIn = false;
   error = '';
   status = '';
+  conflict = false;
   activeLanguage: Language = 'en';
   uploading = '';
   uploadProgress = 0;
@@ -351,7 +353,7 @@ export class Admin {
       key: 'heroVideo',
       label: 'Homepage background video',
       fallback: '/video1.mp4',
-      hint: 'Large moving background at the top of the homepage. MP4 or WebM.',
+      hint: 'Large moving background at the top of the homepage. MP4, WebM, MOV — any video file.',
     },
     {
       key: 'heroPoster',
@@ -373,6 +375,12 @@ export class Admin {
     },
   ];
   readonly settingFields: AdminField[] = [
+    {
+      key: 'heroTitleWidth',
+      label: 'Homepage headline — max width',
+      fallback: '',
+      hint: 'Number only, as % of screen width, e.g. 45 for a narrower headline that wraps sooner. Leave blank for full width.',
+    },
     {
       key: 'loyaltyStandardRate',
       label: 'Loyalty — standard cashback %',
@@ -447,6 +455,11 @@ export class Admin {
       }, 50);
     }
   }
+  @HostListener('window:beforeunload', ['$event'])
+  warnUnsavedChanges(event: BeforeUnloadEvent): void {
+    if (!this.dirty || this.saving) return;
+    event.preventDefault();
+  }
   get visibleSections(): TextSection[] {
     const query = this.search.trim().toLowerCase();
     if (!query) return this.textSections;
@@ -500,6 +513,8 @@ export class Admin {
     sessionStorage.removeItem('nailbar-admin-token');
   }
   editLive(): void {
+    if (this.dirty && !confirm('You have unsaved changes here. Leave without saving them?'))
+      return;
     if (this.editMode.enter()) this.router.navigateByUrl('/');
   }
   loadBookings(): void {
@@ -563,17 +578,60 @@ export class Admin {
       },
     });
   }
-  save(): void {
+  /**
+   * Before writing, checks whether someone else (another tab, device, or a session left open
+   * for a while) has published a newer version since this page loaded its data. Without this,
+   * saving here would silently overwrite their changes — including translation edits — with
+   * whatever this tab last loaded, which is exactly what happened when a client's Russian text
+   * edit "reset to how it was previously".
+   */
+  save(force = false): void {
     if (this.saving) return;
     this.saving = true;
-    this.status = 'Saving changes…';
+    this.status = force ? 'Saving over the newer version…' : 'Checking for newer changes…';
     this.error = '';
+    this.conflict = false;
     this.site
-      .save(this.model, this.token)
+      .fetchLatest()
+      .pipe(timeout(15000))
+      .subscribe({
+        next: (latest) => {
+          const conflict =
+            !force && this.model.updatedAt && latest.updatedAt !== this.model.updatedAt;
+          if (conflict) {
+            this.saving = false;
+            this.status = '';
+            this.conflict = true;
+            this.error =
+              'Someone else published changes after this page loaded (maybe another tab or device). ' +
+              'Saving now would overwrite them. Click “Save anyway” to overwrite, or reload the page first to see the latest version and redo your edit there.';
+            this.refresh();
+            return;
+          }
+          this.writeChanges(force);
+        },
+        error: () => {
+          // Could not confirm the latest version (e.g. offline) — fall back to a direct save.
+          // The server enforces the same conflict check independently, so this never bypasses it.
+          this.writeChanges(force);
+        },
+      });
+  }
+  /** Save-anyway after a conflict warning: publishes this tab's version regardless of what else was saved meanwhile. */
+  saveAnyway(): void {
+    this.saving = false;
+    this.save(true);
+  }
+  private writeChanges(force: boolean): void {
+    this.status = 'Saving changes…';
+    this.site
+      .save(this.model, this.token, force)
       .pipe(timeout(15000))
       .subscribe({
         next: (saved) => {
           this.saving = false;
+          this.dirty = false;
+          this.conflict = false;
           this.model = this.merge(saved);
           this.site.content.set(saved);
           this.status = 'Saved — your changes are now live.';
@@ -586,6 +644,13 @@ export class Admin {
             this.token = '';
             sessionStorage.removeItem('nailbar-admin-token');
             this.error = 'Your session expired after the server restarted. Please sign in again.';
+          } else if (e.status === 409) {
+            // The server's own guard caught what our pre-check missed (e.g. another save landed
+            // in the gap between the check and this write) — same conflict, same recovery.
+            this.conflict = true;
+            this.error =
+              e.error?.message ||
+              'Someone else published changes just now. Click “Save anyway” to overwrite, or reload the page first.';
           } else if (e.name === 'TimeoutError')
             this.error = 'Saving timed out. Check that the API is running, then try again.';
           else
@@ -843,6 +908,14 @@ export class Admin {
       image.src = url;
     });
   }
+  /** structuredClone is unavailable on older Safari (pre-15.4); fall back to a JSON clone rather than crashing the whole admin panel. */
+  private clone<T>(value: T): T {
+    try {
+      return structuredClone(value);
+    } catch {
+      return JSON.parse(JSON.stringify(value));
+    }
+  }
   private makeModel(): SiteContent {
     return {
       translations: {
@@ -852,9 +925,9 @@ export class Admin {
       },
       media: {},
       settings: {},
-      services: structuredClone(DEFAULT_SERVICES),
-      gallery: structuredClone(DEFAULT_GALLERY),
-      locations: structuredClone(DEFAULT_LOCATIONS),
+      services: this.clone(DEFAULT_SERVICES),
+      gallery: this.clone(DEFAULT_GALLERY),
+      locations: this.clone(DEFAULT_LOCATIONS),
       categories: [],
     };
   }

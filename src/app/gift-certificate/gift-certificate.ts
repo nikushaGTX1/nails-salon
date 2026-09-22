@@ -13,11 +13,21 @@ export class GiftCertificate {
     readonly site: SiteContentService,
   ) {}
 
-  get phoneHref(): string {
-    return 'tel:' + this.site.phoneHref(this.site.primaryPhone());
-  }
+  showPhone = false;
+  copied = false;
 
   get phoneDisplay(): string {
     return this.site.primaryPhone();
+  }
+
+  reveal(): void {
+    this.showPhone = true;
+  }
+
+  copyPhone(): void {
+    navigator.clipboard?.writeText(this.phoneDisplay).then(() => {
+      this.copied = true;
+      setTimeout(() => (this.copied = false), 1500);
+    });
   }
 }

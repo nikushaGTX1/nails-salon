@@ -440,8 +440,12 @@ export class SiteContentService {
       headers: new HttpHeaders({ Authorization: `Bearer ${token}` }),
     });
   }
-  save(content: SiteContent, token: string) {
-    return this.http.put<SiteContent>(`${this.apiUrl}/api/admin/content`, content, {
+  /** Fetches the current server content without touching the shared `content` signal — used to detect edit conflicts before saving in /admin. */
+  fetchLatest() {
+    return this.http.get<SiteContent>(`${this.apiUrl}/api/content`);
+  }
+  save(content: SiteContent, token: string, force = false) {
+    return this.http.put<SiteContent>(`${this.apiUrl}/api/admin/content?force=${force}`, content, {
       headers: new HttpHeaders({ Authorization: `Bearer ${token}` }),
     });
   }

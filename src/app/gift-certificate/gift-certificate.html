@@ -3,9 +3,16 @@
     <p class="eyebrow" [appEditable]="'giftCert'">{{ i18n.t('giftCert') }}</p>
     <h2 [appEditable]="'giftCertTitle'">{{ i18n.t('giftCertTitle') }}</h2>
     <p class="gift-text" [appEditable]="'giftCertText'">{{ i18n.t('giftCertText') }}</p>
-    <a class="gift-cta" [href]="phoneHref">
-      <span [appEditable]="'giftCertCta'">{{ i18n.t('giftCertCta') }}</span> →
-    </a>
+    @if (!showPhone) {
+      <button type="button" class="gift-cta" (click)="reveal()">
+        <span [appEditable]="'giftCertCta'">{{ i18n.t('giftCertCta') }}</span> →
+      </button>
+    } @else {
+      <button type="button" class="gift-cta gift-cta--phone" (click)="copyPhone()">
+        <span>{{ phoneDisplay }}</span>
+        <span class="gift-cta-copy">{{ copied ? '✓' : '⧉' }}</span>
+      </button>
+    }
   </div>
   <div class="gift-visual" aria-hidden="true">
     <div class="gift-photo"></div>

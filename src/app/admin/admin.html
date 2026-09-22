@@ -45,8 +45,14 @@
   } @else {
     @if (status || error) {
       <div class="notice" [class.error]="error">
-        <strong>{{ error ? 'Something went wrong' : saving ? 'Working' : 'Success' }}</strong
+        <strong>{{
+          conflict ? 'Newer changes exist' : error ? 'Something went wrong' : saving ? 'Working' : 'Success'
+        }}</strong
         ><span>{{ error || status }}</span>
+        @if (conflict) {
+          <button type="button" class="secondary" (click)="saveAnyway()">Save anyway</button
+          ><a class="button secondary" href="/admin">Reload this page</a>
+        }
       </div>
     }
 
@@ -119,6 +125,7 @@
       </div>
     </section>
 
+    <div (input)="dirty = true" (change)="dirty = true">
     <section class="panel" id="text-content">
       <div class="panel-title">
         <div>
@@ -471,7 +478,7 @@
               >{{ uploading === field.key ? 'Uploading ' + uploadProgress + '%' : 'Choose new file'
               }}<input
                 type="file"
-                accept="image/*,video/mp4,video/webm"
+                [accept]="isVideo(field) ? 'video/*' : 'image/*,video/*'"
                 [disabled]="!!uploading"
                 (change)="upload(field.key, $event)"
             /></label>
@@ -508,6 +515,7 @@
         }
       </div>
     </section>
+    </div>
 
     <section class="panel" id="security">
       <div class="panel-title">
