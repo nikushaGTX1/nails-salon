@@ -37,11 +37,6 @@
               {{ site.serviceDescription(service, i18n.language()) }}
             </p>
             <div class="service-card-foot">
-              <strong
-                ><span [appEditable]="'from'">{{ i18n.t('from') }}</span>
-                <span [appEditableField]="priceSetter(service)">{{ service.price }}</span>
-                GEL</strong
-              >
               <span class="book-arrow" aria-hidden="true">↗</span>
             </div>
           </div>
