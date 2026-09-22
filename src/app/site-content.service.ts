@@ -248,13 +248,15 @@ export const DEFAULT_LOCATIONS: CmsLocation[] = [
   },
 ];
 
+const CONTENT_CACHE_KEY = 'nailbar-content-cache';
+
 @Injectable({ providedIn: 'root' })
 export class SiteContentService {
   readonly apiUrl =
     window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
       ? 'http://localhost:5206'
       : 'https://nails-api-production.up.railway.app';
-  readonly content = signal<SiteContent>({
+  readonly content = signal<SiteContent>(this.readCache() ?? {
     translations: {},
     media: {},
     settings: {},
@@ -263,7 +265,12 @@ export class SiteContentService {
     locations: [],
     categories: [],
   });
-  readonly loaded = signal(false);
+  /**
+   * A visitor's last-fetched content is cached so the next page load can render it immediately —
+   * instead of a few seconds of fallback/blank while the API (often cold-starting on Railway)
+   * responds — and only swap in anything actually different once the fresh fetch lands.
+   */
+  readonly loaded = signal(this.readCache() !== null);
   constructor(private readonly http: HttpClient) {
     this.reload();
   }
@@ -272,9 +279,25 @@ export class SiteContentService {
       next: (value) => {
         this.content.set(value);
         this.loaded.set(true);
+        this.writeCache(value);
       },
       error: () => this.loaded.set(true),
     });
+  }
+  private readCache(): SiteContent | null {
+    try {
+      const raw = localStorage.getItem(CONTENT_CACHE_KEY);
+      return raw ? (JSON.parse(raw) as SiteContent) : null;
+    } catch {
+      return null;
+    }
+  }
+  private writeCache(value: SiteContent): void {
+    try {
+      localStorage.setItem(CONTENT_CACHE_KEY, JSON.stringify(value));
+    } catch {
+      // Private browsing or a full quota — caching is a nicety, not required for correctness.
+    }
   }
   media(key: string, fallback: string): string {
     const value = this.content().media[key] || fallback;
