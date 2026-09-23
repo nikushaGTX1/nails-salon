@@ -384,12 +384,15 @@ router-outlet + * {
   border-radius: 50%;
   background: #f2f0eb;
   color: #171715;
-  font-size: 16px;
   box-shadow: 0 6px 18px -6px rgba(0, 0, 0, 0.5);
   transition:
     transform 0.25s ease,
     background 0.25s ease,
     color 0.25s ease;
+}
+.book-arrow svg {
+  width: 16px;
+  height: 16px;
 }
 .service-card-link:hover .book-arrow {
   transform: translate(2px, -2px) scale(1.06);
