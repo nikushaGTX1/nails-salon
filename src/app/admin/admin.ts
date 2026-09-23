@@ -825,10 +825,12 @@ export class Admin {
     if (target < 0 || target >= items.length) return;
     [items[index], items[target]] = [items[target], items[index]];
   }
-  uploadGallery(item: CmsGalleryItem, event: Event): void {
-    const file = (event.target as HTMLInputElement).files?.[0];
-    if (!file) return;
+  async uploadGallery(item: CmsGalleryItem, event: Event): Promise<void> {
+    const chosen = (event.target as HTMLInputElement).files?.[0];
+    if (!chosen) return;
     this.uploading = item.id;
+    this.error = '';
+    const file = await this.optimizeImage(chosen);
     this.site.upload(file, this.token).subscribe({
       next: (uploadEvent) => {
         if (uploadEvent.type === HttpEventType.UploadProgress)
@@ -842,17 +844,19 @@ export class Admin {
         }
         this.refresh();
       },
-      error: () => {
+      error: (e) => {
         this.uploading = '';
-        this.error = 'Image upload failed.';
+        this.error = e.error?.message || 'Image upload failed.';
         this.refresh();
       },
     });
   }
-  uploadCategoryImage(category: CmsCategory, event: Event): void {
-    const file = (event.target as HTMLInputElement).files?.[0];
-    if (!file) return;
+  async uploadCategoryImage(category: CmsCategory, event: Event): Promise<void> {
+    const chosen = (event.target as HTMLInputElement).files?.[0];
+    if (!chosen) return;
     this.uploading = category.id;
+    this.error = '';
+    const file = await this.optimizeImage(chosen);
     this.site.upload(file, this.token).subscribe({
       next: (uploadEvent) => {
         if (uploadEvent.type === HttpEventType.UploadProgress)
@@ -866,17 +870,19 @@ export class Admin {
         }
         this.refresh();
       },
-      error: () => {
+      error: (e) => {
         this.uploading = '';
-        this.error = 'Image upload failed.';
+        this.error = e.error?.message || 'Image upload failed.';
         this.refresh();
       },
     });
   }
-  uploadServiceImage(service: CmsService, event: Event): void {
-    const file = (event.target as HTMLInputElement).files?.[0];
-    if (!file) return;
+  async uploadServiceImage(service: CmsService, event: Event): Promise<void> {
+    const chosen = (event.target as HTMLInputElement).files?.[0];
+    if (!chosen) return;
     this.uploading = service.id;
+    this.error = '';
+    const file = await this.optimizeImage(chosen);
     this.site.upload(file, this.token).subscribe({
       next: (uploadEvent) => {
         if (uploadEvent.type === HttpEventType.UploadProgress)
@@ -890,9 +896,9 @@ export class Admin {
         }
         this.refresh();
       },
-      error: () => {
+      error: (e) => {
         this.uploading = '';
-        this.error = 'Image upload failed.';
+        this.error = e.error?.message || 'Image upload failed.';
         this.refresh();
       },
     });
@@ -911,7 +917,12 @@ export class Admin {
     this.cdr.detectChanges();
   }
   private optimizeImage(file: File): Promise<File> {
-    if (!file.type.startsWith('image/') || file.type === 'image/gif' || file.size < 500_000)
+    // Safari sometimes reports no/blank type for HEIC photos straight off an iPhone, so an image
+    // extension counts too — if the browser genuinely can't decode it, image.onerror below just
+    // falls back to the original file rather than breaking the upload.
+    const looksLikeImage =
+      file.type.startsWith('image/') || /\.(heic|heif|jpe?g|png|webp|avif)$/i.test(file.name);
+    if (!looksLikeImage || file.type === 'image/gif' || file.size < 500_000)
       return Promise.resolve(file);
     return new Promise((resolve) => {
       const image = new Image();
