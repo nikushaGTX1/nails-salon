@@ -16,19 +16,32 @@ export class EditToolbar {
     private readonly site: SiteContentService,
   ) {}
 
-  save(): void {
+  /**
+   * Whoever is editing the live page directly is, by definition, looking at the current site
+   * right now — so unlike the admin dashboard (where a stale tab genuinely might be behind),
+   * a conflict here always retries with force once rather than leaving the person stuck re-
+   * clicking Save on a change (a font-size tweak, a text edit) that can never go through. Without
+   * this, any conflict here looked exactly like "my edit just doesn't save."
+   */
+  save(force = false): void {
     if (!this.editMode.token) return;
     this.saving = true;
-    this.status = '';
-    this.site.save(this.site.content(), this.editMode.token).subscribe({
-      next: () => {
+    this.status = force ? 'Saving…' : '';
+    this.site.save(this.site.content(), this.editMode.token, force).subscribe({
+      next: (saved) => {
         this.saving = false;
         this.editMode.dirty.set(false);
+        this.site.content.set(saved);
+        this.site.primeCache(saved);
         this.status = 'Saved.';
       },
-      error: () => {
+      error: (e) => {
+        if (e.status === 409 && !force) {
+          this.save(true);
+          return;
+        }
         this.saving = false;
-        this.status = 'Could not save — try again.';
+        this.status = e.error?.message || 'Could not save — try again.';
       },
     });
   }

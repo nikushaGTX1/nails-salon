@@ -657,6 +657,10 @@ export class Admin {
   }
   private writeChanges(force: boolean): void {
     this.status = 'Saving changes…';
+    // A blank "Price" input leaves service.price as null, which the server's non-nullable field
+    // used to reject with a generic, undiagnosable "validation errors occurred" — the server now
+    // tolerates null too, but fixing it here as well means it never gets sent as null at all.
+    for (const service of this.model.services) service.price = Number(service.price) || 0;
     this.site
       .save(this.model, this.token, force)
       .pipe(timeout(15000))
@@ -687,11 +691,20 @@ export class Admin {
               'Someone else published changes just now. Click “Save anyway” to overwrite, or reload the page first.';
           } else if (e.name === 'TimeoutError')
             this.error = 'Saving timed out. Check that the API is running, then try again.';
-          else
+          else {
+            // A 400 from ASP.NET's automatic model validation carries an `errors` object keyed by
+            // field name (e.g. { "Price": ["The Price field is required."] }) — surface that
+            // instead of the generic "One or more validation errors occurred.", which gives no
+            // clue which field or service is actually wrong.
+            const fieldErrors = e.error?.errors
+              ? Object.values(e.error.errors).flat().join(' ')
+              : '';
             this.error =
+              fieldErrors ||
               e.error?.message ||
               e.error?.title ||
               `Changes could not be saved${e.status ? ` (error ${e.status})` : ''}.`;
+          }
           this.refresh();
         },
       });
