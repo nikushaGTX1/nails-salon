@@ -337,7 +337,12 @@ export class SiteContentService {
     return this.asset(selected, curated[service.id] || '');
   }
   serviceDescription(service: CmsService, language: string): string {
-    const current = service.description?.[language]?.trim();
+    // `raw` distinguishes "this language was never saved at all" (undefined — fall back) from
+    // "it was saved as an empty string" (deliberately cleared in the editor — show blank). The
+    // old version checked truthiness instead, so a cleared field always fell back to this
+    // hardcoded English text: clearing it to make it blank was impossible.
+    const raw = service.description?.[language];
+    const current = raw?.trim();
     const oldEnglish: Record<string, string> = {
       'service-1': 'Detailed cuticle care and your choice of finish.',
       'service-2': 'Long-lasting color with a smooth, natural result.',
@@ -345,12 +350,13 @@ export class SiteContentService {
       'service-4': 'Fine lines, tonal details and unique designs.',
       '72c45acf-1173-4936-b947-38ad9f17f29b': 'Service description',
     };
-    if (current && current !== oldEnglish[service.id]) return current;
+    if (raw !== undefined && current !== oldEnglish[service.id]) return current ?? '';
     const updated = DEFAULT_SERVICES.find((item) => item.id === service.id);
     return updated?.description[language] || updated?.description['en'] || current || '';
   }
   serviceName(service: CmsService, language: string): string {
-    const current = service.name?.[language]?.trim();
+    const raw = service.name?.[language];
+    const current = raw?.trim();
     const oldEnglish: Record<string, string> = {
       'service-1': 'Signature manicure',
       'service-2': 'Soft gel manicure',
@@ -358,7 +364,7 @@ export class SiteContentService {
       'service-4': 'Bespoke nail art',
       '72c45acf-1173-4936-b947-38ad9f17f29b': 'New service',
     };
-    if (current && current !== oldEnglish[service.id]) return current;
+    if (raw !== undefined && current !== oldEnglish[service.id]) return current ?? '';
     const updated = DEFAULT_SERVICES.find((item) => item.id === service.id);
     return updated?.name[language] || updated?.name['en'] || current || '';
   }
