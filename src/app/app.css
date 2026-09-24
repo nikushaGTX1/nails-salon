@@ -2339,6 +2339,7 @@ html[lang='ru'] .care-item h3 {
   position: absolute;
   z-index: -1;
   inset: 0;
+  pointer-events: none;
   background: linear-gradient(
     to top,
     rgba(10,8,7,.92) 0%,
