@@ -8,6 +8,14 @@
 
   <div class="care-grid">
     <article class="care-item" [appEditableBlock]="'careSterile'">
+      <img
+        class="care-item-photo"
+        [appEditableImage]="'careSterileImage'"
+        [src]="site.media('careSterileImage', '/assets/studio-interior.png')"
+        alt=""
+        loading="lazy"
+      />
+      <div class="care-item-shade"></div>
       <span class="care-icon" aria-hidden="true">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2">
           <path
@@ -22,6 +30,14 @@
     </article>
 
     <article class="care-item" [appEditableBlock]="'careGuarantee'">
+      <img
+        class="care-item-photo"
+        [appEditableImage]="'careGuaranteeImage'"
+        [src]="site.media('careGuaranteeImage', '/assets/hero.png')"
+        alt=""
+        loading="lazy"
+      />
+      <div class="care-item-shade"></div>
       <span class="care-icon" aria-hidden="true">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2">
           <circle cx="12" cy="12" r="8.3" />

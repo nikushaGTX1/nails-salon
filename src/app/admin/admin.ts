@@ -406,6 +406,18 @@ export class Admin {
       fallback: '/assets/studio-interior.png',
       hint: 'Third of the three photo cards near the footer.',
     },
+    {
+      key: 'careSterileImage',
+      label: 'Sterilization card photo',
+      fallback: '/assets/studio-interior.png',
+      hint: 'Background photo behind the Sterilization card.',
+    },
+    {
+      key: 'careGuaranteeImage',
+      label: 'Guarantee card photo',
+      fallback: '/assets/hero.png',
+      hint: 'Background photo behind the Guarantee card.',
+    },
   ];
   readonly settingFields: AdminField[] = [
     {
