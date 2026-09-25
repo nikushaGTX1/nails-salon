@@ -155,30 +155,48 @@ export function attachDragResizeHandles(
     return hostEl.getBoundingClientRect();
   }
 
+  let hasStoredPos = false;
+  let hasStoredSize = false;
+
+  /** Applies (or clears) the loaded position/size to match the CURRENT viewport width — called
+   *  once on load, and again on every resize. A resize-without-reload (shrinking the browser
+   *  window, or a device toolbar toggle) used to leave a desktop drag's inline transform sitting
+   *  on the element with nothing to clear it, since it was only ever set once at mount; a CSS
+   *  media-query rule can never override an inline style, so the element stayed stuck at its
+   *  desktop offset on a narrow screen even though the stylesheet said `transform: none`. */
+  function syncForWidth(): void {
+    if (!editKey) return;
+    const desktop = window.innerWidth > MOBILE_BREAKPOINT;
+    if (desktop && hasStoredPos) {
+      hostEl.style.animation = 'none';
+      hostEl.style.transform = `translate(${posVwX}vw, ${posVhY}vh)`;
+    } else if (!desktop) {
+      hostEl.style.transform = '';
+    }
+    if (desktop && hasStoredSize) {
+      if (sizeVw) hostEl.style.width = sizeVw + 'vw';
+      if (sizeVh) hostEl.style.height = sizeVh + 'vh';
+    } else if (!desktop) {
+      hostEl.style.width = '';
+      hostEl.style.height = '';
+    }
+  }
+
   function load(): void {
-    if (!editKey || window.innerWidth <= MOBILE_BREAKPOINT) return;
+    if (!editKey) return;
     const pos = getSetting('block:' + editKey + ':pos', '');
     if (pos) {
-      // A CSS entrance animation with fill-mode "both"/"forwards" keeps overriding this
-      // element's `transform` forever (animations beat even inline !important in the
-      // cascade), so our own offset would silently never render. Turn it off once we're
-      // actually placing a custom offset.
-      hostEl.style.animation = 'none';
       const [x, y] = pos.split(',').map(Number);
       posVwX = x || 0;
       posVhY = y || 0;
-      hostEl.style.transform = `translate(${posVwX}vw, ${posVhY}vh)`;
+      hasStoredPos = true;
     }
     const w = getSetting('block:' + editKey + ':w', '');
     const h = getSetting('block:' + editKey + ':h', '');
-    if (w) {
-      sizeVw = Number(w) || 0;
-      hostEl.style.width = sizeVw + 'vw';
-    }
-    if (h) {
-      sizeVh = Number(h) || 0;
-      hostEl.style.height = sizeVh + 'vh';
-    }
+    if (w) sizeVw = Number(w) || 0;
+    if (h) sizeVh = Number(h) || 0;
+    hasStoredSize = !!(w || h);
+    syncForWidth();
   }
 
   function ensureRelative(): void {
@@ -376,6 +394,7 @@ export function attachDragResizeHandles(
   }
 
   window.addEventListener('resize', applyVisibility);
+  window.addEventListener('resize', syncForWidth);
 
   return {
     load,
@@ -383,6 +402,7 @@ export function attachDragResizeHandles(
     beginDrag,
     destroy: () => {
       window.removeEventListener('resize', applyVisibility);
+      window.removeEventListener('resize', syncForWidth);
       removeHandles();
     },
   };
