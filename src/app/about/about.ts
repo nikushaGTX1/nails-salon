@@ -1,3 +1,4 @@
+import { EditModeService } from '../edit-mode.service';
 import { Component } from '@angular/core';
 import { TranslationService } from '../translation.service';
 import { SiteContentService } from '../site-content.service';
@@ -6,5 +7,6 @@ export class About {
   constructor(
     readonly i18n: TranslationService,
     readonly site: SiteContentService,
+    readonly editMode: EditModeService,
   ) {}
 }

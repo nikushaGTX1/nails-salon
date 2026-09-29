@@ -9,7 +9,12 @@
     <span><span class="reviews-stars" aria-hidden="true">★★★★★</span><span class="reviews-rating-label" [appEditable]="'reviewsRatingLabel'">{{ i18n.t('reviewsRatingLabel') }}</span></span>
   </div>
   <div class="reviews-grid">
-    <article class="review-card">
+    <article class="review-card" [class.review-card-image]="site.media('review1Image', '')">
+      @if (site.media('review1Image', ''); as screenshot) {
+        <a class="review-screenshot" [appEditableImage]="'review1Image'" [href]="screenshot" target="_blank" rel="noopener noreferrer">
+          <img [src]="screenshot" [alt]="i18n.t('reviews') + ' 1'" loading="lazy" />
+        </a>
+      } @else {
       <span class="review-number">01</span><span class="review-quote" aria-hidden="true">“</span>
       <span class="review-demo-badge" [appEditable]="'reviewsDemoBadge'">{{
         i18n.t('reviewsDemoBadge')
@@ -17,8 +22,19 @@
       <span class="review-stars" aria-hidden="true">★★★★★</span>
       <p [appEditable]="'review1Text'">{{ i18n.t('review1Text') }}</p>
       <span class="review-name" [appEditable]="'review1Name'">{{ i18n.t('review1Name') }}</span>
+      }
+      @if (editMode.isEditing()) {
+        <button type="button" class="review-upload" [appEditableImage]="'review1Image'">
+          {{ site.media('review1Image', '') ? 'Replace review screenshot' : 'Upload review screenshot' }}
+        </button>
+      }
     </article>
-    <article class="review-card">
+    <article class="review-card" [class.review-card-image]="site.media('review2Image', '')">
+      @if (site.media('review2Image', ''); as screenshot) {
+        <a class="review-screenshot" [appEditableImage]="'review2Image'" [href]="screenshot" target="_blank" rel="noopener noreferrer">
+          <img [src]="screenshot" [alt]="i18n.t('reviews') + ' 2'" loading="lazy" />
+        </a>
+      } @else {
       <span class="review-number">02</span><span class="review-quote" aria-hidden="true">“</span>
       <span class="review-demo-badge" [appEditable]="'reviewsDemoBadge'">{{
         i18n.t('reviewsDemoBadge')
@@ -26,8 +42,19 @@
       <span class="review-stars" aria-hidden="true">★★★★★</span>
       <p [appEditable]="'review2Text'">{{ i18n.t('review2Text') }}</p>
       <span class="review-name" [appEditable]="'review2Name'">{{ i18n.t('review2Name') }}</span>
+      }
+      @if (editMode.isEditing()) {
+        <button type="button" class="review-upload" [appEditableImage]="'review2Image'">
+          {{ site.media('review2Image', '') ? 'Replace review screenshot' : 'Upload review screenshot' }}
+        </button>
+      }
     </article>
-    <article class="review-card">
+    <article class="review-card" [class.review-card-image]="site.media('review3Image', '')">
+      @if (site.media('review3Image', ''); as screenshot) {
+        <a class="review-screenshot" [appEditableImage]="'review3Image'" [href]="screenshot" target="_blank" rel="noopener noreferrer">
+          <img [src]="screenshot" [alt]="i18n.t('reviews') + ' 3'" loading="lazy" />
+        </a>
+      } @else {
       <span class="review-number">03</span><span class="review-quote" aria-hidden="true">“</span>
       <span class="review-demo-badge" [appEditable]="'reviewsDemoBadge'">{{
         i18n.t('reviewsDemoBadge')
@@ -35,6 +62,12 @@
       <span class="review-stars" aria-hidden="true">★★★★★</span>
       <p [appEditable]="'review3Text'">{{ i18n.t('review3Text') }}</p>
       <span class="review-name" [appEditable]="'review3Name'">{{ i18n.t('review3Name') }}</span>
+      }
+      @if (editMode.isEditing()) {
+        <button type="button" class="review-upload" [appEditableImage]="'review3Image'">
+          {{ site.media('review3Image', '') ? 'Replace review screenshot' : 'Upload review screenshot' }}
+        </button>
+      }
     </article>
   </div>
 </section>

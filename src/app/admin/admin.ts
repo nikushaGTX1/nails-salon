@@ -365,6 +365,24 @@ export class Admin {
       hint: 'Shown while the homepage video is loading.',
     },
     {
+      key: 'review1Image',
+      label: 'Review 1 screenshot',
+      fallback: '',
+      hint: 'Upload a screenshot to replace review card 1. Shown uncropped; click to read full size. Clear the URL to restore text.',
+    },
+    {
+      key: 'review2Image',
+      label: 'Review 2 screenshot',
+      fallback: '',
+      hint: 'Upload a screenshot to replace review card 2. Shown uncropped; click to read full size. Clear the URL to restore text.',
+    },
+    {
+      key: 'review3Image',
+      label: 'Review 3 screenshot',
+      fallback: '',
+      hint: 'Upload a screenshot to replace review card 3. Shown uncropped; click to read full size. Clear the URL to restore text.',
+    },
+    {
       key: 'studioImage',
       label: 'About section image',
       fallback: '/assets/studio-interior.png',

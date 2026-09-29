@@ -2732,3 +2732,10 @@ html[lang='ka'] .four-hands-panel h2 {
     transform: none;
   }
 }
+
+/* Keep review screenshots uncropped, with access to the full-size source. */
+.review-card.review-card-image { min-width: 0; }
+.review-screenshot { display: block; clear: both; border-radius: 4px; overflow: hidden; background: #fff; }
+.review-screenshot img { display: block; width: 100%; height: auto; }
+.review-screenshot:focus-visible { outline: 2px solid #c89d88; outline-offset: 6px; }
+.review-upload { display: block; margin-top: 20px; padding: 10px 14px; border: 1px solid #c89d88; background: transparent; color: #f3eee7; cursor: pointer; }
