@@ -646,3 +646,7 @@
 .switch.on .switch-knob {
   left: calc(100% - 37px);
 }
+.arrow-icon {
+  display: inline-block;
+  vertical-align: -1px;
+}

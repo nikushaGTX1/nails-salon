@@ -29,7 +29,8 @@
               site.localized(work.title, i18n.language(), i18n.t('w' + (i + 1)))
             "
             ><span class="view-portfolio"
-              ><span [appEditable]="'viewPortfolio'">{{ i18n.t('viewPortfolio') }}</span> ↗</span
+              ><span [appEditable]="'viewPortfolio'">{{ i18n.t('viewPortfolio') }}</span>
+              <svg class="arrow-icon" width="11" height="11" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M5 11L11 5M11 5H6.5M11 5V9.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" /></svg></span
             ></a
           >
           @if (editMode.isEditing()) {

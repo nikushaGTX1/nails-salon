@@ -390,6 +390,11 @@ router-outlet + * {
     background 0.25s ease,
     color 0.25s ease;
 }
+.arrow-icon {
+  display: inline-block;
+  vertical-align: -1px;
+  flex: 0 0 auto;
+}
 .book-arrow svg {
   width: 16px;
   height: 16px;
