@@ -1,15 +1,19 @@
 <footer>
   <div>
     <a
-      [href]="site.setting('instagramUrl', 'https://instagram.com/nail_bar_1')"
+      [href]="site.setting('facebookUrl', 'https://www.facebook.com/share/1KDs38t6u9/?mibextid=wwXIfr')"
       target="_blank"
       rel="noopener"
-      ><span [appEditable]="'footerInstagram'">{{ i18n.t('footerInstagram') }}</span></a
-    ><a
+    ><span [appEditable]="'footerFacebook'">{{ i18n.t('footerFacebook') }}</span></a>
+    <a
       [href]="site.setting('whatsappUrl', 'https://wa.me/995551960099')"
       target="_blank"
       rel="noopener"
-      ><span [appEditable]="'footerWhatsapp'">{{ i18n.t('footerWhatsapp') }}</span></a
-    >
+    ><span [appEditable]="'footerWhatsapp'">{{ i18n.t('footerWhatsapp') }}</span></a>
+    <a
+      [href]="site.setting('instagramUrl', 'https://instagram.com/nail_bar_1')"
+      target="_blank"
+      rel="noopener"
+    ><span [appEditable]="'footerInstagram'">{{ i18n.t('footerInstagram') }}</span></a>
   </div>
 </footer>

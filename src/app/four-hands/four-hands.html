@@ -7,11 +7,63 @@
       alt=""
       loading="lazy"
     />
-    <div class="four-hands-panel">
-      <div>
-        <p class="eyebrow" [appEditable]="'fourHandsLabel'">{{ i18n.t('fourHandsLabel') }}</p>
-        <h2 [appEditable]="'fourHandsTitle'">{{ i18n.t('fourHandsTitle') }}</h2>
+    <div
+      class="four-hands-panel"
+      role="button"
+      tabindex="0"
+      [attr.aria-expanded]="menuOpen"
+      (click)="toggleMenu()"
+      (keydown.enter)="toggleMenu()"
+      (keydown.space)="$event.preventDefault(); toggleMenu()"
+    >
+      <div class="four-hands-summary">
+        <div>
+          <p class="eyebrow" [appEditable]="'fourHandsLabel'">{{ i18n.t('fourHandsLabel') }}</p>
+          <h2 [appEditable]="'fourHandsTitle'">{{ i18n.t('fourHandsTitle') }}</h2>
+        </div>
+        <span class="four-hands-toggle" aria-hidden="true">+</span>
       </div>
     </div>
   </div>
+
+  @if (menuOpen) {
+    <div class="four-hands-modal" role="dialog" aria-modal="true" (click)="closeMenu()">
+      <div class="four-hands-modal-content" (click)="$event.stopPropagation()">
+        <div class="four-hands-modal-heading">
+          <div>
+            <p class="eyebrow">{{ i18n.t('fourHandsLabel') }}</p>
+            <h2>{{ i18n.t('fourHandsTitle') }}</h2>
+          </div>
+          <button type="button" class="four-hands-close" (click)="closeMenu()" aria-label="Close">
+            −
+          </button>
+        </div>
+        @if (vakeLocation(); as location) {
+          <div class="four-hands-menu">
+            <iframe
+              [title]="'Nail Bar 01 ' + location.area + ' map'"
+              [src]="map(location.coordinates)"
+              loading="lazy"
+              referrerpolicy="no-referrer-when-downgrade"
+            ></iframe>
+            <div class="four-hands-vake-info">
+              <p class="eyebrow">{{ location.area }}</p>
+              <h3>{{ site.localized(location.address, i18n.language()) }}</h3>
+              <a class="four-hands-phone" [href]="'tel:' + phoneHref(location.phone)">
+                {{ location.phone }}
+              </a>
+              <a
+                class="four-hands-map-link"
+                [href]="directions(location.coordinates)"
+                target="_blank"
+                rel="noopener"
+              >
+                {{ i18n.t('maps') }} <span aria-hidden="true">↗</span>
+              </a>
+            </div>
+          </div>
+        }
+      </div>
+    </div>
+  }
 </section>

@@ -8,6 +8,7 @@ type Dictionary = Record<string, string>;
 const en: Dictionary = {
   home: 'Home',
   back: 'Back',
+  footerFacebook: 'Facebook',
   footerInstagram: 'Instagram',
   footerWhatsapp: 'WhatsApp',
   services: 'Services',
@@ -60,6 +61,7 @@ const en: Dictionary = {
   booking: 'Booking',
   bookingTitle: 'Your time\nfor beauty.',
   bookingText: "Choose a convenient date and time. We'll take care of the rest.",
+  bookingCardText: "Choose a convenient date and time. We'll take care of the rest.",
   design: 'Nail design',
   extras: 'Care & extras',
   name: 'Name',
@@ -144,6 +146,7 @@ const en: Dictionary = {
 const ka: Dictionary = {
   home: 'მთავარი',
   back: 'უკან',
+  footerFacebook: 'Facebook',
   footerInstagram: 'Instagram',
   footerWhatsapp: 'WhatsApp',
   services: 'სერვისები',
@@ -196,6 +199,7 @@ const ka: Dictionary = {
   booking: 'დაჯავშნა',
   bookingTitle: 'თქვენი დრო\nსილამაზისთვის.',
   bookingText: 'აირჩიეთ მოსახერხებელი თარიღი და დრო. დანარჩენზე ჩვენ ვიზრუნებთ.',
+  bookingCardText: 'აირჩიეთ მოსახერხებელი თარიღი და დრო. დანარჩენზე ჩვენ ვიზრუნებთ.',
   design: 'ფრჩხილის დიზაინი',
   extras: 'მოვლა და დამატებითი სერვისები',
   name: 'სახელი',
@@ -283,6 +287,7 @@ const ka: Dictionary = {
 const ru: Dictionary = {
   home: 'Главная',
   back: 'Назад',
+  footerFacebook: 'Facebook',
   footerInstagram: 'Instagram',
   footerWhatsapp: 'WhatsApp',
   services: 'Услуги',
@@ -335,6 +340,7 @@ const ru: Dictionary = {
   booking: 'Запись',
   bookingTitle: 'Ваше время\nдля красоты.',
   bookingText: 'Выберите удобные дату и время. Об остальном позаботимся мы.',
+  bookingCardText: 'Выберите удобные дату и время. Об остальном позаботимся мы.',
   design: 'Дизайн ногтей',
   extras: 'Уход и дополнения',
   name: 'Имя',

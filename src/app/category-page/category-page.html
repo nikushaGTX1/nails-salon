@@ -37,7 +37,9 @@
                   (click)="toggleRow(key)"
                   [attr.aria-expanded]="!!rowOpen[key]"
                 >
-                  <span>{{ row.label || site.localized(row.items[0]?.name, i18n.language()) }}</span>
+                  <span class="category-row-label">{{
+                    row.label || site.localized(row.items[0]?.name, i18n.language())
+                  }}</span>
                   <span class="category-chevron" [class.open]="rowOpen[key]">
                     <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
                       <path
